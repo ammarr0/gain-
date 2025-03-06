@@ -19,20 +19,35 @@ export const courses = [
 const AITrainings = () => {
   return (
     <div className="bg-white min-h-screen">
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Onest:wght@400;700&display=swap');
+          .onest-regular {
+            font-family: "Onest", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+          }
+          .onest-bold {
+            font-family: "Onest", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            font-style: normal;
+          }
+        `}
+      </style>
       <div className="bg-white py-10 px-24 ml-8 text-center">
-       <h1 className="text-4xl md:text-5xl font-2xl  text-left text-gray-900 mb-3">
+       <h1 className="text-4xl md:text-5xl font-2xl text-left text-gray-900 mb-3 onest-bold">
           Artificial Intelligence (AI) Courses
         </h1>
-        <p className="max-w-4xl text-left  text-gray-600" style={{fontSize: '18px'}}>
+        <p className="max-w-4xl text-left text-gray-600 onest-regular" style={{fontSize: '18px'}}>
           AI courses focus on simulating human intelligence through machines. Exploring AI is essential for creating
           intelligent systems and applications, making it valuable for developers, researchers, and anyone passionate
           about cutting-edge technology.
         </p>
         </div>
-      <main className=" max-w-5xl mx-auto  ">
-       
-
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6 mx-auto text-center">Featured AI Courses</h2>
+      <main className="max-w-5xl mx-auto">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6 mx-auto text-center onest-bold">Featured AI Courses</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {courses.map((course, index) => (
             <CourseCard key={index} {...course} />
