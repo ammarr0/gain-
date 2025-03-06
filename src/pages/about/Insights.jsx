@@ -28,7 +28,11 @@ const Insights = () => {
         <div className="mb-4 md:mb-0">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Insights</h1>
           <p className="text-gray-600 text-sm max-w-sm">
+<<<<<<< HEAD
             Articles, guides, and interviews for clients and talentt.
+=======
+            Articles, guides, and interviews for clients and talent.
+>>>>>>> 0fef470de4f9a1ee20e9f9904dcd27e2aeac44cd
           </p>
         </div>
         {/* Large Gray Placeholder */}
