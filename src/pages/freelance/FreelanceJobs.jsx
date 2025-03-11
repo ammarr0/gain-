@@ -7,7 +7,7 @@ const icons = {
   projectmanager: '/assets/projectmanager.svg',
   solutionanalyst: '/assets/solutionanalyst.svg',
   financialanalyst: '/assets/financialanalyst.svg',
-  hrspecialist: '/assets/hrspecialist.svg'
+  hrspecialist: '/assets/hrspecialist.svg',
 };
 
 // Sample job data (replace or fetch from an API)
@@ -22,9 +22,17 @@ const initialJobs = [
     location: 'Dubai - UAE',
     start: 'Jan 15, 2025',
     duration: '8 Months',
-    skills: ['JavaScript', 'React', 'Node.js', 'SQL', 'REST APIs', 'Version control (Git)', 'Agile methodologies'],
+    skills: [
+      'JavaScript',
+      'React',
+      'Node.js',
+      'SQL',
+      'REST APIs',
+      'Version control (Git)',
+      'Agile methodologies',
+    ],
     jobType: 'Contract',
-    deadline: 'May 15, 2025'
+    deadline: 'May 15, 2025',
   },
   {
     id: 2,
@@ -38,7 +46,7 @@ const initialJobs = [
     duration: 'Permanent',
     skills: ['Adobe XD', 'Sketch', 'Figma', 'Responsive Design', 'Prototyping'],
     jobType: 'Permanent',
-    deadline: 'Apr 30, 2025'
+    deadline: 'Apr 30, 2025',
   },
   {
     id: 3,
@@ -52,7 +60,7 @@ const initialJobs = [
     duration: 'Permanent',
     skills: ['Project Management', 'Agile', 'Scrum', 'Leadership', 'Communication'],
     jobType: 'Permanent',
-    deadline: 'Mar 31, 2025'
+    deadline: 'Mar 31, 2025',
   },
   {
     id: 4,
@@ -66,7 +74,7 @@ const initialJobs = [
     duration: '12 Months',
     skills: ['Data Analysis', 'SQL', 'Excel', 'Financial Modeling', 'Problem Solving'],
     jobType: 'Contract',
-    deadline: 'May 1, 2025'
+    deadline: 'May 1, 2025',
   },
   {
     id: 5,
@@ -80,7 +88,7 @@ const initialJobs = [
     duration: '24 Months',
     skills: ['Financial Analysis', 'Excel', 'Data Visualization', 'Budgeting', 'Forecasting'],
     jobType: 'Contract',
-    deadline: 'Jun 30, 2025'
+    deadline: 'Jun 30, 2025',
   },
   {
     id: 6,
@@ -94,8 +102,8 @@ const initialJobs = [
     duration: 'Permanent',
     skills: ['Recruitment', 'Employee Relations', 'HRIS', 'Compliance', 'Communication'],
     jobType: 'Permanent',
-    deadline: 'May 15, 2025'
-  }
+    deadline: 'May 15, 2025',
+  },
 ];
 
 // Function to truncate text by words
@@ -109,45 +117,92 @@ const truncateTextByWords = (text, limit = 30) => {
 
 const FreelanceJobs = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [region, setRegion] = useState('');
+  const [location, setLocation] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [jobType, setJobType] = useState('');
+
   const itemsPerPage = 6;
 
-  const totalPages = Math.ceil(initialJobs.length / itemsPerPage);
+  const filteredJobs = initialJobs.filter((job) => {
+    return (
+      (region === '' || job.location.includes(region)) &&
+      (location === '' || job.location === location) &&
+      (industry === '' || job.skills.includes(industry)) &&
+      (jobType === '' || job.jobType === jobType)
+    );
+  });
+
+  const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedJobs = initialJobs.slice(startIndex, endIndex);
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
+  const displayedJobs = filteredJobs.slice(startIndex, endIndex);
 
   return (
-    <section className="min-h-screen bg-white px-4">
+    <section className="min-h-screen bg-white">
       {/* Top Heading */}
       <div className="max-w-7xl mx-auto py-8 md:py-10">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+        <h1 className="text-4xl md:text-5xl font-2xl text-gray-800 ml-8 text-left">
           Freelance Projects
         </h1>
-        <p className="text-gray-500 mt-2 mb-6">
+        <p className="text-gray-600 text-lg mb-6 w-full ml-8 leading-relaxed mt-4">
           Find the right opportunities, and apply directly on the GAIN Platform.
         </p>
       </div>
 
+      {/* Dropdowns */}
+      <div className="max-w-7xl mx-auto mb-8">
+        <div className="flex flex-wrap gap-2 justify-center">
+          <select
+            className="w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+            onChange={(e) => setRegion(e.target.value)}
+          >
+            <option value="">Select Region</option>
+            <option value="North America">North America</option>
+            <option value="Europe">Europe</option>
+            <option value="Asia">Asia</option>
+          </select>
+
+          <select
+            className="w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+            onChange={(e) => setLocation(e.target.value)}
+          >
+            <option value="">Select Location</option>
+            <option value="Dubai - UAE">Dubai - UAE</option>
+            <option value="San Francisco, CA">San Francisco, CA</option>
+            <option value="London, UK">London, UK</option>
+          </select>
+
+          <select
+            className="w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+            onChange={(e) => setIndustry(e.target.value)}
+          >
+            <option value="">Select Industry</option>
+            <option value="Technology">Technology</option>
+            <option value="Finance">Finance</option>
+            <option value="Healthcare">Healthcare</option>
+          </select>
+
+          <select
+            className="w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+            onChange={(e) => setJobType(e.target.value)}
+          >
+            <option value="">Select Job Type</option>
+            <option value="Contract">Contract</option>
+            <option value="Permanent">Permanent</option>
+            <option value="Part-Time">Part-Time</option>
+          </select>
+        </div>
+      </div>
+
       {/* Cards Container */}
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-y-6 gap-x-2">
           {displayedJobs.map((job) => (
             <div
               key={job.id}
-              className="border-2 border-gray-300 rounded-2xl shadow-md p-6 flex flex-col transition-all transform hover:scale-105 hover:shadow-lg w-10/12 mx-auto"
+              className="border-2 border-black rounded-2xl shadow-md p-6 flex flex-col transition-all transform hover:scale-105 hover:shadow-lg w-10/12 mx-auto"
             >
               {/* Icon */}
               <img
@@ -159,34 +214,42 @@ const FreelanceJobs = () => {
               {/* Title + Description */}
               <div className="mb-4">
                 <h2 className="text-lg font-semibold text-gray-800">{job.title}</h2>
-                <p className="text-sm text-gray-500 mt-1">{truncateTextByWords(job.description, 30)}</p>
+                <p className="text-sm text-gray-500 mt-1">
+                  {truncateTextByWords(job.description, 28)}
+                </p>
               </div>
 
               {/* Button Row */}
               <div className="pt-4 mb-4">
-                <button className="bg-[#030923] text-white px-6 py-2 rounded-md text-sm font-semibold hover:bg-blue-700 transition-colors w-full">
+                <button className="bg-[#030923] text-white px-6 py-2 rounded-xl h-12 text-sm font-semibold hover:bg-blue-700 transition-colors w-full">
                   More Info &amp; Apply
                 </button>
               </div>
 
               {/* Stats Row */}
-              <div className="text-sm text-gray-600 space-y-1 mb-4">
-                <div className="flex items-center">
-                  <span className="font-semibold mr-1">Experience:</span>
+              <div className="text-sm text-gray-600 space-y-1 mt-3 mb-4">
+                <span className="text-lg font-2xl mr-1">Experience</span>
+                <span className="flex items-center mt-2 font-semibold text-lg">
                   {job.experience}
-                </div>
+                </span>
                 <hr className="my-2 border-black" />
-                <div className="flex items-center">
-                  <span className="font-semibold mr-1">Location:</span>
-                  {job.location}
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-2xl mr-1 mt-2">Location</span>
+                  <span className="text-right mt-2 font-semibold text-lg">
+                    {job.location}
+                  </span>
                 </div>
-                <div className="flex items-center">
-                  <span className="font-semibold mr-1">Est. Start:</span>
-                  {job.start}
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-2xl mr-1">Est. Start</span>
+                  <span className="text-right font-semibold text-lg">
+                    {job.start}
+                  </span>
                 </div>
-                <div className="flex items-center">
-                  <span className="font-semibold mr-1">Duration:</span>
-                  {job.duration}
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-2xl mr-1">Duration</span>
+                  <span className="text-right font-semibold text-lg">
+                    {job.duration}
+                  </span>
                 </div>
               </div>
 
@@ -200,7 +263,7 @@ const FreelanceJobs = () => {
                   {job.skills.map((skill, idx) => (
                     <li
                       key={idx}
-                      className="bg-gray-200 text-gray-700 py-1 px-3 text-xs rounded-full"
+                      className="text-gray-700 py-1 px-4 text-xs rounded-full border border-black"
                     >
                       {skill}
                     </li>
@@ -212,38 +275,22 @@ const FreelanceJobs = () => {
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-center mt-8 space-x-2">
-          {/* Prev Button */}
-          <button
-            onClick={handlePrevPage}
-            disabled={currentPage === 1}
-            className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold 
-              ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white border border-gray-300 text-gray-700 hover:bg-blue-50'}`}
-          >
-            &laquo;
-          </button>
-
+        <div className="flex items-center justify-end mt-8 space-x-2">
           {/* Page numbers */}
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
             <button
               key={pageNum}
               onClick={() => setCurrentPage(pageNum)}
               className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold 
-                ${currentPage === pageNum ? 'bg-blue-600 text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-blue-50'}`}
+                ${
+                  currentPage === pageNum
+                    ? 'bg-[#313131] text-white'
+                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-blue-50'
+                }`}
             >
               {pageNum}
             </button>
           ))}
-
-          {/* Next Button */}
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold 
-              ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white border border-gray-300 text-gray-700 hover:bg-blue-50'}`}
-          >
-            &raquo;
-          </button>
         </div>
       </div>
     </section>
