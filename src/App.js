@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home.jsx';
-import JoinUs from './pages/JoinUs';
+import JoinUs from './pages/home/components/JoinUs';
 import Insights from './pages/about/Insights.jsx';
-import Careers from './pages/Careers';
-import ContactUs from './pages/ContactUs';
-import AITrainings from './pages/AITrainings';
+import Careers from './pages/home/components/Careers';
+import ContactUs from './pages/home/components/ContactUs';
+import AITrainings from './pages/home/components/AITrainings.jsx';
 
 import SignUp from './pages/SignUp';
 import Navbar from './components/Navbar.jsx';
@@ -17,6 +17,7 @@ import Consulting from './pages/ForClients/components/consulting'; // Import Con
 import Corporate from './pages/ForClients/components/corporate'; // Import Corporate component
 import FreelanceJobs from './pages/freelance/FreelanceJobs.jsx'; // Import FreelanceJobs component
 import Services from './pages/about/services.jsx'; // Import Services component
+import CFHome from './consultingfirm/home/cfhome.jsx'; // Import CFHome component
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/careers" element={<><Navbar /><Careers /><Footer /></>} />
         <Route path="/contact" element={<><Navbar /><ContactUs /><Footer /></>} />
         <Route path="/ai-trainings" element={<><Navbar /><AITrainings /><Footer /></>} />
+        <Route path="/consultingfirm/home" element={<CFHome />} /> {/* Updated route for Consulting Firm Home */}
        
         <Route path="/client/signup" element={<ClientSignUp />} />
         <Route path="/pricing" element={<><Navbar /><Pricing /><Footer /></>} /> {/* Added route for Pricing */}

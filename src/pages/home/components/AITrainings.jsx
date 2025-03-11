@@ -1,7 +1,7 @@
 // AITrainings.jsx
 
-import CourseCard from '../components/CourseCard';
-import HeroSection from '../components/HeroSection';
+import CourseCard from '../../../components/CourseCard';
+import HeroSection from '../../../components/HeroSection';
 
 // Export the courses array
 export const courses = [

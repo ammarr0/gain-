@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Breadcrumb from '../components/Breadcrumb';
-import ClientSignUpModal from './Client/ClientSignUp';
-import FirmSignUpModal from './Firm/FirmSignup';
-import TalentSignUpModal from './Talent/TalentSignup';
+import Breadcrumb from '../../../components/Breadcrumb';
+import ClientSignUpModal from '../../Client/ClientSignUp';
+import FirmSignUpModal from '../../Firm/FirmSignup';
+import TalentSignUpModal from '../../Talent/TalentSignup';
 
 const JoinUs = () => {
   const navigate = useNavigate();

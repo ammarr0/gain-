@@ -1,6 +1,6 @@
 // src/pages/home/components/FeaturedCourses.jsx
 import React, { useRef } from 'react';
-import { courses } from '../../AITrainings'; // Adjust if needed
+import { courses } from '../../home/components/AITrainings'; // Adjust if needed
 import CourseCard from '../../../components/CourseCard'; // Adjust if needed
 
 const FeaturedCourses = () => {
