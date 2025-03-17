@@ -77,7 +77,7 @@ const PersonalisedTalent = () => {
     <section className="p-1 bg-white rounded-2xl max-w-7xl mx-auto">
       {/* Header + Arrows */}
       <div className="flex items-center justify-between mb-4 px-4">
-        <h2 className="text-xl font-semibold">Personalised Talent</h2>
+        <h2 className="text-3xl font-lg">Personalised Talent</h2>
         <div className="space-x-2">
           <button
             onClick={scrollLeft}
@@ -102,7 +102,7 @@ const PersonalisedTalent = () => {
         {candidates.map((candidate, idx) => (
           <div
             key={idx}
-            className="border rounded-2xl p-8 min-w-[330px] min-h-[360px] flex flex-col items-start relative"
+            className="border rounded-3xl p-8 min-w-[330px] min-h-[360px] flex flex-col items-start relative"
           >
             {/* Profile Picture */}
             <div className="w-16 h-16 rounded-full overflow-hidden mb-3">
@@ -110,31 +110,32 @@ const PersonalisedTalent = () => {
             </div>
 
             {/* Candidate Info */}
-            <h3 className="text-lg font-bold">{candidate.name}</h3>
-            <p className="text-gray-500">{candidate.country}</p>
-            <p className="text-blue-600 font-medium mt-1">{candidate.title}</p>
+            <h3 className="text-xl font-bold">{candidate.name}</h3>
+            <p className="text-black">{candidate.country}</p>
+            <p className="text-[#007DF0] font-medium mt-1">{candidate.title}</p>
 
             {/* Rate, Rating, Reviews */}
             <div className="flex items-center space-x-2 text-gray-600 mt-3">
+              <img src="/assets/dollar.png" alt="Dollar" className="w-4 h-4 mr-1" />
               <span>{candidate.rate}</span>
-              <StarIcon className="w-4 h-4 text-yellow-500" />
+              <StarIcon className="w-4 h-4 text-black-500" />
               <span>{candidate.rating}</span>
               <span>({candidate.reviews})</span>
             </div>
 
             {/* Availability */}
             {candidate.available && (
-              <div className="flex items-center mt-2 text-green-600">
+              <div className="flex items-center mt-2 text-black">
                 <CheckCircleIcon className="w-4 h-4 mr-1" /> <span>Available Now</span>
               </div>
             )}
 
             {/* Buttons Section */}
             <div className="w-full flex justify-between items-center mt-auto pt-4">
-              <button className="w-[70%] bg-white text-gray-900 border border-gray-900 py-2 rounded-lg hover:bg-gray-100 transition-all">
+              <button className="w-[75%] bg-white text-gray-900 border border-gray-900 py-2  rounded-2xl hover:bg-gray-100 transition-all">
                 View Profile
               </button>
-              <button className="p-2 border border-gray-300 mr-8 rounded-lg hover:bg-gray-100">
+              <button className="p-2 border border-black mr-4 rounded-xl hover:bg-gray-100">
                 <MessageSquareIcon className="w-5 h-5" />
               </button>
             </div>

@@ -136,9 +136,12 @@ const Navbar = () => {
           >
             <img src="/assets/search.png" alt="Search" className="h-5 w-5" />
           </button>
-          <button className="text-gray-700 px-3 py-1 border border-gray-300 rounded-full hover:bg-blue-500 hover:text-white text-sm focus:text-[#007DF0] ml-6">
+          <Link
+            to="/join-us"
+            className="text-gray-700 px-3 py-1 border border-gray-300 rounded-full hover:bg-blue-500 hover:text-white text-sm focus:text-[#007DF0] ml-6"
+          >
             Post a Job
-          </button>
+          </Link>
           <Link
             to="/join-us"
             className="text-[#007DF0] px-3 py-1 border border-[#007DF0] rounded-full hover:bg-blue-500 hover:text-white text-sm focus:text-[#007DF0] ml-6"

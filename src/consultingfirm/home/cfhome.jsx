@@ -8,6 +8,7 @@ import NewestMatches from './components/newestmatches.jsx';
 import JobPosting from './components/jobposting.jsx';
 import PersonalisedTalent from './components/PersonalisedTalent.jsx';
 import Footer from '../../components/Footer.jsx';
+import MachineLearningPost from './components/MachineLearningPost';
 
 const CFHome = () => {
   return (
@@ -27,6 +28,7 @@ const CFHome = () => {
               <JobPosting/>
             </div>
             <PersonalisedTalent/>
+            <MachineLearningPost />
           </div>
         </div>
       </div>

@@ -1,9 +1,16 @@
 import { FaStar } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const CourseCard = ({ title, rating, reviews, level, duration }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate('/join-us');
+  };
+
   return (
     <div
-
+      onClick={handleCardClick}
       className="w-[300px] h-[450px] bg-white shadow-md rounded-2xl p-4
                  hover:shadow-xl hover:scale-105 hover:-translate-y-1
                  transition-all duration-300 ease-in-out cursor-pointer
