@@ -7,14 +7,14 @@ export default function HeroSection() {
     <div className="flex flex-col items-center justify-center min-h-screen px-4">
       <div className="relative">
         <video
-          src="/assets/landing.mp4"
+          src="/Assets/landing.mp4"
           autoPlay
           muted
           loop
           playsInline
           className="w-[950px] h-[500px] object-cover -mt-16"
         >
-          <source src="/assets/landing.mp4" type="video/mp4" />
+          <source src="/Assets/landing.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 

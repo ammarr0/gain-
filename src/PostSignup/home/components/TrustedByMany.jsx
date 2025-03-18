@@ -61,11 +61,11 @@ export default function TrustedByMany() {
 
               {/* Bottom row: user icon + name/description + social icons */}
               <div className="flex items-center justify-between mt-auto">
-                {/* Icon + name/description (no alt) */}
+                {/* Icon + name/description */}
                 <div className="flex flex-col items-center space-y-3">
                   <img
                     src={userIconUrl}
-                      
+                    alt={`User Icon of ${item.name}`}
                     className="w-12 h-12 object-cover -ml-36 rounded-full"
                   />
                   <div>
@@ -78,7 +78,7 @@ export default function TrustedByMany() {
                   </div>
                 </div>
 
-                {/* Social icons (no alt) */}
+                {/* Social icons */}
                 <div className="flex space-x-3">
                   <a
                     href={item.social.facebook}
@@ -87,6 +87,7 @@ export default function TrustedByMany() {
                   >
                     <img
                       src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg"
+                      alt={`${item.name}'s Facebook Icon`}
                       className="w-5 h-5 mt-20"
                     />
                   </a>
@@ -97,6 +98,7 @@ export default function TrustedByMany() {
                   >
                     <img
                       src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/twitter/twitter-original.svg"
+                      alt={`${item.name}'s Twitter Icon`}
                       className="w-5 h-5 mt-20"
                     />
                   </a>
