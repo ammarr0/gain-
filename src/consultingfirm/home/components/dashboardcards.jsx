@@ -1,7 +1,7 @@
 import React from 'react';
 
 const DashboardCards = ({ userName }) => {
-  const displayName = userName || 'Clay';
+  const displayName = userName || ' Firm ';
 
   const cards = [
     { text: 'Collab with other experts on your next project', button: 'Browse Projects', color: 'bg-[#D8FBAB]' },

@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "title": "Introduction to Artificial Intelligence (AI)",
+    "description": "Learn the basics of AI, its core concepts, and real-world applications, including machine learning and natural language processing, to prepare for the AI-driven future.",
+    "rating": 4.8,
+    "reviews": 15,
+    "level": "Beginner",
+    "duration": "1 - 4 Weeks"
+  },
+  {
+    "id": 2,
+    "title": "Data Science Essentials",
+    "description": "Understand the fundamentals of data science, including data analysis, visualization, and statistical modeling, to make data-driven decisions.",
+    "rating": 4.7,
+    "reviews": 20,
+    "level": "Intermediate",
+    "duration": "2 - 6 Weeks"
+  },
+  {
+    "id": 3,
+    "title": "Web Development Bootcamp",
+    "description": "Master the skills of web development, from HTML and CSS to JavaScript and React, to build responsive and dynamic websites.",
+    "rating": 4.9,
+    "reviews": 30,
+    "level": "Beginner to Advanced",
+    "duration": "4 - 12 Weeks"
+  },
+  {
+    "id": 4,
+    "title": "Cybersecurity Fundamentals",
+    "description": "Learn the principles of cybersecurity, including risk management, threat analysis, and network security, to protect digital assets.",
+    "rating": 4.6,
+    "reviews": 10,
+    "level": "Beginner",
+    "duration": "3 - 8 Weeks"
+  },
+  {
+    "id": 5,
+    "title": "Advanced Machine Learning",
+    "description": "Dive deep into machine learning algorithms, neural networks, and deep learning techniques to solve complex problems.",
+    "rating": 4.9,
+    "reviews": 25,
+    "level": "Advanced",
+    "duration": "6 - 10 Weeks"
+  },
+  {
+    "id": 6,
+    "title": "Cloud Computing Basics",
+    "description": "Explore cloud computing concepts, services, and deployment models to leverage cloud technologies effectively.",
+    "rating": 4.5,
+    "reviews": 18,
+    "level": "Beginner",
+    "duration": "2 - 5 Weeks"
+  },
+  {
+    "id": 7,
+    "title": "Digital Marketing Strategies",
+    "description": "Learn how to create effective digital marketing campaigns using SEO, social media, and content marketing.",
+    "rating": 4.7,
+    "reviews": 22,
+    "level": "Intermediate",
+    "duration": "3 - 7 Weeks"
+  },
+  {
+    "id": 8,
+    "title": "Blockchain Technology",
+    "description": "Understand the fundamentals of blockchain technology and its applications in various industries.",
+    "rating": 4.6,
+    "reviews": 12,
+    "level": "Intermediate",
+    "duration": "4 - 8 Weeks"
+  },
+  {
+    "id": 9,
+    "title": "Mobile App Development",
+    "description": "Learn to develop mobile applications for Android and iOS using popular frameworks and tools.",
+    "rating": 4.8,
+    "reviews": 28,
+    "level": "Beginner to Intermediate",
+    "duration": "5 - 10 Weeks"
+  },
+  {
+    "id": 10,
+    "title": "Financial Analysis and Modeling",
+    "description": "Gain skills in financial analysis, forecasting, and modeling to make informed business decisions.",
+    "rating": 4.7,
+    "reviews": 16,
+    "level": "Advanced",
+    "duration": "4 - 9 Weeks"
+  },
+  {
+    "id": 11,
+    "title": "Graphic Design Masterclass",
+    "description": "Master graphic design principles and tools to create visually appealing designs and branding materials.",
+    "rating": 4.8,
+    "reviews": 30,
+    "level": "Beginner to Advanced",
+    "duration": "3 - 6 Weeks"
+  },
+  {
+    "id": 12,
+    "title": "Project Management Professional (PMP)",
+    "description": "Prepare for the PMP certification with comprehensive project management training and practice exams.",
+    "rating": 4.9,
+    "reviews": 35,
+    "level": "Advanced",
+    "duration": "6 - 12 Weeks"
+  },
+  {
+    "id": 13,
+    "title": "Ethical Hacking and Penetration Testing",
+    "description": "Learn ethical hacking techniques and tools to identify and mitigate security vulnerabilities.",
+    "rating": 4.6,
+    "reviews": 14,
+    "level": "Intermediate",
+    "duration": "4 - 8 Weeks"
+  },
+  {
+    "id": 14,
+    "title": "Artificial Intelligence for Business",
+    "description": "Explore how AI can be applied in business to improve processes, decision-making, and customer experiences.",
+    "rating": 4.7,
+    "reviews": 19,
+    "level": "Intermediate",
+    "duration": "3 - 7 Weeks"
+  },
+  {
+    "id": 15,
+    "title": "Introduction to Robotics",
+    "description": "Discover the basics of robotics, including design, programming, and control of robotic systems.",
+    "rating": 4.5,
+    "reviews": 11,
+    "level": "Beginner",
+    "duration": "2 - 5 Weeks"
+  }
+]

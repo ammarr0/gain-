@@ -80,7 +80,7 @@ const MachineLearningPost = () => {
             <input
               type="text"
               placeholder="Post a reply"
-              className="w-[85%] border mt-3 border-[#313131] rounded-x l focus:outline-none focus:ring pl-10 pr-24 py-5"
+              className="w-[85%] border mt-3 border-[#313131] rounded-xl focus:outline-none focus:ring pl-10 pr-24 py-5"
               style={{
                 backgroundImage: `url(/assets/user.png)`,
                 backgroundRepeat: 'no-repeat',

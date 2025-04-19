@@ -16,18 +16,18 @@ const CFHome = () => {
       <CFNavbar />
       <div className="flex w-full p-0">
         <Sidebar />
-        <div className="flex-1 overflow-auto p-0 m-0 "> 
+        <div className="flex-1 overflow-auto p-0 m-0 ">
           <DashboardCards />
-          <div className="mt-6 "> 
+          <div className="mt-6 ">
             <NewMatches />
             <div className="flex justify-center">
               <ActiveProjects />
             </div>
-            <NewestMatches/>
-            <div className="flex justify-center  "> 
-              <JobPosting/>
+            <NewestMatches />
+            <div className="flex justify-center  ">
+              <JobPosting />
             </div>
-            <PersonalisedTalent/>
+            <PersonalisedTalent />
             <MachineLearningPost />
           </div>
         </div>

@@ -11,15 +11,15 @@ const Sidebar = () => {
         </li>
         <li className="flex items-center space-x-2">
           <img src="/Assets/jobs.png" alt="Jobs" className="h-6 w-6" />
-          <Link to="/jobs" className="text-gray-700 hover:text-blue-500">Jobs</Link>
+          <Link to="/consultingfirm/jobs" className="text-gray-700 hover:text-blue-500">Jobs</Link>
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/projects.svg" alt="Projects" className="h-6 w-6" />
-          <Link to="/projects" className="text-gray-700 hover:text-blue-500">Projects</Link>
+          <Link to="/consultingfirm/projects" className="text-gray-700 hover:text-blue-500">Projects</Link>
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/jobs.png" alt="Explore Talents" className="h-6 w-6" />
-          <Link to="/explore-talents" className="text-gray-700 hover:text-blue-500">Explore Talents</Link>
+          <Link to="/" className="text-gray-700 hover:text-blue-500">Explore Talents</Link>
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/tracker.svg" alt="Tracker" className="h-6 w-6" />
@@ -27,7 +27,7 @@ const Sidebar = () => {
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/courses.svg" alt="Courses" className="h-6 w-6" />
-          <Link to="/courses" className="text-gray-700 hover:text-blue-500">Courses</Link>
+          <Link to="/consultingfirm/explore-course" className="text-gray-700 hover:text-blue-500">Courses</Link>
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/community.svg" alt="Community" className="h-6 w-6" />

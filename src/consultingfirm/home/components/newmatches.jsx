@@ -30,6 +30,17 @@ const NewMatches = () => {
         "Opportunities for career growth and development."
       ],
       apply: "Please share your resume and a design portfolio that demonstrates your work and design thinking process.",
+      skills: [
+        "Business Development and Sales Expertise",
+        "Market Knowledge",
+        "Technical Acumen",
+        "CRM",
+        "HubSpot",
+        "Salesforce",
+        "Analytical Skills"
+      ],
+      projectType: "Full Time",
+      status: "Accepting Applications",
       client: {
         verifiedPayment: true,
         verifiedPhone: true,
@@ -51,7 +62,7 @@ const NewMatches = () => {
       hours: "25 hrs/wk",
       location: "United States | Canada",
       time: "Anytime",
-      logo: "/assets/reddit.png",
+      logo: "/assets/reddit.png",  // Replace with actual logo path
       logoSize: "w-16 h-16",
       responsibilities: [
         "Design engaging user experiences for Reddit's platforms.",
@@ -69,6 +80,17 @@ const NewMatches = () => {
         "Creative and inclusive company culture."
       ],
       apply: "Submit your portfolio and resume detailing relevant product design experience.",
+      skills: [
+        "Business Development and Sales Expertise",
+        "Market Knowledge",
+        "Technical Acumen",
+        "CRM",
+        "HubSpot",
+        "Salesforce",
+        "Analytical Skills"
+      ],
+      projectType: "Full Time",
+      status: "Accepting Applications",
       client: {
         verifiedPayment: true,
         verifiedPhone: true,
@@ -108,6 +130,17 @@ const NewMatches = () => {
         "Professional development opportunities."
       ],
       apply: "Please attach your resume and a statement about your UX research philosophy and experience.",
+      skills: [
+        "Business Development and Sales Expertise",
+        "Market Knowledge",
+        "Technical Acumen",
+        "CRM",
+        "HubSpot",
+        "Salesforce",
+        "Analytical Skills"
+      ],
+      projectType: "Full Time",
+      status: "Accepting Applications",
       client: {
         verifiedPayment: true,
         verifiedPhone: true,
@@ -123,8 +156,6 @@ const NewMatches = () => {
       }
     }
   ];
-
-  // Navigate to JobDetails page with all data passed in state
   const handleCardClick = (match) => {
     navigate(`/job/${match.company}`, { state: { match } });
   };
@@ -139,14 +170,14 @@ const NewMatches = () => {
           </button>
         </div>
 
-        <div className="flex flex-wrap gap-4 mt-4 item-center justify-center">
+        <div className="flex">
           {matches.map((match, idx) => (
             <div
               key={idx}
               onClick={() => handleCardClick(match)}
-              className="rounded-xl border-2 border-[#B9DAFF] p-4 shadow-sm hover:shadow-lg transition bg-white h-[371px] w-[342px] mx-auto cursor-pointer"
+              className="rounded-xl border-2 border-[#B9DAFF] p-4 shadow-sm hover:shadow-lg transition bg-white h-[371px] w-[400px] mx-auto cursor-pointer"
             >
-              <div className="flex justify-between items-start">
+              <div className="flex justify-between items-start"  >
                 <img
                   src={match.logo}
                   alt={match.company}
@@ -181,7 +212,7 @@ const NewMatches = () => {
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 export default NewMatches;

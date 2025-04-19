@@ -1,7 +1,7 @@
 // src/components/FirmSignUpModal.jsx
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const FirmSignUpModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -16,6 +16,9 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
     location: '',
   });
 
+  const [isSubmitted, setIsSubmitted] = useState(false);  // State to manage submission success
+  const navigate = useNavigate();  // Hook to navigate to new route after submission
+
   if (!isOpen) return null;
 
   const handleChange = (e) => {
@@ -25,7 +28,12 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Firm sign-up form submitted:', formData);
-    // Optionally, call onClose() here after successful submission.
+    setIsSubmitted(true); // Set submission success
+
+    // Simulate a delay or a success action before redirect
+    setTimeout(() => {
+      navigate('/consultingfirm/home'); // Redirect to the new route after form submission
+    }, 2000); // Redirect after 2 seconds (you can adjust the delay as needed)
   };
 
   return (
@@ -232,6 +240,16 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
               </button>
             </div>
           </form>
+
+          {/* Success Popup */}
+          {isSubmitted && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+              <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-sm w-full">
+                <h2 className="text-xl font-semibold text-green-600">Sign Up Successful!</h2>
+                <p className="mt-2 text-gray-600">You will be redirected shortly...</p>
+              </div>
+            </div>
+          )}
 
           {/* Back to Home link */}
           <div className="text-center mt-4">

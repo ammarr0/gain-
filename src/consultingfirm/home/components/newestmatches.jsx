@@ -44,7 +44,7 @@ const NewestMatches = () => {
         </div>
         <div className="flex flex-wrap gap-4 mt-4 item-center justify-center">
           {matches.map((match, idx) => (
-            <div key={idx} className="rounded-xl border-2 border-[#34A853] p-4 shadow-sm hover:shadow-lg transition bg-white h-[460px] w-[343px] mx-auto">
+            <div key={idx} className="rounded-xl border-2 border-[#34A853] p-4 shadow-sm hover:shadow-lg transition bg-white h-[460px] w-[400px] mx-auto">
               <div className="flex justify-between items-start">
                 <img src={match.logo} alt={match.company} className={`${match.logoSize} rounded-md mb-2`} />
                 <div className="flex gap-2">

@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-// Components & Pages
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 
@@ -20,8 +19,11 @@ import Corporate from './PostSignup/ForClients/components/corporate.jsx';
 import FreelanceJobs from './PostSignup/FreelanceJobs.jsx';
 import Services from './PostSignup/about/services.jsx';
 import CFHome from './consultingfirm/home/cfhome.jsx';
+import Apply from './consultingfirm/home/components/Apply.jsx'; 
+import Jobs from './consultingfirm/jobs/jobs.jsx'; 
+import Projects from './consultingfirm/project/project.jsx'; 
+import Explore from './consultingfirm/explorecourse/explorecourse.jsx'; 
 
-// New Job Matching & Details Pages
 import NewMatches from './consultingfirm/home/components/newmatches.jsx';
 import JobDetails from './consultingfirm/home/components/JobDetails.jsx';
 
@@ -29,11 +31,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-
-        {/* Home Route */}
         <Route path="/" element={<><Navbar /><Home /><Footer /></>} />
-
-        {/* General Pages */}
         <Route path="/join-us" element={<><Navbar /><JoinUs /><Footer /></>} />
         <Route path="/signup" element={<><Navbar /><SignUp /><Footer /></>} />
         <Route path="/insights" element={<><Navbar /><Insights /><Footer /></>} />
@@ -42,22 +40,19 @@ const App = () => {
         <Route path="/ai-trainings" element={<><Navbar /><AITrainings /><Footer /></>} />
         <Route path="/consultingfirm/home" element={<CFHome />} />
         <Route path="/client/signup" element={<ClientSignUp />} />
-
-        {/* Pricing and Client Services */}
         <Route path="/pricing" element={<><Navbar /><Pricing /><Footer /></>} />
         <Route path="/for-clients/whatweoffer" element={<><Navbar /><WhatWeOffer /><Footer /></>} />
         <Route path="/for-clients/consulting" element={<><Navbar /><Consulting /><Footer /></>} />
         <Route path="/for-clients/corporate" element={<><Navbar /><Corporate /><Footer /></>} />
-
-        {/* Freelance and Services */}
         <Route path="/freelance-jobs" element={<><Navbar /><FreelanceJobs /><Footer /></>} />
         <Route path="/about/services" element={<><Navbar /><Services /><Footer /></>} />
         <Route path="/about/insights" element={<><Navbar /><Insights /><Footer /></>} />
-
-        {/* New Matches and Job Details */}
         <Route path="/new-matches" element={<><Navbar /><NewMatches /><Footer /></>} />
         <Route path="/job/:company" element={<><Navbar /><JobDetails /><Footer /></>} />
-
+        <Route path="/apply" element={<><Navbar /><Apply /><Footer /></>} />
+        <Route path="/consultingfirm/jobs" element={<><Navbar /><Jobs /><Footer /></>} />
+        <Route path="/consultingfirm/projects" element={<><Navbar /><Projects /><Footer /></>} />
+        <Route path="/consultingfirm/explore-course" element={<><Navbar /><Explore /><Footer /></>} />
       </Routes>
     </Router>
   );
