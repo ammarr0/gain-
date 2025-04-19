@@ -19,10 +19,20 @@ import Corporate from './PostSignup/ForClients/components/corporate.jsx';
 import FreelanceJobs from './PostSignup/FreelanceJobs.jsx';
 import Services from './PostSignup/about/services.jsx';
 import CFHome from './consultingfirm/home/cfhome.jsx';
-import Apply from './consultingfirm/home/components/Apply.jsx'; 
-import Jobs from './consultingfirm/jobs/jobs.jsx'; 
-import Projects from './consultingfirm/project/project.jsx'; 
-import Explore from './consultingfirm/explorecourse/explorecourse.jsx'; 
+import Apply from './consultingfirm/home/components/Apply.jsx';
+import Jobs from './consultingfirm/jobs/jobs.jsx';
+import Projects from './consultingfirm/project/project.jsx';
+import Explore from './consultingfirm/explorecourse/explorecourse.jsx';
+import Invites from './consultingfirm/Tracker/invites.jsx';
+import Applications from './consultingfirm/Tracker/applications.jsx';
+import Offers from './consultingfirm/Tracker/joboffers.jsx';
+import Project from './consultingfirm/Tracker/projectoffers.jsx';
+import Invoices from './consultingfirm/Tracker/invoice.jsx';
+import MyJobs from './consultingfirm/Tracker/myjobs.jsx';
+import Community from './consultingfirm/community/community.jsx';
+import ExploreCourse  from './consultingfirm/explorecourse/explorecourse.jsx';
+import Main from "./consultingfirm/explorecourse/main.jsx";
+import Video from "./consultingfirm/explorecourse/video.jsx";
 
 import NewMatches from './consultingfirm/home/components/newmatches.jsx';
 import JobDetails from './consultingfirm/home/components/JobDetails.jsx';
@@ -52,7 +62,19 @@ const App = () => {
         <Route path="/apply" element={<><Navbar /><Apply /><Footer /></>} />
         <Route path="/consultingfirm/jobs" element={<><Navbar /><Jobs /><Footer /></>} />
         <Route path="/consultingfirm/projects" element={<><Navbar /><Projects /><Footer /></>} />
-        <Route path="/consultingfirm/explore-course" element={<><Navbar /><Explore /><Footer /></>} />
+        <Route path="/consultingfirm/tracker" element={<><Navbar /><Invites /><Footer /></>} />
+        <Route path="/consultingfirm/applications" element={<><Navbar /><Applications /><Footer /></>} />
+        <Route path="/consultingfirm/joboffers" element={<><Navbar /><Offers /><Footer /></>} />
+        <Route path="/consultingfirm/projectsoffers" element={<><Navbar /><Project /><Footer /></>} />
+        <Route path="/consultingfirm/myjobs" element={<><Navbar /><MyJobs /><Footer /></>} />
+        <Route path="/consultingfirm/invoices" element={<><Navbar /><Invoices /><Footer /></>} />
+        <Route path="/consultingfirm/community" element={<><Navbar /><Community /><Footer /></>} />
+        <Route path="/consultingfirm/explore-course" element={<><Navbar /><ExploreCourse /><Footer /></>} />
+        <Route path="consultingfirm/main-course" element={<><Navbar /><Main /><Footer /></>} />
+        <Route path="consultingfirm/video" element={<><Navbar /><Video /><Footer /></>} />
+
+        
+        
       </Routes>
     </Router>
   );

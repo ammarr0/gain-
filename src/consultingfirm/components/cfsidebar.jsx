@@ -23,7 +23,7 @@ const Sidebar = () => {
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/tracker.svg" alt="Tracker" className="h-6 w-6" />
-          <Link to="/tracker" className="text-gray-700 hover:text-blue-500">Tracker</Link>
+          <Link to="/consultingfirm/tracker" className="text-gray-700 hover:text-blue-500">Tracker</Link>
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/courses.svg" alt="Courses" className="h-6 w-6" />
@@ -31,7 +31,7 @@ const Sidebar = () => {
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/community.svg" alt="Community" className="h-6 w-6" />
-          <Link to="/community" className="text-gray-700 hover:text-blue-500">Community</Link>
+          <Link to="/consultingfirm/community" className="text-gray-700 hover:text-blue-500">Community</Link>
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/earnings.svg" alt="Earnings" className="h-6 w-6" />
