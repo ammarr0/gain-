@@ -1,9 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
-
 import Home from './PostSignup/home/Home.jsx';
 import JoinUs from './PostSignup/JoinUs.jsx';
 import Insights from './PostSignup/about/Insights.jsx';
@@ -30,12 +28,15 @@ import Project from './consultingfirm/Tracker/projectoffers.jsx';
 import Invoices from './consultingfirm/Tracker/invoice.jsx';
 import MyJobs from './consultingfirm/Tracker/myjobs.jsx';
 import Community from './consultingfirm/community/community.jsx';
-import ExploreCourse  from './consultingfirm/explorecourse/explorecourse.jsx';
+import ExploreCourse from './consultingfirm/explorecourse/explorecourse.jsx';
 import Main from "./consultingfirm/explorecourse/main.jsx";
 import Video from "./consultingfirm/explorecourse/video.jsx";
-
+import ClientProfile from "./profile/client.jsx";
+import ClientDetails from "./profile/talent.jsx";
 import NewMatches from './consultingfirm/home/components/newmatches.jsx';
 import JobDetails from './consultingfirm/home/components/JobDetails.jsx';
+import Firm from './profile/firm.jsx';
+import CompletedJobs from './profile/completejob.jsx';
 
 const App = () => {
   return (
@@ -70,11 +71,12 @@ const App = () => {
         <Route path="/consultingfirm/invoices" element={<><Navbar /><Invoices /><Footer /></>} />
         <Route path="/consultingfirm/community" element={<><Navbar /><Community /><Footer /></>} />
         <Route path="/consultingfirm/explore-course" element={<><Navbar /><ExploreCourse /><Footer /></>} />
-        <Route path="consultingfirm/main-course" element={<><Navbar /><Main /><Footer /></>} />
-        <Route path="consultingfirm/video" element={<><Navbar /><Video /><Footer /></>} />
-
-        
-        
+        <Route path="/consultingfirm/main-course" element={<><Navbar /><Main /><Footer /></>} />
+        <Route path="/consultingfirm/video" element={<><Navbar /><Video /><Footer /></>} />
+        <Route path="/client/profile" element={<><Navbar /><ClientProfile /><Footer /></>} />
+        <Route path="/client/detail" element={<><Navbar /><ClientDetails /><Footer /></>} />
+        <Route path="/client/firm" element={<><Navbar /><Firm /><Footer /></>} />
+        <Route path="/client/completedjobs" element={<><Navbar /><CompletedJobs /><Footer /></>} />
       </Routes>
     </Router>
   );
