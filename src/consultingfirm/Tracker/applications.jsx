@@ -38,7 +38,7 @@ const Applications = () => {
               <div className="text-right">
                 <p className="text-gray-500">{app.status}</p>
                 <p className="font-semibold">$350/hr</p>
-                <div className="mt-2 space-x-2">
+                <div className="flex space-x-2 mt-2">
                   <button className="bg-gray-200 px-3 py-1 rounded-full flex items-center">
                     View Application
                     <span className="ml-2">→</span>
