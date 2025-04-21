@@ -3,7 +3,7 @@ import Sidebar from "../components/cfsidebar";
 import Tabs from "./tabs";
 
 const ProjectOffers = () => {
-  const [activeTab, setActiveTab] = useState("Project Offers");
+  const [activeTab, setActiveTab] = useState("Project Offers"); 
 
   const offers = [
     {
