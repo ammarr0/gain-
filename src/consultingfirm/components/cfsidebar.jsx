@@ -19,7 +19,7 @@ const Sidebar = () => {
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/jobs.png" alt="Explore Talents" className="h-6 w-6" />
-          <Link to="/" className="text-gray-700 hover:text-blue-500">Explore Talents</Link>
+          <Link to="/under-processing" className="text-gray-700 hover:text-blue-500">Explore Talents</Link>
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/tracker.svg" alt="Tracker" className="h-6 w-6" />
@@ -35,12 +35,12 @@ const Sidebar = () => {
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/earnings.svg" alt="Earnings" className="h-6 w-6" />
-          <Link to="/earnings" className="text-gray-700 hover:text-blue-500">Earnings</Link>
+          <Link to="/under-processing" className="text-gray-700 hover:text-blue-500">Earnings</Link>
           <span className="bg-gray-200 text-gray-700 text-xs rounded-full px-2 py-1 ml-2">$1500</span>
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/invoices.png" alt="Invoices" className="h-6 w-6" />
-          <Link to="/invoices" className="text-gray-700 hover:text-blue-500">Invoices</Link>
+          <Link to="/under-processing" className="text-gray-700 hover:text-blue-500">Invoices</Link>
         </li>
         <li className="flex items-center space-x-2 space-y-40">
           <img src="/assets/arrowupright.png" alt="Help Center" className="h-5  w-6 mt-40" />
