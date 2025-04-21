@@ -10,7 +10,7 @@ const Sidebar = () => {
           <Link to="/consultingfirm/home" className="text-gray-700 hover:text-blue-500">Home</Link>
         </li>
         <li className="flex items-center space-x-2">
-          <img src="/Assets/jobs.png" alt="Jobs" className="h-6 w-6" />
+          <img src="/assets/Jobs.png" alt="Jobs" className="h-6 w-6" />
           <Link to="/consultingfirm/jobs" className="text-gray-700 hover:text-blue-500">Jobs</Link>
         </li>
         <li className="flex items-center space-x-2">
@@ -18,7 +18,7 @@ const Sidebar = () => {
           <Link to="/consultingfirm/projects" className="text-gray-700 hover:text-blue-500">Projects</Link>
         </li>
         <li className="flex items-center space-x-2">
-          <img src="/assets/jobs.png" alt="Explore Talents" className="h-6 w-6" />
+          <img src="/assets/uidesigner.svg" alt="Explore Talents" className="h-6 w-6" />
           <Link to="/under-processing" className="text-gray-700 hover:text-blue-500">Explore Talents</Link>
         </li>
         <li className="flex items-center space-x-2">
