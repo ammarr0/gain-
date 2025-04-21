@@ -12,7 +12,7 @@ const Tabs = ({ activeTab, setActiveTab }) => {
     ];
     
     return (
-        <div className="flex space-x-8 border-b border-gray-300 px-4 pt-4">
+        <div className="flex space-x-8 px-4 pt-4 mb-2.5">
             {tabs.map((tab) => (
                 <Link
                     key={tab.name}
