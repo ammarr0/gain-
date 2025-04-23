@@ -19,7 +19,7 @@ const Sidebar = () => {
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/uidesigner.svg" alt="Explore Talents" className="h-6 w-6" />
-          <Link to="/under-processing" className="text-gray-700 hover:text-blue-500">Explore Talents</Link>
+          <Link to="/consultingfirm/explore-talent" className="text-gray-700 hover:text-blue-500">Explore Talents</Link>
         </li>
         <li className="flex items-center space-x-2">
           <img src="/assets/tracker.svg" alt="Tracker" className="h-6 w-6" />
