@@ -1,6 +1,8 @@
 import React from 'react';
 import { FaStar, FaEllipsisH } from 'react-icons/fa';
 import { FiMessageCircle, FiBookmark, FiShare2 } from 'react-icons/fi';
+import menu from "../../assets/menu.svg"
+import msg from "../../assets/msg.png"
 
 const TalentProfileCard = () => {
   return (
@@ -43,11 +45,13 @@ const TalentProfileCard = () => {
         driving sales conversions, and fostering customer loyalty. I address challenges such as suboptimal usability 
         and outdated aesthetics, ensuring your brand not only stands apart but also delivers tangible, measurable results.
       </p>
-      <div className="flex justify-between items-center mt-6">
-        <button className="px-5 py-2 border rounded-full text-sm font-medium hover:bg-gray-100">
+      <hr className="my-4" />
+      <div className="flex justify-end items-center mt-6 gap-2">
+        <button className="border border-black p-1 rounded-[10px] w-15 h-15 text-sm font-medium hover:bg-gray-100 px-5 py-2">
           View Profile
         </button>
-        <FaEllipsisH className="text-gray-500 cursor-pointer" />
+        <img src={menu} alt="" />
+        <img src={msg} alt="" className='border border-black p-1 rounded-[10px] w-15 h-15' />
       </div>
     </div>
   );
