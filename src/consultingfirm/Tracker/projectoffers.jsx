@@ -3,7 +3,7 @@ import Sidebar from "../components/cfsidebar";
 import Tabs from "./tabs";
 
 const ProjectOffers = () => {
-  const [activeTab, setActiveTab] = useState("Project Offers"); 
+  const [activeTab, setActiveTab] = useState("Project Offers");
 
   const offers = [
     {
@@ -47,58 +47,60 @@ const ProjectOffers = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="w-full mt-6 max-w-5xl mx-auto">
+      <div className="w-[80%] mt-6 mx-auto">
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        {offers.map((offer, index) => (
-          <div key={index} className="max-w-5xl mx-auto bg-gray-100 border border-gray-300 rounded-xl shadow-sm p-6 mb-4">
-            <div className="flex justify-between items-start">
-              <div className="flex gap-4">
-                <img
-                  src={offer.companyLogo}
-                  alt={offer.companyName}
-                  className="w-12 h-12 object-contain"
-                />
-                <div>
-                  <h2 className="font-semibold text-lg text-gray-800">
-                    {offer.projectTitle}
-                  </h2>
-                  <p className="mt-1 text-sm text-gray-600">
-                    <strong className="text-black">Position Offered:</strong>{" "}
-                    <span className="text-black font-semibold">{offer.positionOffered}</span>
-                  </p>
+        <div className="w-full bg-gray-100 rounded-lg border border-gray-300 p-16 shadow-sm">
+          {offers.map((offer, index) => (
+            <div key={index} className="bg-white border rounded-lg p-4 mb-4 shadow">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                  <img
+                    src={offer.companyLogo}
+                    alt={offer.companyName}
+                    className="w-12 h-12 object-contain"
+                  />
+                  <div>
+                    <h2 className="font-semibold text-lg text-gray-800">
+                      {offer.projectTitle}
+                    </h2>
+                    <p className="mt-1 text-sm text-gray-600">
+                      <strong className="text-black">Position Offered:</strong>{" "}
+                      <span className="text-black font-semibold">{offer.positionOffered}</span>
+                    </p>
+                  </div>
+                </div>
+                <span className="text-sm text-gray-500">{offer.status}</span>
+              </div>
+
+              <div className="mt-4 pl-16">
+                <p className="text-sm text-gray-600 mb-1 font-medium">Open Positions:</p>
+                <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                  {offer.openPositions.map((position, idx) => (
+                    <li key={idx}>{position}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-6 flex justify-between items-center pl-16">
+                <div className="flex text-sm text-gray-500 gap-6">
+                  <span>{offer.location}</span>
+                  <span>{offer.hours}</span>
+                  <span>{offer.timing}</span>
+                  <span>{offer.teamSize}</span>
+                </div>
+
+                <div className="space-x-2">
+                  <button className="px-4 py-1.5 border border-gray-300 text-sm rounded-md hover:bg-gray-200">
+                    View Job
+                  </button>
+                  <button className="px-4 py-1.5 bg-gray-800 text-white text-sm rounded-md hover:bg-gray-900">
+                    Accept Offer
+                  </button>
                 </div>
               </div>
-              <span className="text-sm text-gray-500">{offer.status}</span>
             </div>
-
-            <div className="mt-4 pl-16">
-              <p className="text-sm text-gray-600 mb-1 font-medium">Open Positions:</p>
-              <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-                {offer.openPositions.map((position, idx) => (
-                  <li key={idx}>{position}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mt-6 flex justify-between items-center pl-16">
-              <div className="flex text-sm text-gray-500 gap-6">
-                <span>{offer.location}</span>
-                <span>{offer.hours}</span>
-                <span>{offer.timing}</span>
-                <span>{offer.teamSize}</span>
-              </div>
-
-              <div className="space-x-2">
-                <button className="px-4 py-1.5 border border-gray-300 text-sm rounded-md hover:bg-gray-200">
-                  View Job
-                </button>
-                <button className="px-4 py-1.5 bg-gray-800 text-white text-sm rounded-md hover:bg-gray-900">
-                  Accept Offer
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
