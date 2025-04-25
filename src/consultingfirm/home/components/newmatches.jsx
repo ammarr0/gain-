@@ -161,7 +161,7 @@ const NewMatches = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto" >
       <div className="p-4 max-w-full">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-medium">Your newest matches</h2>
@@ -175,7 +175,7 @@ const NewMatches = () => {
             <div
               key={idx}
               onClick={() => handleCardClick(match)}
-              className="rounded-xl border-2 border-[#B9DAFF] p-4 shadow-sm hover:shadow-lg transition bg-white h-[371px] w-[400px] mx-auto cursor-pointer"
+              className="rounded-xl border-2 border-[#B9DAFF] p-4 shadow-sm hover:shadow-lg transition bg-white h-[371px] w-[32%] mx-auto cursor-pointer"
             >
               <div className="flex justify-between items-start"  >
                 <img
