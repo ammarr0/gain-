@@ -48,7 +48,7 @@ const JobDetails = () => {
       <Sidebar />
       <div className="flex-1 p-8 w-[500px]">
         <button
-          onClick={() => navigate('consultingfirm/home')}
+              onClick={() => navigate(-1)}
           className="inline-flex items-center text-sm mb-8 hover:text-black"
         >
           <ArrowLeftIcon className="w-4 h-4 mr-2" />

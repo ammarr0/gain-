@@ -62,7 +62,7 @@ const NewMatches = () => {
       hours: "25 hrs/wk",
       location: "United States | Canada",
       time: "Anytime",
-      logo: "/assets/reddit.png",  // Replace with actual logo path
+      logo: "/assets/reddit.png",
       logoSize: "w-16 h-16",
       responsibilities: [
         "Design engaging user experiences for Reddit's platforms.",
