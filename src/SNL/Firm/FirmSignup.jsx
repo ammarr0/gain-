@@ -1,57 +1,50 @@
-// src/components/FirmSignUpModal.jsx
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const FirmSignUpModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    role: '',
     firmName: '',
-    email: '',
-    phone: '',
+    numberOfEmployees: '',
+    contactPersonName: '',
+    contactPersonRole: '',
+    contactPersonPhone: '',
+    contactPersonEmail: '',
+    yearsOfExperience: '',
+    servicesOffered: '',
     website: '',
     linkedin: '',
     location: '',
   });
 
-  const [isSubmitted, setIsSubmitted] = useState(false);  // State to manage submission success
-  const navigate = useNavigate();  // Hook to navigate to new route after submission
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Firm sign-up form submitted:', formData);
-    setIsSubmitted(true); // Set submission success
-
-    // Simulate a delay or a success action before redirect
-    setTimeout(() => {
-      navigate('/consultingfirm/home'); // Redirect to the new route after form submission
-    }, 2000); // Redirect after 2 seconds (you can adjust the delay as needed)
+    setIsSubmitted(true);
+    setTimeout(() => navigate('/consultingfirm/home'), 2000);
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-      {/* Custom CSS for a thin scrollbar */}
       <style>
         {`
           .custom-scrollbar {
             overflow-y: auto;
-            max-height: 80vh; // Increased the max-height from 70vh to 90vh
+            max-height: 80vh;
             padding-right: 0.5rem;
-          }
-          /* Firefox */
-          .custom-scrollbar {
             scrollbar-width: thin;
             scrollbar-color: #9ca3af transparent;
           }
-          /* WebKit browsers */
           .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
           }
@@ -66,9 +59,7 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
         `}
       </style>
 
-      {/* White modal container */}
       <div className="bg-white rounded-[40px] shadow-xl p-10 max-w-[800px] w-full relative">
-        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl font-bold"
@@ -76,9 +67,7 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
           ×
         </button>
 
-        {/* Scrollable container for modal content */}
         <div className="custom-scrollbar">
-          {/* Heading & Subheading */}
           <h1 className="text-3xl font-bold text-gray-900 text-left ml-2">
             Sign Up As Consulting Firm
           </h1>
@@ -86,81 +75,34 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
             You are in good company.
           </p>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-            {/* First Name */}
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">First Name*</label>
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                placeholder="First Name"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
+            {[
+              { label: 'Firm Name*', name: 'firmName', type: 'text', placeholder: 'Your Consulting Firm' },
+              { label: 'Number of Employees*', name: 'numberOfEmployees', type: 'number', placeholder: 'Number of Employees' },
+              { label: 'Contact Person Name*', name: 'contactPersonName', type: 'text', placeholder: 'Contact Person Name' },
+              { label: 'Contact Person Role*', name: 'contactPersonRole', type: 'text', placeholder: 'Contact Person Role' },
+              { label: 'Contact Person Email*', name: 'contactPersonEmail', type: 'email', placeholder: 'Contact Person Email' },
+              { label: 'Years of Experience*', name: 'yearsOfExperience', type: 'text', placeholder: 'Years of Experience' },
+              { label: 'Services Offered*', name: 'servicesOffered', type: 'text', placeholder: 'Services Offered' },
+              { label: 'Firm Website*', name: 'website', type: 'url', placeholder: 'http://gain.com/' },
+              { label: 'Firm LinkedIn*', name: 'linkedin', type: 'url', placeholder: 'http://www.linkedin.com/' },
+            ].map(({ label, name, type, placeholder }) => (
+              <div key={name}>
+                <label className="block text-sm text-gray-700 mb-1">{label}</label>
+                <input
+                  type={type}
+                  name={name}
+                  value={formData[name]}
+                  onChange={handleChange}
+                  placeholder={placeholder}
+                  required
+                  className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+            ))}
 
-            {/* Last Name */}
             <div>
-              <label className="block text-sm text-gray-700 mb-1">Last Name*</label>
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                placeholder="Last Name"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            {/* Role */}
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">Your Role*</label>
-              <input
-                type="text"
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                placeholder="Your Role"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            {/* Firm Name */}
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">Your Firm*</label>
-              <input
-                type="text"
-                name="firmName"
-                value={formData.firmName}
-                onChange={handleChange}
-                placeholder="Your Consulting Firm"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            {/* Email */}
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">Your Email*</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Your Email"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            {/* Phone */}
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">Your Phone*</label>
+              <label className="block text-sm text-gray-700 mb-1">Contact Person Phone*</label>
               <div className="flex">
                 <select
                   className="border rounded-l-md px-3 py-2 bg-gray-100 text-gray-700 outline-none focus:ring-2 focus:ring-blue-500"
@@ -171,8 +113,8 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
                 </select>
                 <input
                   type="tel"
-                  name="phone"
-                  value={formData.phone}
+                  name="contactPersonPhone"
+                  value={formData.contactPersonPhone}
                   onChange={handleChange}
                   placeholder="+1 ............"
                   required
@@ -181,82 +123,46 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            {/* Firm Website */}
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">Firm Website*</label>
-              <input
-                type="url"
-                name="website"
-                value={formData.website}
-                onChange={handleChange}
-                placeholder="http://yourfirm.com"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            {/* Firm LinkedIn */}
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">Firm LinkedIn*</label>
-              <input
-                type="url"
-                name="linkedin"
-                value={formData.linkedin}
-                onChange={handleChange}
-                placeholder="http://linkedin.com"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            {/* Location */}
             <div className="md:col-span-2">
-              <label className="block text-sm text-gray-700 mb-1">Your Location*</label>
-              <input
-                type="text"
+              <label className="block text-sm text-gray-700 mb-1">Firm Location*</label>
+              <select
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                placeholder="Your Location"
                 required
                 className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
+              >
+                <option value="">Select Location</option>
+                <option value="US">United States</option>
+                <option value="UK">United Kingdom</option>
+                <option value="IN">India</option>
+              </select>
             </div>
 
-            {/* Terms & Privacy Notice */}
             <p className="text-gray-500 text-xs md:col-span-2 mt-2 text-center">
               By signing up with us, you are agreeing to our{' '}
               <strong>Terms of Service</strong> and{' '}
               <strong>Privacy Policy</strong>.
             </p>
 
-            {/* Submit Button */}
             <div className="md:col-span-2 flex justify-center">
               <button
                 type="submit"
-                className="bg-blue-500 text-white w-2/4 py-3 text-lg rounded-2xl hover:bg-blue-600 transition duration-300"
+                className="bg-blue-500 text-white w-2/4 py-3 text-lg rounded-full hover:bg-blue-600 transition duration-300"
               >
                 Join Us
               </button>
             </div>
           </form>
 
-          {/* Success Popup */}
           {isSubmitted && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-              <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-sm w-full">
-                <h2 className="text-xl font-semibold text-green-600">Sign Up Successful!</h2>
-                <p className="mt-2 text-gray-600">You will be redirected shortly...</p>
+              <div className="bg-white p-8 rounded-xl shadow-2xl text-center max-w-md w-full">
+                <h2 className="text-2xl font-bold text-green-600 mb-4">Sign Up Successful!</h2>
+                <p className="text-gray-600">You will be redirected shortly...</p>
               </div>
             </div>
           )}
-
-          {/* Back to Home link */}
-          <div className="text-center mt-4">
-            <Link to="/" className="text-blue-400 hover:underline text-sm">
-              ← Back to Home
-            </Link>
-          </div>
         </div>
       </div>
     </div>
