@@ -115,7 +115,7 @@ const Navbar = () => {
           </Link>
           <Link
             to="/join-us"
-            className="bg-[#007DF0] text-white px-3 py-1 border border-[#007DF0] rounded-full hover:bg-blue-500 hover:text-white text-sm focus:text-[#007DF0] flex justify-center"
+            className="bg-[#007DF0] text-white px-3 py-1 border border-[#007DF0] rounded-full hover:bg-blue-500 hover:text-white text-sm flex justify-center"
             style={{ width: '100px' }}
           >
             Sign Up
