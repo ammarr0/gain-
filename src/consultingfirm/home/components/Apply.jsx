@@ -8,11 +8,9 @@ import {
 } from 'lucide-react'
 
 const Apply = () => {
-  // Hooks
   const location = useLocation()
   const navigate = useNavigate()
 
-  // States for the sidebar and other logic
   const [rateChoice, setRateChoice] = useState('')
   const [customRate, setCustomRate] = useState('')
   const [timezoneRequirement, setTimezoneRequirement] = useState('')
@@ -21,17 +19,14 @@ const Apply = () => {
   const [resumeFile, setResumeFile] = useState(null)
   const [attachedFiles, setAttachedFiles] = useState([])
 
-  // -- NEW MAIN FORM STATES (5 questions) --
   const [questionOne, setQuestionOne] = useState('')
   const [questionTwo, setQuestionTwo] = useState('')
   const [questionThree, setQuestionThree] = useState('')
   const [questionFour, setQuestionFour] = useState('')
   const [questionFive, setQuestionFive] = useState('')
 
-  // Form Validity
   const [isFormValid, setIsFormValid] = useState(false)
 
-  // Grab job data from route
   const { match } = location.state || {}
   const {
     company = 'Unknown Company',
@@ -49,7 +44,6 @@ const Apply = () => {
     availabilityOptions = ['Right away', 'Two weeks after the offer', 'After a specific date'],
   } = match || {}
 
-  // Check form validity
   useEffect(() => {
     if (
       questionOne &&
@@ -64,18 +58,15 @@ const Apply = () => {
     }
   }, [questionOne, questionTwo, questionThree, questionFour, questionFive])
 
-  // Handle Submit
   const handleSubmit = (e) => {
     e.preventDefault()
     const payload = {
-      // Sidebar data
       rateChoice: rateChoice === 'custom' ? customRate : rateChoice,
       timezoneRequirement,
       availability,
       calendarURL,
       resumeFile,
       attachedFiles,
-      // New five questions
       questionOne,
       questionTwo,
       questionThree,
@@ -85,7 +76,6 @@ const Apply = () => {
     console.log('Form submitted:', payload, match)
   }
 
-  // Resume logic
   const handleResumeChange = (e) => {
     if (e.target.files[0]) {
       setResumeFile(e.target.files[0])
@@ -96,7 +86,6 @@ const Apply = () => {
     setResumeFile(null)
   }
 
-  // Additional file attachments
   const handleAdditionalFiles = (e) => {
     const files = Array.from(e.target.files)
     setAttachedFiles((prev) => [...prev, ...files])
@@ -121,10 +110,7 @@ const Apply = () => {
   return (
     <div className="min-h-screen pt-12">
       <div className="mx-auto w-full px-4">
-
-        {/* ---------- JOB DETAILS CARD ---------- */}
         <div className="rounded-lg px-24 w-full p-3 h-[250px] mb-4 ">
-          {/* Back Button */}
           <div className="mb-2">
             <button
               onClick={() => navigate(-1)}
@@ -185,12 +171,8 @@ const Apply = () => {
           </div>
         </div>
 
-        {/* ---------- BELOW JOB DATA: SIDEBAR LEFT, FORM RIGHT ---------- */}
         <div className="flex w-full gap-4">
-          {/* SIDEBAR */}
           <aside className="w-[380px] bg-white shadow-xl p-3 rounded-2xl h-fit">
-
-            {/* Hourly Rate */}
             <div className="mb-6 ">
               <label className="block text-lg font-semibold mb-1">
                 What is your hourly rate for this job?*
@@ -223,7 +205,6 @@ const Apply = () => {
                     </div>
                   </label>
                 ))}
-                {/* Custom Option */}
                 <label className="cursor-pointer">
                   <input
                     type="radio"
@@ -257,7 +238,6 @@ const Apply = () => {
               )}
             </div>
 
-            {/* Timezone Requirement */}
             <div className="mb-6 ">
               <label className="block text-lg font-semibold mb-1">
                 Do you meet the timezone requirement for this job?*
@@ -290,7 +270,6 @@ const Apply = () => {
               </div>
             </div>
 
-            {/* Availability */}
             <div className="mb-6 ">
               <label className="block text-lg font-semibold mb-1">
                 When are you available to start?*
@@ -320,7 +299,6 @@ const Apply = () => {
               </div>
             </div>
 
-            {/* Booking Calendar URL */}
             <div className="mb-6 ">
               <label className="block text-lg font-semibold mb-1">
                 Add your booking calendar URL
@@ -334,7 +312,6 @@ const Apply = () => {
               />
             </div>
 
-            {/* Resume Upload */}
             <div className="mb-6">
               <label className="block text-lg font-semibold mb-1">
                 Include your resume*
@@ -370,7 +347,6 @@ const Apply = () => {
               )}
             </div>
 
-            {/* Additional Attachments */}
             <div className="mb-6 ">
               <label className="block text-lg font-semibold mb-1">
                 Would you like to attach any files?
@@ -418,14 +394,11 @@ const Apply = () => {
             </div>
           </aside>
 
-          {/* MAIN FORM ON RIGHT (REPLACED WITH THE 5 NEW QUESTIONS) */}
           <div className="flex-1 bg-white rounded-2xl p-3 shadow-xl">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               Apply for this position
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-
-              {/* Question #1 */}
               <div className="">
                 <label className="block text-md font-medium text-gray-700 mb-1">
                   What makes you a great fit for this role? We’d love to hear about any experience you have that aligns with the job description!
@@ -438,7 +411,6 @@ const Apply = () => {
                 />
               </div>
 
-              {/* Question #2 */}
               <div className="">
                 <label className="block text-md font-medium text-gray-700 mb-1">
                   Please note: The maximum hourly rate may vary depending on the candidate’s country of residence due to Employer of Record (EOR) fees. These fees, which cover essential services such as payroll processing, benefits administration, and compliance with local employment laws, are country-specific and can impact the final MAX rate offered. Please see range in job description.
@@ -451,7 +423,6 @@ const Apply = () => {
                 />
               </div>
 
-              {/* Question #3 */}
               <div className="">
                 <label className="block text-md font-medium text-gray-700 mb-1">
                   Please Note: This is a 4-month W2/EOR contract with the possibility of extension. All candidates must complete ID verification and a background check. The anticipated start date is the first week of January. Candidates must be able to overlap at least 5 hours with Pacific Time (PST).
@@ -464,7 +435,6 @@ const Apply = () => {
                 />
               </div>
 
-              {/* Question #4 */}
               <div className="">
                 <label className="block text-md font-medium text-gray-700 mb-1">
                   Reddit collaborates with VNDLY, their Vendor Management System (VMS), to gather essential candidate information. If you’re selected for this role, we’ll reach out to you via email to request any additional details needed. To ensure security, please make sure to reply only to emails from the @usebraintrust.com domain.
@@ -477,7 +447,6 @@ const Apply = () => {
                 />
               </div>
 
-              {/* Question #5 */}
               <div className="">
                 <label className="block text-md font-medium text-gray-700 mb-1">
                   Please share your portfolio + password
@@ -489,9 +458,6 @@ const Apply = () => {
                   className="w-full rounded-xl p-3 text-sm shadow-md"
                 />
               </div>
-
-              
-
             </form>
           </div>
         </div>
