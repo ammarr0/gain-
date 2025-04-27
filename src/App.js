@@ -39,6 +39,7 @@ import Firm from './profile/firm.jsx';
 import CompletedJobs from './profile/completejob.jsx';
 import UP from './up.jsx';
 import ExploreTalentsSection from './consultingfirm/exploretalent/exporetalent.jsx';
+import Client from "./Client/main.jsx"
 
 const App = () => {
   return (
@@ -81,9 +82,10 @@ const App = () => {
         <Route path="/client/completedjobs" element={<><Navbar /><CompletedJobs /><Footer /></>} />
         <Route path="/under-processing" element={<><Navbar /><UP /><Footer /></>} />
         <Route path="/consultingfirm/explore-talent" element={<><Navbar /><ExploreTalentsSection /><Footer /></>} />
-        
+        <Route path="/client" element={<><Client/></>} />
       </Routes>
     </Router>
+
   );
 };
 
