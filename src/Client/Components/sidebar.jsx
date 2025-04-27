@@ -14,7 +14,7 @@ const Sidebar = () => {
   const [active, setActive] = useState('Home');
   
   return (
-    <div className="w-[20%] h-full bg-white" >
+    <div className="w-[30rem] h-full bg-white" >
       <ul className="space-y-2 p-6 mt-4">
         {menuItems.map(({ name, icon }, index) => (
           <li
