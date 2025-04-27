@@ -1,0 +1,125 @@
+import React from 'react';
+import User from "../../assets/user.png";
+import star from "../../assets/star.png";
+import Jobs from "../../assets/job.png";
+import location from "../../assets/location.png";
+import calendar from "../../assets/calendar.png";
+import clock from "../../assets/clock.png";
+import arrowup from "../../assets/arrow-up-right-white.png";
+import arrowupblack from "../../assets/arrow-up-right-black.png";
+
+function JobCard() {
+    const renderButton = (bgColor, textColor, text, imgSrc) => (
+        <button className={`w-[135px] h-[28px] rounded-[16px] ${bgColor} text-sm ${textColor} flex items-center justify-center`}>
+            {text} <img src={imgSrc} alt="" className="ml-1" />
+        </button>
+    );
+
+    const renderInfoItem = (imgSrc, altText, text) => (
+        <div className="flex items-center gap-1">
+            <img src={imgSrc} alt={altText} className="h-4 w-4" />
+            <span className="text-sm text-gray-700">{text}</span>
+        </div>
+    );
+
+    const jobCardsData = [
+        {
+            title: "AI Risk Analysis",
+            description: "Develop machine learning models to assess and mitigate financial risks, including credit, market, and operational risks.",
+            userNames: ["Tyrion Lannister", "Jaime Lannister", "Cersei Lannister", "Joffrey Baratheon", "Myrcella Baratheon"],
+            location: "Kings Landing",
+            rating: 4.9,
+            jobs: 32,
+            infoItems: [
+                { imgSrc: location, altText: "Location", text: "UAE | United States" },
+                { imgSrc: calendar, altText: "Calendar", text: "25 hrs/wk" },
+                { imgSrc: clock, altText: "Clock", text: "Anytime" }
+            ],
+            tags: ["Project Management Tools", "Jira", "Hubspot"],
+            dueDate: "01-09-2025"
+        },
+        {
+            title: "AI Data Analysis",
+            description: "Analyze large datasets to extract meaningful insights and support decision-making processes.",
+            userNames: ["Arya Stark", "Sansa Stark", "Bran Stark", "Rickon Stark", "Robb Stark"],
+            location: "Winterfell",
+            rating: 4.8,
+            jobs: 28,
+            infoItems: [
+                { imgSrc: location, altText: "Location", text: "UK | Canada" },
+                { imgSrc: calendar, altText: "Calendar", text: "30 hrs/wk" },
+                { imgSrc: clock, altText: "Clock", text: "Flexible" }
+            ],
+            tags: ["Data Science", "Python", "R"],
+            dueDate: "15-10-2025"
+        },
+        {
+            title: "AI Model Deployment",
+            description: "Deploy AI models into production environments ensuring scalability and reliability.",
+            userNames: ["Jon Snow", "Samwell Tarly", "Eddard Stark", "Benjen Stark", "Ygritte"],
+            location: "The Wall",
+            rating: 4.7,
+            jobs: 25,
+            infoItems: [
+                { imgSrc: location, altText: "Location", text: "USA | Canada" },
+                { imgSrc: calendar, altText: "Calendar", text: "20 hrs/wk" },
+                { imgSrc: clock, altText: "Clock", text: "Remote" }
+            ],
+            tags: ["AWS", "Docker", "Kubernetes"],
+            dueDate: "20-11-2025"
+        }
+    ];
+
+    return (
+        <div className="space-y-6">
+            {jobCardsData.map((job, index) => (
+                <div key={index} className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[300px] justify-between">
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-2xl font-bold text-black">{job.title}</h2>
+                        <div className="flex gap-4">
+                            {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Jobs", arrowupblack)}
+                            {renderButton("bg-[#030923]", "text-white", "View Jobs", arrowup)}
+                        </div>
+                    </div>
+
+                    <p className="text-black mt-2">{job.description}</p>
+
+                    <div className="mt-4 flex flex-col gap-3">
+                        {job.userNames.map((userName, i) => (
+                            <div key={i} className="flex items-center gap-3">
+                                <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />
+                                <div>
+                                    <h3 className="font-semibold text-black">{userName}</h3>
+                                    <hr className="border-black" />
+                                    <p className="text-xs text-black">{job.location}</p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <img src={star} alt="Star" className="h-5 w-5" />
+                                    <span className="text-lg text-gray-700">{job.rating}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <img src={Jobs} alt="Jobs" className="h-5 w-5" />
+                                    <span className="text-lg text-gray-700">{job.jobs}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className='flex gap-4'>
+                        {job.infoItems.map((item, idx) => renderInfoItem(item.imgSrc, item.altText, item.text))}
+                    </div>
+
+                    <hr className="my-1 border-black" />
+
+                    <div className="mt-3 flex gap-2">
+                        {job.tags.map((text, idx) => (
+                            <span key={idx} className="bg-white border border-gray-200 text-sm text-black rounded px-3 py-1">{text}</span>
+                        ))}
+                        <p className="text-sm text-red-800 ml-auto">Due on: {job.dueDate}</p>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+export default JobCard;

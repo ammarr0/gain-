@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function ActiveJobs() {
+function ActiveProjects() {
     const [activeTab, setActiveTab] = useState('in-progress');
 
     const handleTabClick = (tab) => {
@@ -8,9 +8,9 @@ function ActiveJobs() {
     };
 
     return (
-        <div className="w-full pb-5">
+        <div className="w-full pt-5">
             <div className="mb-4">
-                <h2 className="text-2xl font-semibold text-black">Active Jobs</h2>
+                <h2 className="text-2xl font-semibold text-black">Active Projects</h2>
                 <p className="text-black mt-1">Track progress, deadlines, and deliverables for all ongoing projects.</p>
             </div>
 
@@ -41,4 +41,4 @@ function ActiveJobs() {
     );
 }
 
-export default ActiveJobs;
+export default ActiveProjects;
