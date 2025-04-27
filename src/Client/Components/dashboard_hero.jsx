@@ -4,7 +4,7 @@ import arrow from "../../assets/arrow-right.png"
 const ExploreTalentsSection = () => {
   return (
     <>
-      <section className="px-6 py-12 bg-white flex justify-between">
+      <section className="py-12 bg-white flex justify-between">
         <div style={{
           background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(112, 184, 255, 0.62) 100%)',
           borderRadius: '20px',

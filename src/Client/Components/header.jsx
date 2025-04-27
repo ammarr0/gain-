@@ -1,6 +1,6 @@
 import { Search, MessageSquare, Bell } from 'lucide-react';
 import Logo from "../../assets/logo.png";
-import User from "../../assets/user.png"
+import User from "../../assets/user.png";
 
 const Header = () => {
   return (
