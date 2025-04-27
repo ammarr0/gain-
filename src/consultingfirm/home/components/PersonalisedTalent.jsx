@@ -92,12 +92,16 @@ const PersonalisedTalent = () => {
             <img src="/assets/next.png" alt="Next" className="w-8 h-8" />
           </button>
         </div>
+          <p className="underline">View All</p>
+        </div>
+          <p className="underline">View All</p>
+        </div>
       </div>
 
       {/* Horizontal Scroll Container */}
       <div
         ref={scrollRef}
-        className="flex space-x-6 px-4 overflow-hidden"
+        className="flex space-x-6 overflow-hidden"
       >
         {candidates.map((candidate, idx) => (
           <div
