@@ -76,10 +76,14 @@ const PersonalisedTalent = () => {
   return (
     <section className="p-1 bg-white rounded-2xl max-w-7xl mx-auto">
       {/* Header + Arrows */}
-      <div className="flex items-center justify-between mb-4 px-4">
+      <div className="flex items-center justify-between mb-4">
+        <div>
         <h2 className="text-3xl font-lg">Personalised Talent</h2>
-        <div className="space-x-2">
-          <button
+        <p>Based on your recent postings and requirements, here are some candidates.</p>
+        </div>
+        <div className="space-x-2 flex flex-col justify-center items-center">
+         <div>
+         <button
             onClick={scrollLeft}
             className="p-2 bg-white text-gray-600 rounded-full hover:bg-gray-300 focus:outline-none"
           >
@@ -91,9 +95,7 @@ const PersonalisedTalent = () => {
           >
             <img src="/assets/next.png" alt="Next" className="w-8 h-8" />
           </button>
-        </div>
-          <p className="underline">View All</p>
-        </div>
+         </div>
           <p className="underline">View All</p>
         </div>
       </div>
@@ -108,17 +110,14 @@ const PersonalisedTalent = () => {
             key={idx}
             className="border rounded-3xl p-8 min-w-[330px] min-h-[360px] flex flex-col items-start relative"
           >
-            {/* Profile Picture */}
             <div className="w-16 h-16 rounded-full overflow-hidden mb-3">
               <img src="/assets/user.png" alt="Profile" className="w-full h-full object-cover" />
             </div>
 
-            {/* Candidate Info */}
             <h3 className="text-xl font-bold">{candidate.name}</h3>
             <p className="text-black">{candidate.country}</p>
             <p className="text-[#007DF0] font-medium mt-1">{candidate.title}</p>
 
-            {/* Rate, Rating, Reviews */}
             <div className="flex items-center space-x-2 text-gray-600 mt-3">
               <img src="/assets/dollar.png" alt="Dollar" className="w-4 h-4 mr-1" />
               <span>{candidate.rate}</span>
@@ -127,14 +126,12 @@ const PersonalisedTalent = () => {
               <span>({candidate.reviews})</span>
             </div>
 
-            {/* Availability */}
             {candidate.available && (
               <div className="flex items-center mt-2 text-black">
                 <CheckCircleIcon className="w-4 h-4 mr-1" /> <span>Available Now</span>
               </div>
             )}
 
-            {/* Buttons Section */}
             <div className="w-full flex justify-between items-center mt-auto pt-4">
               <button className="w-[75%] bg-white text-gray-900 border border-gray-900 py-2  rounded-2xl hover:bg-gray-100 transition-all">
                 View Profile

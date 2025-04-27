@@ -103,7 +103,7 @@ function JobCard() {
     return (
         <div className="space-y-6">
             {jobCardsData.map((job, index) => (
-                <div key={index} className="bg-white border border-black rounded-xl w-full mx-auto p-6 flex flex-col min-h-[300px] justify-between">
+                <div key={index} className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[300px] justify-between">
                     <div className="flex justify-between items-center">
                         <h2 className="text-2xl font-bold text-black">{job.title}</h2>
                         <div className="flex gap-4">
