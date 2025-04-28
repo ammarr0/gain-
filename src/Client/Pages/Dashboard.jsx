@@ -6,6 +6,7 @@ import ActiveProject from '../Components/activeprojects';
 import Projects from '../Components/projects_cards';
 import Talent from "../Components/Personalisedtalent";
 import Posted from "../Components/postedjobs";
+import JobTabs from "../Components/job_tabs";
 
 const Main = () => {
     return (
@@ -17,6 +18,7 @@ const Main = () => {
             <ActiveProject/>
             <Projects/>
             <Talent/>
+            <JobTabs/>
             <Posted/>
         </div>
     );

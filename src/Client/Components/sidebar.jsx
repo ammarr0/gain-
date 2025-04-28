@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Home, Briefcase, Users, Search, GraduationCap, DollarSign } from 'lucide-react';
 
 const menuItems = [
@@ -12,6 +13,14 @@ const menuItems = [
 
 const Sidebar = () => {
   const [active, setActive] = useState('Home');
+  const navigate = useNavigate();
+
+  const handleItemClick = (name) => {
+    setActive(name);
+    if (name === 'My Jobs') {
+      navigate('/my-jobs');
+    }
+  };
   
   return (
     <div className="w-[30rem] h-full bg-white" >
@@ -19,7 +28,7 @@ const Sidebar = () => {
         {menuItems.map(({ name, icon }, index) => (
           <li
             key={name}
-            onClick={() => setActive(name)}
+            onClick={() => handleItemClick(name)}
             className={`flex items-center gap-1 p-6 rounded-lg cursor-pointer transition ${
               active === name ? 'bg-gray-100' : 'hover:bg-[#F3F3F3]'
             }`}

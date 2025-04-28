@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Sidebar from './Components/sidebar';
 import Header from './Components/header';
 import Dashboard from './Pages/Dashboard';
+import MyJobs from './Pages/myjobs';
 
 const Main = () => {
     return (
@@ -11,7 +12,8 @@ const Main = () => {
             <div style={{ display: 'flex' }}>
                 <Sidebar />
                 <Routes>
-                    <Route path="/" element={<Dashboard />} />
+                    {/* <Route path="/" element={<Dashboard />} /> */}
+                    <Route path="/" element={<MyJobs />} />
                 </Routes>
             </div>
         </>
