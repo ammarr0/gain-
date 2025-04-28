@@ -12,8 +12,8 @@ const Main = () => {
             <div style={{ display: 'flex' }}>
                 <Sidebar />
                 <Routes>
-                    {/* <Route path="/" element={<Dashboard />} /> */}
-                    <Route path="/" element={<MyJobs />} />
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/my-jobs" element={<MyJobs />} />
                 </Routes>
             </div>
         </>
