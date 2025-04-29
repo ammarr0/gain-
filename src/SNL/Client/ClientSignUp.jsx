@@ -1,4 +1,3 @@
-// src/components/ClientSignUpModal.jsx
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 const ClientSignUpModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
-  // Always call hooks at the top level
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -19,33 +17,27 @@ const ClientSignUpModal = ({ isOpen, onClose }) => {
     location: '',
   });
 
-  // Return null if the modal is not open
   if (!isOpen) return null;
 
-  // Handler for input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handler for form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    // Optionally call onClose() here if you want to close the modal after submit
+    navigate('/client');
   };
 
-  // Handler for closing the modal
   const handleClose = () => {
     if (onClose) {
       onClose();
     }
-    navigate('/join-us'); // Navigate back to join-us page when closed
+    navigate('/join-us');
   };
 
   return (
-    // Backdrop container with blur effect
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-      {/* Custom CSS for thin scrollbar */}
       <style>
         {`
           .custom-scrollbar {
@@ -53,12 +45,10 @@ const ClientSignUpModal = ({ isOpen, onClose }) => {
             max-height: 70vh;
             padding-right: 0.5rem;
           }
-          /* Firefox */
           .custom-scrollbar {
             scrollbar-width: thin;
             scrollbar-color: #9ca3af transparent;
           }
-          /* WebKit browsers */
           .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
           }
@@ -73,9 +63,7 @@ const ClientSignUpModal = ({ isOpen, onClose }) => {
         `}
       </style>
 
-      {/* White modal container */}
       <div className="bg-white rounded-[40px] shadow-xl p-10 max-w-[800px] w-full relative">
-        {/* Close button */}
         <button
           onClick={handleClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl font-bold"
@@ -83,7 +71,6 @@ const ClientSignUpModal = ({ isOpen, onClose }) => {
           ×
         </button>
 
-        {/* Heading & Subheading */}
         <h1 className="text-3xl font-bold text-gray-900 text-left ml-2">
           Sign Up As Client
         </h1>
@@ -91,9 +78,7 @@ const ClientSignUpModal = ({ isOpen, onClose }) => {
           You are in good company.
         </p>
 
-        {/* Scrollable container for form and extra content */}
         <div className="custom-scrollbar">
-          {/* Form */}
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             <div>
               <label className="block text-sm text-gray-700 mb-1">
@@ -255,7 +240,6 @@ const ClientSignUpModal = ({ isOpen, onClose }) => {
             </div>
           </form>
 
-          {/* Back to Home link */}
           <div className="text-center mt-4">
             <Link to="/" className="text-blue-400 hover:underline text-sm">
               ← Back to Home
