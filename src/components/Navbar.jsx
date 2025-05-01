@@ -108,7 +108,7 @@ const Navbar = () => {
 
           <Link
             to="/join-us"
-            className="text-gray-700 px-3 py-1 rounded-full hover:bg-blue-500 hover:text-white text-sm focus:text-[#007DF0] flex justify-center"
+            className="text-gray-700 px-3 py-1 rounded-full text-sm focus:text-[#007DF0] flex justify-center"
             style={{ width: '100px' }}
           >
             Log In
