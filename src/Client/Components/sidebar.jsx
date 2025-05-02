@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Home, Briefcase, Users, Search, GraduationCap, DollarSign } from 'lucide-react';
 
 const menuItems = [
-  { name: 'Home', icon: <Home size={24} color="#313131" /> },
-  { name: 'My Jobs', icon: <Briefcase size={24} color="#313131" /> },
+  { name: 'Home', icon: <Home size={24} color="#313131" />, route: '/client/dashboard/' },
+  { name: 'My Jobs', icon: <Briefcase size={24} color="#313131" />, route: '/client/my-jobs/' },
   { name: 'My Projects', icon: <Users size={24} color="#313131" /> },
   { name: 'Explore Talents', icon: <Search size={24} color="#313131" /> },
   { name: 'Courses', icon: <GraduationCap size={24} color="#313131" /> },
@@ -15,20 +15,20 @@ const Sidebar = () => {
   const [active, setActive] = useState('Home');
   const navigate = useNavigate();
 
-  const handleItemClick = (name) => {
+  const handleItemClick = (name, route) => {
     setActive(name);
-    if (name === 'My Jobs') {
-      navigate('/my-jobs');
+    if (route) {
+      navigate(route);
     }
   };
   
   return (
     <div className="w-[30rem] h-full bg-white" >
       <ul className="space-y-2 p-6 mt-4">
-        {menuItems.map(({ name, icon }, index) => (
+        {menuItems.map(({ name, icon, route }, index) => (
           <li
             key={name}
-            onClick={() => handleItemClick(name)}
+            onClick={() => handleItemClick(name, route)}
             className={`flex items-center gap-1 p-6 rounded-lg cursor-pointer transition ${
               active === name ? 'bg-gray-100' : 'hover:bg-[#F3F3F3]'
             }`}

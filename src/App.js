@@ -39,13 +39,17 @@ import Firm from './profile/firm.jsx';
 import CompletedJobs from './profile/completejob.jsx';
 import UP from './up.jsx';
 import ExploreTalentsSection from './consultingfirm/exploretalent/exporetalent.jsx';
-import Client from "./Client/main.jsx"
+import ClientDashboard from "./Client/Pages/Dashboard.jsx"
+import ClientJobs from "./Client/Pages/myjobs.jsx"
+import ClientHeader from "./Client/Components/header.jsx"
+import ClientSidebar from "./Client/Components/sidebar.jsx"
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<><Navbar /><Home /><Footer /></>} />
+
+        <Route path="/" element={<>       <Navbar /><Home /><Footer /></>} />
         <Route path="/join-us" element={<><Navbar /><JoinUs /><Footer /></>} />
         <Route path="/signup" element={<><Navbar /><SignUp /><Footer /></>} />
         <Route path="/insights" element={<><Navbar /><Insights /><Footer /></>} />
@@ -82,7 +86,20 @@ const App = () => {
         <Route path="/client/completedjobs" element={<><Navbar /><CompletedJobs /><Footer /></>} />
         <Route path="/under-processing" element={<><Navbar /><UP /><Footer /></>} />
         <Route path="/consultingfirm/explore-talent" element={<><Navbar /><ExploreTalentsSection /><Footer /></>} />
-        <Route path="/client" element={<><Client/></>} />
+
+        <Route path="/client/*" element={
+          <>
+            <ClientHeader />
+            <div style={{ display: 'flex' }}>
+              <ClientSidebar />
+              <Routes>
+                <Route path="dashboard" element={<ClientDashboard />} />
+                <Route path="my-jobs" element={<ClientJobs />} />
+              </Routes>
+            </div>
+          </>
+        } />
+
       </Routes>
     </Router>
 

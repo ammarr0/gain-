@@ -26,7 +26,7 @@ const ClientSignUpModal = ({ isOpen, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    navigate('/client');
+    navigate('/client/dashboard/');
   };
 
   const handleClose = () => {

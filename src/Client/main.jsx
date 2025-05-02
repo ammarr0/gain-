@@ -7,16 +7,7 @@ import MyJobs from './Pages/myjobs';
 
 const Main = () => {
     return (
-        <>
-            <Header />
-            <div style={{ display: 'flex' }}>
-                <Sidebar />
-                <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/my-jobs" element={<MyJobs />} />
-                </Routes>
-            </div>
-        </>
+      
     );
 };
 

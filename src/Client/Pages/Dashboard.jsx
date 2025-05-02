@@ -8,7 +8,7 @@ import Talent from "../Components/Personalisedtalent";
 import Posted from "../Components/postedjobs";
 import JobTabs from "../Components/job_tabs";
 
-const Main = () => {
+const Dashboard = () => {
     return (
         <div className="px-10">
             <HeroSection />
@@ -24,4 +24,4 @@ const Main = () => {
     );
 };
 
-export default Main;
+export default Dashboard;
