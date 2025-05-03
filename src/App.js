@@ -48,7 +48,6 @@ const App = () => {
   return (
     <Router>
       <Routes>
-
         <Route path="/" element={<>       <Navbar /><Home /><Footer /></>} />
         <Route path="/join-us" element={<><Navbar /><JoinUs /><Footer /></>} />
         <Route path="/signup" element={<><Navbar /><SignUp /><Footer /></>} />
