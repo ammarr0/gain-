@@ -20,7 +20,6 @@ import CFHome from './consultingfirm/home/cfhome.jsx';
 import Apply from './consultingfirm/home/components/Apply.jsx';
 import Jobs from './consultingfirm/jobs/jobs.jsx';
 import Projects from './consultingfirm/project/project.jsx';
-import Explore from './consultingfirm/explorecourse/explorecourse.jsx';
 import Invites from './consultingfirm/Tracker/invites.jsx';
 import Applications from './consultingfirm/Tracker/applications.jsx';
 import Offers from './consultingfirm/Tracker/joboffers.jsx';
@@ -44,12 +43,13 @@ import ClientJobs from "./Client/Pages/myjobs.jsx"
 import ClientHeader from "./Client/Components/header.jsx"
 import ClientSidebar from "./Client/Components/sidebar.jsx"
 import ClientProjects from "./Client/Pages/projects.jsx"
+import ClientExploreTalents from "./Client/Pages/ExploreTalent.jsx"
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<>       <Navbar /><Home /><Footer /></>} />
+        <Route path="/" element={<><Navbar /><Home /><Footer /></>} />
         <Route path="/join-us" element={<><Navbar /><JoinUs /><Footer /></>} />
         <Route path="/signup" element={<><Navbar /><SignUp /><Footer /></>} />
         <Route path="/insights" element={<><Navbar /><Insights /><Footer /></>} />
@@ -96,6 +96,7 @@ const App = () => {
                 <Route path="dashboard" element={<ClientDashboard />} />
                 <Route path="my-jobs" element={<ClientJobs />} />
                 <Route path="my-projects" element={<ClientProjects />} />
+                <Route path="explore-talent" element={<><ClientExploreTalents /></>} />
               </Routes>
             </div>
           </>
