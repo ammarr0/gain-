@@ -5,7 +5,7 @@ import { Home, Briefcase, Users, Search, GraduationCap, DollarSign } from 'lucid
 const menuItems = [
   { name: 'Home', icon: <Home size={24} color="#313131" />, route: '/client/dashboard/' },
   { name: 'My Jobs', icon: <Briefcase size={24} color="#313131" />, route: '/client/my-jobs/' },
-  { name: 'My Projects', icon: <Users size={24} color="#313131" /> },
+  { name: 'My Projects', icon: <Users size={24} color="#313131" />, route: '/client/my-projects/' },
   { name: 'Explore Talents', icon: <Search size={24} color="#313131" /> },
   { name: 'Courses', icon: <GraduationCap size={24} color="#313131" /> },
   { name: 'Invoices', icon: <DollarSign size={24} color="#313131" /> }

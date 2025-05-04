@@ -43,6 +43,7 @@ import ClientDashboard from "./Client/Pages/Dashboard.jsx"
 import ClientJobs from "./Client/Pages/myjobs.jsx"
 import ClientHeader from "./Client/Components/header.jsx"
 import ClientSidebar from "./Client/Components/sidebar.jsx"
+import ClientProjects from "./Client/Pages/projects.jsx"
 
 const App = () => {
   return (
@@ -94,6 +95,7 @@ const App = () => {
               <Routes>
                 <Route path="dashboard" element={<ClientDashboard />} />
                 <Route path="my-jobs" element={<ClientJobs />} />
+                <Route path="my-projects" element={<ClientProjects />} />
               </Routes>
             </div>
           </>
