@@ -1,8 +1,8 @@
 import React from 'react';
-import Hero from '../Components/jobs_hero';
+import Hero from '../Components/project-hero';
 import ActiveJobs from '../Components/activeprojects';
 import Cards from '../Components/projects_cards';
-import JobTabs from '../Components/job_tabs';
+import JobTabs from '../Components/project-tabs';
 import Posted from "../Components/postedjobs";
 
 const Projects = () => (
