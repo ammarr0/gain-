@@ -44,6 +44,7 @@ import ClientHeader from "./Client/Components/header.jsx"
 import ClientSidebar from "./Client/Components/sidebar.jsx"
 import ClientProjects from "./Client/Pages/projects.jsx"
 import ClientExploreTalents from "./Client/Pages/ExploreTalent.jsx"
+import ClientExploreCourse from "./Client/Pages/Course.jsx"
 
 const App = () => {
   return (
@@ -97,6 +98,7 @@ const App = () => {
                 <Route path="my-jobs" element={<ClientJobs />} />
                 <Route path="my-projects" element={<ClientProjects />} />
                 <Route path="explore-talent" element={<><ClientExploreTalents /></>} />
+                <Route path="explore-course" element={<><ClientExploreCourse /></>} />
               </Routes>
             </div>
           </>
