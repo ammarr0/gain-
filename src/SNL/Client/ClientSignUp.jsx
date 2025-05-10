@@ -1,51 +1,81 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
-const ClientSignUpModal = ({ isOpen, onClose }) => {
-  const navigate = useNavigate();
-
+const FirmSignUpModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    image: '',
+    first_name: '',
+    last_name: '',
     role: '',
-    company: '',
     email: '',
-    phone: '',
+    dob: '',
+    country_code: '',
+    phone_no: '',
+    password: '',
+    country: '',
+    city: '',
+    street: '',
     website: '',
     linkedin: '',
-    location: '',
   });
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isSubmitted) {
+      toast.success('Sign-up successful! Redirecting...', { autoClose: 2000 });
+    }
+  }, [isSubmitted]);
 
   if (!isOpen) return null;
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    navigate('/client/dashboard/');
-  };
+    try {
+      const response = await fetch(`http://localhost:5200/auth/sign-up`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-  const handleClose = () => {
-    if (onClose) {
-      onClose();
+      if (response.ok) {
+        console.log('Firm sign-up form submitted:', formData);
+        setIsSubmitted(true);
+        setTimeout(() => navigate('/consultingfirm/home'), 2000);
+      } else {
+        if (response.status === 409) {
+          toast.error('User already registered');
+        } else {
+          const errorData = await response.json();
+          console.error('Failed to submit form:', errorData.message || response.statusText);
+          toast.error('Failed to submit form: ' + (errorData.message || response.statusText));
+        }
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error('Error submitting form: ' + error.message);
     }
-    navigate('/join-us');
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+      <ToastContainer />
       <style>
         {`
           .custom-scrollbar {
             overflow-y: auto;
-            max-height: 70vh;
+            max-height: 80vh;
             padding-right: 0.5rem;
-          }
-          .custom-scrollbar {
             scrollbar-width: thin;
             scrollbar-color: #9ca3af transparent;
           }
@@ -65,164 +95,50 @@ const ClientSignUpModal = ({ isOpen, onClose }) => {
 
       <div className="bg-white rounded-[40px] shadow-xl p-10 max-w-[800px] w-full relative">
         <button
-          onClick={handleClose}
+          onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl font-bold"
         >
           ×
         </button>
 
-        <h1 className="text-3xl font-bold text-gray-900 text-left ml-2">
-          Sign Up As Client
-        </h1>
-        <p className="text-left text-gray-600 mb-6 ml-2">
-          You are in good company.
-        </p>
-
         <div className="custom-scrollbar">
+          <h1 className="text-3xl font-bold text-gray-900 text-left ml-2">
+          Sign Up As Client
+          </h1>
+          <p className="text-left text-gray-600 mb-6 ml-2">
+            You are in good company.
+          </p>
+
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">
-                First Name*
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                placeholder="First Name"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">
-                Last Name*
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                placeholder="Last Name"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">
-                Your Role*
-              </label>
-              <input
-                type="text"
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                placeholder="Your Role"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">
-                Your Company*
-              </label>
-              <input
-                type="text"
-                name="company"
-                value={formData.company}
-                onChange={handleChange}
-                placeholder="Your Company"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">
-                Your Email*
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Your Email"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">
-                Your Phone*
-              </label>
-              <div className="flex">
-                <select
-                  className="border rounded-l-md px-3 py-2 bg-gray-100 text-gray-700 outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option>US</option>
-                  <option>UK</option>
-                  <option>IN</option>
-                </select>
+            {[
+              { label: 'Image URL', name: 'image', type: 'url', placeholder: 'http://example.com/image.jpg' },
+              { label: 'First Name*', name: 'first_name', type: 'text', placeholder: 'First Name' },
+              { label: 'Last Name*', name: 'last_name', type: 'text', placeholder: 'Last Name' },
+              { label: 'Role*', name: 'role', type: 'text', placeholder: 'Role' },
+              { label: 'Email*', name: 'email', type: 'email', placeholder: 'Email' },
+              { label: 'Date of Birth*', name: 'dob', type: 'date', placeholder: 'Date of Birth' },
+              { label: 'Country Code*', name: 'country_code', type: 'text', placeholder: 'Country Code' },
+              { label: 'Phone Number*', name: 'phone_no', type: 'tel', placeholder: 'Phone Number' },
+              { label: 'Password*', name: 'password', type: 'password', placeholder: 'Password' },
+              { label: 'Country*', name: 'country', type: 'text', placeholder: 'Country' },
+              { label: 'City*', name: 'city', type: 'text', placeholder: 'City' },
+              { label: 'Street*', name: 'street', type: 'text', placeholder: 'Street' },
+              { label: 'Website*', name: 'website', type: 'url', placeholder: 'http://example.com/' },
+              { label: 'LinkedIn*', name: 'linkedin', type: 'url', placeholder: 'http://www.linkedin.com/' },
+            ].map(({ label, name, type, placeholder }) => (
+              <div key={name}>
+                <label className="block text-sm text-gray-700 mb-1">{label}</label>
                 <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
+                  type={type}
+                  name={name}
+                  value={formData[name]}
                   onChange={handleChange}
-                  placeholder="+1 ............"
+                  placeholder={placeholder}
                   required
-                  className="w-full border-t border-b border-r rounded-r-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               </div>
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">
-                Company Website*
-              </label>
-              <input
-                type="url"
-                name="website"
-                value={formData.website}
-                onChange={handleChange}
-                placeholder="http://gain.com"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">
-                Company LinkedIn*
-              </label>
-              <input
-                type="url"
-                name="linkedin"
-                value={formData.linkedin}
-                onChange={handleChange}
-                placeholder="http://linkedin.com"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            <div className="md:col-span-2">
-              <label className="block text-sm text-gray-700 mb-1">
-                Your Location*
-              </label>
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                placeholder="Your Location"
-                required
-                className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
+            ))}
 
             <p className="text-gray-500 text-xs md:col-span-2 mt-2 text-center">
               By signing up with us, you are agreeing to our{' '}
@@ -233,22 +149,16 @@ const ClientSignUpModal = ({ isOpen, onClose }) => {
             <div className="md:col-span-2 flex justify-center">
               <button
                 type="submit"
-                className="bg-blue-500 text-white w-2/4 py-3 text-lg rounded-2xl hover:bg-blue-600 transition duration-300"
+                className="bg-blue-500 text-white w-2/4 py-3 text-lg rounded-full hover:bg-blue-600 transition duration-300"
               >
                 Join Us
               </button>
             </div>
           </form>
-
-          <div className="text-center mt-4">
-            <Link to="/" className="text-blue-400 hover:underline text-sm">
-              ← Back to Home
-            </Link>
-          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ClientSignUpModal;
+export default FirmSignUpModal;
