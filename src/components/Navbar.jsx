@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import LoginModal from '../components/loginpopup';
 
 const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const navLinks = [
     { to: '/pricing', label: 'Pricing' },
@@ -106,13 +108,13 @@ const Navbar = () => {
             <img src="/assets/search.png" alt="Search" className="h-5 w-5" />
           </button>
 
-          <Link
-            to="/join-us"
+          <button
+            onClick={() => setShowLoginModal(true)}
             className="text-gray-700 px-3 py-1 rounded-full text-sm focus:text-[#007DF0] flex justify-center"
             style={{ width: '100px' }}
           >
             Log In
-          </Link>
+          </button>
           <Link
             to="/join-us"
             className="bg-[#007DF0] text-white px-3 py-1 border border-[#007DF0] rounded-full hover:bg-blue-500 hover:text-white text-sm flex justify-center"
@@ -122,6 +124,8 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
+
+      {showLoginModal && <LoginModal />}
     </nav>
   );
 };
