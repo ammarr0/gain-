@@ -41,6 +41,7 @@ import ExploreTalentsSection from './consultingfirm/exploretalent/exporetalent.j
 import ClientDashboard from "./Client/Pages/Dashboard.jsx"
 import ClientJobs from "./Client/Pages/myjobs.jsx"
 import JobsDetails from "./Client/Pages/jobsdetails.jsx"
+import JobsApplication from "./Client/Pages/Jobapplication.jsx"
 import ClientHeader from "./Client/Components/header.jsx"
 import ClientSidebar from "./Client/Components/sidebar.jsx"
 import ClientProjects from "./Client/Pages/projects.jsx"
@@ -101,6 +102,7 @@ const App = () => {
                 <Route path="my-projects" element={<ClientProjects />} />
                 <Route path="explore-talent" element={<><ClientExploreTalents /></>} />
                 <Route path="explore-course" element={<><ClientExploreCourse /></>} />
+                <Route path="job-application" element={<JobsApplication />} />
               </Routes>
             </div>
           </>
