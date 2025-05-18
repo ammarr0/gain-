@@ -40,6 +40,7 @@ import UP from './up.jsx';
 import ExploreTalentsSection from './consultingfirm/exploretalent/exporetalent.jsx';
 import ClientDashboard from "./Client/Pages/Dashboard.jsx"
 import ClientJobs from "./Client/Pages/myjobs.jsx"
+import JobsDetails from "./Client/Pages/jobsdetails.jsx"
 import ClientHeader from "./Client/Components/header.jsx"
 import ClientSidebar from "./Client/Components/sidebar.jsx"
 import ClientProjects from "./Client/Pages/projects.jsx"
@@ -96,6 +97,7 @@ const App = () => {
               <Routes>
                 <Route path="dashboard" element={<ClientDashboard />} />
                 <Route path="my-jobs" element={<ClientJobs />} />
+                <Route path="jobs-details" element={<JobsDetails />} />
                 <Route path="my-projects" element={<ClientProjects />} />
                 <Route path="explore-talent" element={<><ClientExploreTalents /></>} />
                 <Route path="explore-course" element={<><ClientExploreCourse /></>} />

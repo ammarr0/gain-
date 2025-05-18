@@ -14,10 +14,10 @@ const Dashboard = () => {
             <HeroSection />
             <ActiveJobs/>
             <Cards/>
-            <Talent/>
+            {/* <Talent/> */}
             <ActiveProject/>
             <Projects/>
-            <Talent/>
+            {/* <Talent/> */}
             <JobTabs/>
             <Posted/>
         </div>

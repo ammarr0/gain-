@@ -7,10 +7,16 @@ import calendar from "../../assets/calendar.png";
 import clock from "../../assets/clock.png";
 import arrowup from "../../assets/arrow-up-right-white.png";
 import arrowupblack from "../../assets/arrow-up-right-black.png";
+import { useNavigate } from 'react-router-dom';
 
 function JobCard() {
-    const renderButton = (bgColor, textColor, text, imgSrc) => (
-        <button className={`w-[135px] h-[28px] rounded-[16px] ${bgColor} text-sm ${textColor} flex items-center justify-center`}>
+    const navigate = useNavigate();
+
+    const renderButton = (bgColor, textColor, text, imgSrc, onClick) => (
+        <button
+            className={`w-[135px] h-[28px] rounded-[16px] ${bgColor} text-sm ${textColor} flex items-center justify-center`}
+            onClick={onClick}
+        >
             {text} <img src={imgSrc} alt="" className="ml-1" />
         </button>
     );
@@ -26,8 +32,8 @@ function JobCard() {
         {
             title: "AI Risk Analysis",
             description: "Develop machine learning models to assess and mitigate financial risks, including credit, market, and operational risks.",
-            userName: "Tyrion Lannister",
-            location: "Kings Landing",
+            userName: "Juxtapose",
+            location: "UAE | United States",
             rating: 4.9,
             jobs: 32,
             infoItems: [
@@ -41,8 +47,8 @@ function JobCard() {
         {
             title: "AI Data Analysis",
             description: "Analyze large datasets to extract meaningful insights and support decision-making processes.",
-            userName: "Arya Stark",
-            location: "Winterfell",
+            userName: "Reddit",
+            location: "UK | Canada",
             rating: 4.8,
             jobs: 28,
             infoItems: [
@@ -56,8 +62,8 @@ function JobCard() {
         {
             title: "AI Model Deployment",
             description: "Deploy AI models into production environments ensuring scalability and reliability.",
-            userName: "Jon Snow",
-            location: "The Wall",
+            userName: "Bank of America",
+            location: "USA | Canada",
             rating: 4.7,
             jobs: 25,
             infoItems: [
@@ -72,7 +78,7 @@ function JobCard() {
             title: "AI Research",
             description: "Conduct research on cutting-edge AI technologies and publish findings in top journals.",
             userName: "Daenerys Targaryen",
-            location: "Dragonstone",
+            location: "Australia | New Zealand",
             rating: 4.9,
             jobs: 40,
             infoItems: [
@@ -87,7 +93,7 @@ function JobCard() {
             title: "AI System Design",
             description: "Design AI systems that integrate with existing infrastructure to enhance business operations.",
             userName: "Cersei Lannister",
-            location: "King's Landing",
+            location: "France | Germany",
             rating: 4.6,
             jobs: 35,
             infoItems: [
@@ -103,12 +109,16 @@ function JobCard() {
     return (
         <div className="space-y-6">
             {jobCardsData.map((job, index) => (
-                <div key={index} className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[300px] justify-between">
+                <div
+                    key={index}
+                    className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[300px] justify-between cursor-pointer"
+                    onClick={() => navigate(`/client/jobs-details`)}
+                >
                     <div className="flex justify-between items-center">
                         <h2 className="text-2xl font-bold text-black">{job.title}</h2>
                         <div className="flex gap-4">
-                            {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Jobs", arrowupblack)}
-                            {renderButton("bg-[#030923]", "text-white", "View Jobs", arrowup)}
+                            {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Jobs", arrowupblack, () => navigate(`/client/jobs-details`))}
+                            {renderButton("bg-[#030923]", "text-white", "View Jobs", arrowup, () => navigate(`/client/jobs-details`))}
                         </div>
                     </div>
 
