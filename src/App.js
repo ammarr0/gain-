@@ -47,7 +47,7 @@ import ClientSidebar from "./Client/Components/sidebar.jsx"
 import ClientProjects from "./Client/Pages/projects.jsx"
 import ClientExploreTalents from "./Client/Pages/ExploreTalent.jsx"
 import ClientExploreCourse from "./Client/Pages/Course.jsx"
-
+import PostJobs from "./Client/Pages/PostJobs.jsx"
 const App = () => {
   return (
     <Router>
@@ -103,6 +103,7 @@ const App = () => {
                 <Route path="explore-talent" element={<><ClientExploreTalents /></>} />
                 <Route path="explore-course" element={<><ClientExploreCourse /></>} />
                 <Route path="job-application" element={<JobsApplication />} />
+                <Route path="post-job" element={<PostJobs />} />
               </Routes>
             </div>
           </>
