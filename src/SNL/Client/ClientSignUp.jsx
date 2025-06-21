@@ -26,7 +26,7 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isSubmitted) {
-      toast.success('Sign-up successful! Redirecting...', { autoClose: 2000 });
+      toast.success('User Registered Successfully!!!', { autoClose: 2000 });
     }
   }, [isSubmitted]);
 
@@ -40,7 +40,7 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5200/auth/sign-up`, {
+      const response = await fetch(`https://gain-b7ea8e7de810.herokuapp.com/auth/sign-up`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,10 +51,10 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
       if (response.ok) {
         console.log('Firm sign-up form submitted:', formData);
         setIsSubmitted(true);
-        setTimeout(() => navigate('/consultingfirm/home'), 2000);
+        // setTimeout(() => navigate('/consultingfirm/home'), 2000);
       } else {
         if (response.status === 409) {
-          toast.error('User already registered');
+          toast.error('User already registered', { autoClose: 2000 });
         } else {
           const errorData = await response.json();
           console.error('Failed to submit form:', errorData.message || response.statusText);
@@ -114,7 +114,19 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
               { label: 'Image URL', name: 'image', type: 'url', placeholder: 'http://example.com/image.jpg' },
               { label: 'First Name*', name: 'first_name', type: 'text', placeholder: 'First Name' },
               { label: 'Last Name*', name: 'last_name', type: 'text', placeholder: 'Last Name' },
-              { label: 'Role*', name: 'role', type: 'text', placeholder: 'Role' },
+              {
+                label: 'Role*',
+                name: 'role',
+                type: 'select',
+                options: [
+                  'PLATFORM_ADMIN',
+                  'PLATFORM_STAFF',
+                  'CUSTOMER_SUPPORT',
+                  'COMPANY',
+                  'INDIVIDUAL_TALENT',
+                  'USER',
+                ],
+              },
               { label: 'Email*', name: 'email', type: 'email', placeholder: 'Email' },
               { label: 'Date of Birth*', name: 'dob', type: 'date', placeholder: 'Date of Birth' },
               { label: 'Country Code*', name: 'country_code', type: 'text', placeholder: 'Country Code' },
@@ -125,18 +137,35 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
               { label: 'Street*', name: 'street', type: 'text', placeholder: 'Street' },
               { label: 'Website*', name: 'website', type: 'url', placeholder: 'http://example.com/' },
               { label: 'LinkedIn*', name: 'linkedin', type: 'url', placeholder: 'http://www.linkedin.com/' },
-            ].map(({ label, name, type, placeholder }) => (
+            ].map(({ label, name, type, placeholder, options }) => (
               <div key={name}>
                 <label className="block text-sm text-gray-700 mb-1">{label}</label>
-                <input
-                  type={type}
-                  name={name}
-                  value={formData[name]}
-                  onChange={handleChange}
-                  placeholder={placeholder}
-                  required
-                  className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                />
+                {type === 'select' ? (
+                  <select
+                    name={name}
+                    value={formData[name]}
+                    onChange={handleChange}
+                    required
+                    className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                  >
+                    <option value="" disabled>Select a role</option>
+                    {options.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type={type}
+                    name={name}
+                    value={formData[name]}
+                    onChange={handleChange}
+                    placeholder={placeholder}
+                    required
+                    className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                )}
               </div>
             ))}
 
