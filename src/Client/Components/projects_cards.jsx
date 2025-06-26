@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import User from "../../assets/user.png";
 import star from "../../assets/star.png";
 import Jobs from "../../assets/job.png";
-import location from "../../assets/location.png";
-import calendar from "../../assets/calendar.png";
-import clock from "../../assets/clock.png";
 import arrowup from "../../assets/arrow-up-right-white.png";
 import arrowupblack from "../../assets/arrow-up-right-black.png";
 
 function JobCard() {
+    const [jobCardsData, setJobCardsData] = useState([]);
+
+    useEffect(() => {
+        const fetchJobData = async () => {
+            try {
+                const response = await fetch('hhttps://gain-b7ea8e7de810.herokuapp.com/projects/list', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('access-token')}`
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setJobCardsData(data);
+                } else {
+                    console.error('Failed to fetch job data');
+                }
+            } catch (error) {
+                console.error('Error fetching job data:', error);
+            }
+        };
+
+        fetchJobData();
+    }, []);
+
     const renderButton = (bgColor, textColor, text, imgSrc) => (
         <button className={`w-[135px] h-[28px] rounded-[16px] ${bgColor} text-sm ${textColor} flex items-center justify-center`}>
             {text} <img src={imgSrc} alt="" className="ml-1" />
@@ -21,54 +42,6 @@ function JobCard() {
             <span className="text-sm text-gray-700">{text}</span>
         </div>
     );
-
-    const jobCardsData = [
-        {
-            title: "AI Risk Analysis",
-            description: "Develop machine learning models to assess and mitigate financial risks, including credit, market, and operational risks.",
-            userNames: ["Tyrion Lannister", "Jaime Lannister", "Cersei Lannister", "Joffrey Baratheon", "Myrcella Baratheon"],
-            location: "Kings Landing",
-            rating: 4.9,
-            jobs: 32,
-            infoItems: [
-                { imgSrc: location, altText: "Location", text: "UAE | United States" },
-                { imgSrc: calendar, altText: "Calendar", text: "25 hrs/wk" },
-                { imgSrc: clock, altText: "Clock", text: "Anytime" }
-            ],
-            tags: ["Project Management Tools", "Jira", "Hubspot"],
-            dueDate: "01-09-2025"
-        },
-        {
-            title: "AI Data Analysis",
-            description: "Analyze large datasets to extract meaningful insights and support decision-making processes.",
-            userNames: ["Arya Stark", "Sansa Stark", "Bran Stark", "Rickon Stark", "Robb Stark"],
-            location: "Winterfell",
-            rating: 4.8,
-            jobs: 28,
-            infoItems: [
-                { imgSrc: location, altText: "Location", text: "UK | Canada" },
-                { imgSrc: calendar, altText: "Calendar", text: "30 hrs/wk" },
-                { imgSrc: clock, altText: "Clock", text: "Flexible" }
-            ],
-            tags: ["Data Science", "Python", "R"],
-            dueDate: "15-10-2025"
-        },
-        {
-            title: "AI Model Deployment",
-            description: "Deploy AI models into production environments ensuring scalability and reliability.",
-            userNames: ["Jon Snow", "Samwell Tarly", "Eddard Stark", "Benjen Stark", "Ygritte"],
-            location: "The Wall",
-            rating: 4.7,
-            jobs: 25,
-            infoItems: [
-                { imgSrc: location, altText: "Location", text: "USA | Canada" },
-                { imgSrc: calendar, altText: "Calendar", text: "20 hrs/wk" },
-                { imgSrc: clock, altText: "Clock", text: "Remote" }
-            ],
-            tags: ["AWS", "Docker", "Kubernetes"],
-            dueDate: "20-11-2025"
-        }
-    ];
 
     return (
         <div className="space-y-6">

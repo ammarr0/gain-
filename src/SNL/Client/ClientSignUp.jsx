@@ -51,7 +51,6 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
       if (response.ok) {
         console.log('Firm sign-up form submitted:', formData);
         setIsSubmitted(true);
-        // setTimeout(() => navigate('/consultingfirm/home'), 2000);
       } else {
         if (response.status === 409) {
           toast.error('User already registered', { autoClose: 2000 });

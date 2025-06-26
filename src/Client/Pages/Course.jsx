@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import Sidebar from '../components/cfsidebar.jsx';
-import CourseCard from "../../consultingfirm/explorecourse/courselist.jsx"
+import CourseCard from "../../consultingfirm/explorecourse/courselist.jsx";
 
 const Explore = () => {
   const navigate = useNavigate();
+  const [courses, setCourses] = useState([]);
 
-  const renderJobStatus = (status) => {
-    const statusClasses = {
-      "Accepting Applications": 'bg-green-200 text-green-700',
-      "Closed": 'bg-red-200 text-red-700',
-      "Pending": 'bg-yellow-200 text-yellow-700'
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch('https://gain-b7ea8e7de810.herokuapp.com/course/list', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access-token')}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setCourses(data);
+        } else {
+          console.error('Failed to fetch course data');
+        }
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+      }
     };
-    return <span className={`text-sm px-3 py-2 rounded-lg ${statusClasses[status]}`}>{status}</span>;
-  };
+
+    fetchCourses();
+  }, []);
 
   const handleCardClick = (match) => {
     navigate(`/job/${match.company}`, { state: { match } });
@@ -21,12 +34,11 @@ const Explore = () => {
 
   return (
     <div className="w-full min-h-screen flex bg-white">
-      {/* <Sidebar /> */}
-      <div className="flex-1 flex" >
+      <div className="flex-1 flex">
         <div className="w-3/4 p-8">
           <div className="mx-auto max-w-6xl">
             <div className="flex flex-col md:flex-row gap-4 mb-8">
-              <div className="bg-[#C7E1FF] rounded-2xl p-8 md:w-1/2 h-72" >
+              <div className="bg-[#C7E1FF] rounded-2xl p-8 md:w-1/2 h-72">
                 <h1 className="text-5xl font-semibold text-gray-900 mb-2">
                   Discover <br />
                   Your Next <span className="font-bold">Opportunity</span> <br />
@@ -46,8 +58,8 @@ const Explore = () => {
                 </button>
               ))}
             </div>
-            <div >
-          <  CourseCard/>
+            <div>
+              <CourseCard courses={courses} />
             </div>
           </div>
         </div>
