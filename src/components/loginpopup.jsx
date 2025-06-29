@@ -9,35 +9,38 @@ const LoginModal = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async () => {
-        try {
-            const response = await fetch('https://gain-b7ea8e7de810.herokuapp.com/auth/log-in', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            });
-
+    const handleLogin = () => {
+        fetch('https://gain-b7ea8e7de810.herokuapp.com/auth/log-in', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        })
+        .then(response => {
             if (response.ok) {
-                const data = await response.json();
-                console.log('Login successful:', data);
-                toast.success(data.message || 'Login successful!');
-                Cookies.set('access_token', data.access_token, { expires: 7 });
-                setIsModalVisible(false);
-                if (data.user.role === 'COMPANY' || data.user.role === 'USER') {
-                    navigate("/consultingfirm/home/");
-                } else if (data.user.role === 'CUSTOMER_SUPPORT') {
-                    navigate("/client/dashboard");
-                } else if (data.user.role === 'INDIVIDUAL_TALENT') {
-                    navigate("/talent/home");
-                }
+                return response.json();
             } else {
-                const errorData = await response.json();
-                console.error('Login failed:', errorData.message || response.statusText);
-                toast.error(errorData.message || 'Login successful!');
+                return response.json().then(errorData => {
+                    throw new Error(errorData.message || response.statusText);
+                });
             }
-        } catch (error) {
-            console.error('Error during login:', error);
-        }
+        })
+        .then(data => {
+            console.log('Login successful:', data);
+            toast.success(data.message || 'Login successful!');
+            Cookies.set('access_token', data.access_token, { expires: 7 });
+            setIsModalVisible(false);
+            if (data.user.role === 'COMPANY' || data.user.role === 'USER') {
+                navigate("/consultingfirm/home/");
+            } else if (data.user.role === 'CUSTOMER_SUPPORT') {
+                navigate("/client/dashboard");
+            } else if (data.user.role === 'INDIVIDUAL_TALENT') {
+                navigate("/talent/home");
+            }
+        })
+        .catch(error => {
+            console.error('Login failed:', error.message);
+            toast.error(error.message || 'Login failed!');
+        });
     };
 
     return (
