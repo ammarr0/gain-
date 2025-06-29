@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PostJobs = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
+  const navigate = useNavigate();
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    navigate('/client/post-success');
   };
 
   return (
     <div className="flex justify-center items-center w-full my-8">
       <div className="bg-white p-8 rounded-lg shadow-2xl max-w-2xl w-full">
         <h1 className="text-2xl font-semibold mb-4 text-center">Post a New Job</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4 grid grid-cols-2 gap-4">
             {['Web Development', 'AI', 'Mobile Development', 'Other'].map((category) => (
               <div

@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 
 function JobCard() {
     const navigate = useNavigate();
-
     const renderButton = (bgColor, textColor, text, imgSrc, onClick) => (
         <button
             className={`w-[135px] h-[28px] rounded-[16px] ${bgColor} text-sm ${textColor} flex items-center justify-center`}

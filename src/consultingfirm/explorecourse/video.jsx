@@ -17,11 +17,11 @@ const CourseVideoSection = () => {
   const [currentVideoId, setCurrentVideoId] = useState(chapters[0].videoId);
 
   return (
-    <div className="flex flex-col md:flex-row p-4 gap-6">
+    <div className="flex flex-col md:flex-row p-4 pl-20 pr-20 gap-6">
       <div className="flex-1">
         <div className="rounded-xl overflow-hidden mb-4 shadow-lg">
           <iframe
-            className="w-full h-64 md:h-96"
+            className="w-full h-[500px]"
             src={`https://www.youtube.com/embed/${currentVideoId}`}
             title="Course Video"
             allowFullScreen
