@@ -118,12 +118,7 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
                 name: 'role',
                 type: 'select',
                 options: [
-                  'PLATFORM_ADMIN',
-                  'PLATFORM_STAFF',
                   'CUSTOMER_SUPPORT',
-                  'COMPANY',
-                  'INDIVIDUAL_TALENT',
-                  'USER',
                 ],
               },
               { label: 'Email*', name: 'email', type: 'email', placeholder: 'Email' },

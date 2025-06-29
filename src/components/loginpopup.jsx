@@ -23,7 +23,13 @@ const LoginModal = () => {
                 toast.success(data.message || 'Login successful!');
                 Cookies.set('access_token', data.access_token, { expires: 7 });
                 setIsModalVisible(false);
-                if (data.user.role === 'COMPANY') navigate("/consultingfirm/home/");
+                if (data.user.role === 'COMPANY' || data.user.role === 'USER') {
+                    navigate("/consultingfirm/home/");
+                } else if (data.user.role === 'CUSTOMER_SUPPORT') {
+                    navigate("/client/dashboard");
+                } else if (data.user.role === 'INDIVIDUAL_TALENT') {
+                    navigate("/talent/home");
+                }
             } else {
                 const errorData = await response.json();
                 console.error('Login failed:', errorData.message || response.statusText);
