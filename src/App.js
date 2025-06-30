@@ -50,6 +50,7 @@ import ClientExploreCourse from "./Client/Pages/Course.jsx"
 import PostJobs from "./Client/Pages/PostJobs.jsx"
 import PostSuccess from "./Client/Pages/success.jsx"
 import MainCourse from "./Client/Pages/main-course.jsx"
+import PostCourse from "./Client/Pages/new-course.jsx"
 const App = () => {
   return (
     <Router>
@@ -106,6 +107,7 @@ const App = () => {
                 <Route path="explore-course" element={<><ClientExploreCourse /></>} />
                 <Route path="job-application" element={<JobsApplication />} />
                 <Route path="post-job" element={<PostJobs />} />
+                <Route path="post-course" element={<PostCourse />} />
                 <Route path="post-success" element={<PostSuccess />} />
                 <Route path="main-course" element={<><MainCourse /></>} />
               </Routes>
