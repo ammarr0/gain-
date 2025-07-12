@@ -51,6 +51,9 @@ import PostJobs from "./Client/Pages/PostJobs.jsx"
 import PostSuccess from "./Client/Pages/success.jsx"
 import MainCourse from "./Client/Pages/main-course.jsx"
 import PostCourse from "./Client/Pages/new-course.jsx"
+import ClientsProfile from "./Client/Pages/profile.jsx"
+import Invoice from "./Client/Pages/invoice.jsx"
+import MakeInvoices from "./Client/Pages/makeinvoice.jsx"
 const App = () => {
   return (
     <Router>
@@ -110,6 +113,9 @@ const App = () => {
                 <Route path="post-course" element={<PostCourse />} />
                 <Route path="post-success" element={<PostSuccess />} />
                 <Route path="main-course" element={<><MainCourse /></>} />
+                <Route path="profile-page" element={<><ClientsProfile /></>} />
+                <Route path="my-invoices" element={<><Invoice /></>} />
+                <Route path="make-invoices" element={<><MakeInvoices /></>} />
               </Routes>
             </div>
           </>

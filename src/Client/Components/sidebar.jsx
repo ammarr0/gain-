@@ -8,7 +8,7 @@ const menuItems = [
   { name: 'My Projects', icon: <Users size={24} color="#313131" />, route: '/client/my-projects/' },
   { name: 'Explore Talents', icon: <Search size={24} color="#313131" />, route: '/client/explore-talent' },
   { name: 'Courses', icon: <GraduationCap size={24} color="#313131" />, route: '/client/explore-course' },
-  { name: 'Invoices', icon: <DollarSign size={24} color="#313131" /> }
+  { name: 'Invoices', icon: <DollarSign size={24} color="#313131" />, route: '/client/my-invoices' }
 ];
 
 const Sidebar = () => {
