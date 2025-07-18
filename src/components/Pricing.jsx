@@ -101,14 +101,14 @@ export default function Pricing() {
         </div>
 
         {/* Pricing Plan Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {plans.map((plan, index) => {
             // Middle card uses gradient, 530px tall
             // First/last cards use #AED8FF, 550px tall
             const isMiddle = index === 1;
             const cardBgClass = isMiddle
-              ? 'bg-gradient-to-b from-[#030923] to-[#0C2389] text-white h-[570px] w-[355px]'
-              : 'bg-[#AED8FF] text-gray-900 h-[550px] w-[340px]';
+              ? 'bg-gradient-to-b from-[#030923] to-[#0C2389] text-white h-auto sm:h-[570px] w-full sm:w-[355px]'
+              : 'bg-[#AED8FF] text-gray-900 h-auto sm:h-[550px] w-full sm:w-[340px]';
 
             return (
               <div

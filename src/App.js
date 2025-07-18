@@ -54,6 +54,13 @@ import PostCourse from "./Client/Pages/new-course.jsx"
 import ClientsProfile from "./Client/Pages/profile.jsx"
 import Invoice from "./Client/Pages/invoice.jsx"
 import MakeInvoices from "./Client/Pages/makeinvoice.jsx"
+import TalentSidebar from "./Talent/Components/siedbar.jsx"
+import TalentDashboard from "./Talent/Pages/Home.jsx"
+import TalentJobs from "./Talent/Pages/Jobs.jsx"
+import TalentProject from "./Talent/Pages/projects.jsx";
+import TalentExploreCourse from "./Talent/Pages/explore-courses.jsx";
+import TalentPostCourse from "./Talent/Pages/post-new-course.jsx";
+import TalentProfile from "./Talent/Pages/Profile.jsx"
 const App = () => {
   return (
     <Router>
@@ -111,9 +118,30 @@ const App = () => {
                 <Route path="job-application" element={<JobsApplication />} />
                 <Route path="post-job" element={<PostJobs />} />
                 <Route path="post-course" element={<PostCourse />} />
+                <Route path="profile-page" element={<><TalentProfile /></>} />
+                <Route path="my-invoices" element={<><Invoice /></>} />
+                <Route path="make-invoices" element={<><MakeInvoices /></>} />
+              </Routes>
+            </div>
+          </>
+        } />
+
+        <Route path="/talent/*" element={
+          <>
+            <ClientHeader />
+            <div style={{ display: 'flex' }}>
+              <TalentSidebar />
+              <Routes>
+                <Route path="dashboard" element={<TalentDashboard />} />
+                <Route path="jobs" element={<TalentJobs />} />
+                <Route path="projects" element={<TalentProject />} />
+                <Route path="explore-course" element={<><TalentExploreCourse /></>} />
+                <Route path="job-application" element={<JobsApplication />} />
+                <Route path="post-job" element={<PostJobs />} />
+                <Route path="post-course" element={<TalentPostCourse />} />
                 <Route path="post-success" element={<PostSuccess />} />
                 <Route path="main-course" element={<><MainCourse /></>} />
-                <Route path="profile-page" element={<><ClientsProfile /></>} />
+                <Route path="profile" element={<><ClientsProfile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="make-invoices" element={<><MakeInvoices /></>} />
               </Routes>

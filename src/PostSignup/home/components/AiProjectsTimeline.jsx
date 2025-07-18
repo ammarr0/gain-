@@ -11,21 +11,21 @@ const AiProjectsTimeline = () => {
 
       {/* Outer container for timeline + cards */}
       <div className="relative w-full flex flex-col items-center">
-        <div className="absolute top-10 bottom-10 left-1/2 -translate-x-1/2">
+        <div className="absolute top-10 bottom-10 left-1/2 -translate-x-1/2 hidden md:block">
           <img
             src="/assets/line.png"
             alt="Vertical divider"
-            className="h-[1300px] mt-12 w-auto"
+            className="h-full mt-12 w-auto"
           />
         </div>
 
         {/* Card 1 (left side) */}
-        <div className="relative w-full flex justify-start mb-12 z-10">
-          <div className="bg-white border border-gray-200 w-[520px] h-[260px] rounded-3xl shadow-md p-4 ml-[8%] flex items-center">
+        <div className="relative w-full flex flex-col md:flex-row justify-start mb-12 z-10">
+          <div className="bg-white border border-gray-200 w-full md:w-[520px] h-auto md:h-[260px] rounded-3xl shadow-md p-4 ml-0 md:ml-[8%] flex flex-col md:flex-row items-center">
             <img
               src="/assets/home2.png"
               alt="Hire a fully integrated AI team"
-              className="w-2/5 h-auto mr-4"
+              className="w-full md:w-2/5 h-auto mb-4 md:mb-0 md:mr-4"
             />
             <div className="flex-1 text-left">
               <h3 className="text-lg font-semibold mb-2">
@@ -39,12 +39,12 @@ const AiProjectsTimeline = () => {
         </div>
 
         {/* Card 2 (right side) */}
-        <div className="relative w-full flex justify-end mb-12 z-10">
-          <div className="bg-white border border-gray-200 w-[520px] h-[260px] rounded-3xl shadow-md p-4 mr-[8%] flex items-center">
+        <div className="relative w-full flex flex-col md:flex-row justify-end mb-12 z-10">
+          <div className="bg-white border border-gray-200 w-full md:w-[520px] h-auto md:h-[260px] rounded-3xl shadow-md p-4 mr-0 md:mr-[8%] flex flex-col md:flex-row items-center">
             <img
               src="/assets/home3.png"
               alt="Find the right talent in one place"
-              className="w-2/5 h-auto mr-4"
+              className="w-full md:w-2/5 h-auto mb-4 md:mb-0 md:mr-4"
             />
             <div className="flex-1 text-left">
               <h3 className="text-lg font-semibold mb-2">
@@ -58,12 +58,12 @@ const AiProjectsTimeline = () => {
         </div>
 
         {/* Card 3 (left side) */}
-        <div className="relative w-full flex justify-start mb-12 z-10">
-          <div className="bg-white border border-gray-200 w-[520px] h-[260px] rounded-3xl shadow-md p-4 ml-[8%] flex items-center">
+        <div className="relative w-full flex flex-col md:flex-row justify-start mb-12 z-10">
+          <div className="bg-white border border-gray-200 w-full md:w-[520px] h-auto md:h-[260px] rounded-3xl shadow-md p-4 ml-0 md:ml-[8%] flex flex-col md:flex-row items-center">
             <img
               src="/assets/home4.png"
               alt="Talents can apply & join the team"
-              className="w-2/5 h-auto mr-4"
+              className="w-full md:w-2/5 h-auto mb-4 md:mb-0 md:mr-4"
             />
             <div className="flex-1 text-left">
               <h3 className="text-lg font-semibold mb-2">
@@ -77,12 +77,12 @@ const AiProjectsTimeline = () => {
         </div>
 
         {/* Card 4 (right side) */}
-        <div className="relative w-full flex justify-end mb-12 z-10">
-          <div className="bg-white border border-gray-200 w-[520px] h-[260px] rounded-3xl shadow-md p-4 mr-[8%] flex items-center">
+        <div className="relative w-full flex flex-col md:flex-row justify-end mb-12 z-10">
+          <div className="bg-white border border-gray-200 w-full md:w-[520px] h-auto md:h-[260px] rounded-3xl shadow-md p-4 mr-0 md:mr-[8%] flex flex-col md:flex-row items-center">
             <img
               src="/assets/home5.png"
               alt="Seamless collaboration & execution"
-              className="w-2/5 h-auto mr-4"
+              className="w-full md:w-2/5 h-auto mb-4 md:mb-0 md:mr-4"
             />
             <div className="flex-1 text-left">
               <h3 className="text-lg font-semibold mb-2">
@@ -96,12 +96,12 @@ const AiProjectsTimeline = () => {
         </div>
 
         {/* Card 5 (left side) */}
-        <div className="relative w-full flex justify-start mb-12 z-10">
-          <div className="bg-white border border-gray-200 w-[520px] h-[260px] rounded-3xl shadow-md p-4 ml-[8%] flex items-center">
+        <div className="relative w-full flex flex-col md:flex-row justify-start mb-12 z-10">
+          <div className="bg-white border border-gray-200 w-full md:w-[520px] h-auto md:h-[260px] rounded-3xl shadow-md p-4 ml-0 md:ml-[8%] flex flex-col md:flex-row items-center">
             <img
               src="/assets/home6.png"
               alt="Deliver scalable AI solutions"
-              className="w-2/5 h-auto mr-4"
+              className="w-full md:w-2/5 h-auto mb-4 md:mb-0 md:mr-4"
             />
             <div className="flex-1 text-left">
               <h3 className="text-lg font-semibold mb-2">

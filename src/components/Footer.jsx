@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Footer = () => (
   <footer className="bg-white text-gray-800 p-6 space-y-8">
     {/* Top section: 6 columns */}
-    <div className="grid grid-cols-6 gap-8 text-sm">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 text-sm">
       {/* Column 1: Logo */}
       <div className="col-span-1 flex items-center">
         <Link to="/">
@@ -63,11 +63,11 @@ const Footer = () => (
     {/* Bottom Section */}
     <div className="space-y-4 text-sm">
       {/* First line */}
-      <div className="flex flex-row items-center justify-between w-full">
+      <div className="flex flex-col md:flex-row items-center justify-between w-full">
         {/* Left: Empty for alignment */}
-        <div></div>
+        <div className="hidden md:block"></div>
         {/* Middle: TOS, Privacy, Setting */}
-        <div className="mx-auto text=center flex space-x-10">
+        <div className="mx-auto text-center flex space-x-10">
           <Link to="/terms" className="hover:text-blue-500 font-semibold">
             Terms of Service
           </Link>
@@ -79,7 +79,7 @@ const Footer = () => (
           </Link>
         </div>
         {/* Right: Social Icons */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 mt-4 md:mt-0">
           <a
             href="https://www.facebook.com"
             target="_blank"
@@ -124,7 +124,7 @@ const Footer = () => (
       </div>
 
       {/* Second line */}
-      <div className="flex flex-row items-center justify-between w-full">
+      <div className="flex flex-col md:flex-row items-center justify-between w-full">
         {/* Middle: Address */}
         <div className="text-center mx-auto">
           <p className="text-gray-600">
@@ -132,7 +132,7 @@ const Footer = () => (
           </p>
         </div>
         {/* Right: © 2025 GAIN */}
-        <p className="text-gray-600">© 2025 GAIN</p>
+        <p className="text-gray-600 mt-4 md:mt-0">© 2025 GAIN</p>
       </div>
     </div>
   </footer>

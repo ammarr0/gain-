@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 const TopProjects = () => {
   return (
     <section className="py-12 w-full">
-      <h2 className="text-2xl md:text-2xl ml-48 font-md text-left mb-6">
+      <h2 className="text-2xl md:text-2xl ml-4 md:ml-48 font-md text-left mb-6">
         Top Projects on GAIN+
       </h2>
 
-      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 items-center justify-center gap-40 px-6">
+      <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center justify-center gap-10 md:gap-40 px-6">
         {/* Card 1 */}
-        <div className="border border-black rounded-2xl -ml-16 p-6 flex flex-col w-80">
+        <div className="border border-black rounded-2xl p-6 flex flex-col w-full sm:w-80">
           <img
             src="/assets/justpayee.png"
             alt="Justpayee"
@@ -42,7 +42,7 @@ const TopProjects = () => {
         </div>
 
         {/* Card 2 */}
-        <div className="border border-black -ml-16 rounded-2xl p-6 flex flex-col w-80">
+        <div className="border border-black rounded-2xl p-6 flex flex-col w-full sm:w-80">
           <img
             src="https://www.redditinc.com/assets/images/site/reddit-logo.png"
             alt="Reddit"
@@ -73,7 +73,7 @@ const TopProjects = () => {
         </div>
 
         {/* Card 3 */}
-        <div className="border border-black -ml-16 rounded-2xl p-6 flex flex-col w-80">
+        <div className="border border-black rounded-2xl p-6 flex flex-col w-full sm:w-80">
           <img
             src="https://about.bankofamerica.com/assets/images/brand-logo.png"
             alt="Bank of America"
@@ -83,7 +83,7 @@ const TopProjects = () => {
           <p className="text-sm text-gray-600 mb-3">Fintech Product Development</p>
 
           <h4 className="text-sm font-lg mb-1">Open Positions</h4>
-          <ul className="list-disc list-inside text-lg   text-gray-700 mb-4">
+          <ul className="list-disc list-inside text-lg text-gray-700 mb-4">
             <li>UI Designer</li>
             <li>UX Researcher</li>
             <li>Backend Developer</li>

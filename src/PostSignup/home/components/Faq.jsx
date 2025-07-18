@@ -42,7 +42,7 @@ const FAQSection = () => {
 
   return (
     <section className="max-w-6xl mx-auto px-4 py-12">
-      <h2 className="text-2xl md:text-3xl font-2xl text-center mb-8">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8">
         Frequently Asked Questions
       </h2>
 
@@ -50,7 +50,7 @@ const FAQSection = () => {
         {faqData.map((faq, index) => (
           <div
             key={index}
-            className={`border rounded-lg shadow-sm ${
+            className={`border rounded-lg shadow-sm transition-all duration-300 ${
               openIndex === index ? 'bg-gray-50' : 'bg-white'
             }`}
           >

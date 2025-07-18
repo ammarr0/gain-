@@ -50,25 +50,25 @@ export default function TrustedByMany() {
         </h2>
 
         {/* Grid of testimonial cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((item, index) => (
             <div
               key={index}
-              className="bg-white border rounded-xl shadow-sm p-8 flex flex-col justify-between h-[400px]"
+              className="bg-white border rounded-xl shadow-sm p-8 flex flex-col justify-between h-auto"
             >
               {/* Quote */}
               <p className="text-gray-700 mb-6">{item.quote}</p>
 
               {/* Bottom row: user icon + name/description + social icons */}
-              <div className="flex items-center justify-between mt-auto">
+              <div className="flex flex-col sm:flex-row items-center justify-between mt-auto space-y-4 sm:space-y-0">
                 {/* Icon + name/description */}
-                <div className="flex flex-col items-center space-y-3">
+                <div className="flex flex-col items-center sm:items-start space-y-3">
                   <img
                     src={userIconUrl}
                     alt={`User Icon of ${item.name}`}
-                    className="w-12 h-12 object-cover -ml-36 rounded-full"
+                    className="w-12 h-12 object-cover rounded-full"
                   />
-                  <div>
+                  <div className="text-center sm:text-left">
                     <p className="font-semibold text-gray-800">
                       {item.name}
                     </p>
@@ -88,7 +88,7 @@ export default function TrustedByMany() {
                     <img
                       src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg"
                       alt={`${item.name}'s Facebook Icon`}
-                      className="w-5 h-5 mt-20"
+                      className="w-5 h-5"
                     />
                   </a>
                   <a
@@ -99,7 +99,7 @@ export default function TrustedByMany() {
                     <img
                       src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/twitter/twitter-original.svg"
                       alt={`${item.name}'s Twitter Icon`}
-                      className="w-5 h-5 mt-20"
+                      className="w-5 h-5"
                     />
                   </a>
                 </div>
