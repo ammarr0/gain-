@@ -44,55 +44,55 @@ const ProjectOffers = () => {
   ];
 
   return (
-    <div className="flex">
-      <div className="w-[80%] mt-6 mx-auto">
+    <div className="flex flex-col min-h-screen bg-white w-full px-2 sm:px-4 py-4 items-center">
+      <div className="w-full max-w-3xl flex flex-col items-center mx-auto mt-4 sm:mt-8">
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="w-full bg-gray-100 rounded-lg border border-gray-300 p-16 shadow-sm">
+        <div className="w-full bg-gray-100 rounded-lg border border-gray-300 p-4 sm:p-8 md:p-12 shadow-sm min-h-[300px] flex flex-col items-center">
           {offers.map((offer, index) => (
-            <div key={index} className="bg-white border rounded-lg p-4 mb-4 shadow">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <img
-                    src={offer.companyLogo}
-                    alt={offer.companyName}
-                    className="w-12 h-12 object-contain"
-                  />
-                  <div>
-                    <h2 className="font-semibold text-lg text-gray-800">
-                      {offer.projectTitle}
-                    </h2>
-                    <p className="mt-1 text-sm text-gray-600">
-                      <strong className="text-black">Position Offered:</strong>{" "}
-                      <span className="text-black font-semibold">{offer.positionOffered}</span>
-                    </p>
+            <div
+              key={index}
+              className="bg-white border rounded-lg p-4 mb-4 shadow flex flex-col md:flex-row md:justify-between md:items-center gap-4 w-full max-w-2xl mx-auto"
+            >
+              <div className="flex flex-col md:flex-row items-center md:items-center w-full md:w-auto text-center md:text-left">
+                <img
+                  src={offer.companyLogo}
+                  alt={offer.companyName}
+                  className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg mb-2 md:mb-0 md:mr-4 flex-shrink-0 mx-auto md:mx-0 object-contain bg-white"
+                />
+                <div className="w-full">
+                  <h3 className="font-bold text-base sm:text-lg break-words">
+                    {offer.projectTitle}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-gray-500 break-words">
+                    <span className="font-semibold text-black">Position Offered:</span>{" "}
+                    <span className="text-black font-semibold">{offer.positionOffered}</span>
+                  </p>
+                  <div className="mt-2">
+                    <p className="text-xs sm:text-sm text-gray-600 font-medium mb-1">Open Positions:</p>
+                    <ul className="list-disc list-inside text-xs sm:text-sm text-gray-700 space-y-1">
+                      {offer.openPositions.map((position, idx) => (
+                        <li key={idx}>{position}</li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
-                <span className="text-sm text-gray-500">{offer.status}</span>
               </div>
-
-              <div className="mt-4 pl-16">
-                <p className="text-sm text-gray-600 mb-1 font-medium">Open Positions:</p>
-                <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-                  {offer.openPositions.map((position, idx) => (
-                    <li key={idx}>{position}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-6 flex justify-between items-center pl-16">
-                <div className="flex text-sm text-gray-500 gap-6">
+              <div className="flex flex-col items-center md:items-end w-full md:w-auto">
+                <span className="text-gray-500 text-xs sm:text-sm mb-1">{offer.status}</span>
+                <div className="flex flex-wrap gap-2 text-xs sm:text-sm text-gray-500 mb-2 mt-1 md:justify-end">
                   <span>{offer.location}</span>
                   <span>{offer.hours}</span>
                   <span>{offer.timing}</span>
                   <span>{offer.teamSize}</span>
                 </div>
-
-                <div className="space-x-2">
-                  <button className="px-4 py-1.5 border border-gray-300 text-sm rounded-md hover:bg-gray-200">
+                <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+                  <button className="bg-gray-200 px-3 py-1 rounded-full flex items-center justify-center text-xs sm:text-sm w-full md:w-auto whitespace-nowrap">
                     View Job
+                    <span className="ml-2">→</span>
                   </button>
-                  <button className="px-4 py-1.5 bg-gray-800 text-white text-sm rounded-md hover:bg-gray-900">
+                  <button className="bg-green-500 text-white px-3 py-1 rounded-full flex items-center justify-center text-xs sm:text-sm w-full md:w-auto whitespace-nowrap">
                     Accept Offer
+                    <span className="ml-2">→</span>
                   </button>
                 </div>
               </div>

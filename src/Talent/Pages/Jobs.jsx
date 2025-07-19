@@ -159,41 +159,52 @@ const Jobs = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex bg-white">
-      <div className="flex-1 flex" >
-        <div className="w-3/4 p-8">
+    <div className="w-full min-h-screen flex flex-col bg-white">
+      <div className="flex-1 flex flex-col lg:flex-row">
+        {/* Main Content */}
+        <div className="w-full lg:w-3/4 p-4 sm:p-6 md:p-8">
           <div className="mx-auto max-w-6xl">
+            {/* Header Section */}
             <div className="flex flex-col md:flex-row gap-4 mb-8">
-              <div className="bg-[#C7E1FF] rounded-2xl p-8 md:w-1/2 h-72" >
-                <h1 className="text-5xl font-semibold text-gray-900 mb-2">
+              <div className="bg-[#C7E1FF] rounded-2xl p-6 sm:p-8 md:w-1/2 h-48 sm:h-60 md:h-72 flex items-center">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-gray-900 mb-2 leading-tight">
                   Discover <br />
                   Your Next <span className="font-bold">Opportunity</span> <br />
                   as a Firm
                 </h1>
               </div>
-              <div className="rounded-2xl border-2 border-blue-200 p-8 md:w-1/2 flex items-center justify-center text-left">
-                <p className="text-gray-700 text-3xl leading-relaxed">
+              <div className="rounded-2xl border-2 border-blue-200 p-6 sm:p-8 md:w-1/2 flex items-center justify-center text-left">
+                <p className="text-gray-700 text-xl sm:text-2xl md:text-3xl leading-relaxed">
                   Browse opportunities and take the next step in your firm’s journey.
                 </p>
               </div>
             </div>
-            <div className="flex items-center space-x-6 border-b border-gray-200 mb-8">
+            {/* Tabs */}
+            <div className="flex flex-wrap items-center space-x-0 sm:space-x-6 border-b border-gray-200 mb-8">
               {['Project Management Jobs', 'All Jobs', 'Saved Jobs'].map((tab, index) => (
-                <button key={index} className={`pb-2 ${index === 0 ? 'text-gray-900 font-semibold border-b-4 border-blue-500' : 'text-gray-500 hover:text-gray-700'}`}>
+                <button
+                  key={index}
+                  className={`pb-2 mr-4 sm:mr-0 mb-2 sm:mb-0 ${index === 0 ? 'text-gray-900 font-semibold border-b-4 border-blue-500' : 'text-gray-500 hover:text-gray-700'}`}
+                >
                   {tab}
                 </button>
               ))}
             </div>
-            <div className="space-y-12">
+            {/* Job Cards */}
+            <div className="space-y-8 sm:space-y-10 md:space-y-12">
               {matches.map((job, idx) => (
-                <div key={idx} className="bg-white shadow-lg  rounded-xl p-10 flex justify-between items-center h-44 cursor-pointer" onClick={() => handleCardClick(job)}>
-                  <div className="flex gap-4 items-center">
-                    <div className="w-10 h-10 rounded-full">
-                      <img src={job.logo} alt="" />
+                <div
+                  key={idx}
+                  className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-10 flex flex-col md:flex-row justify-between items-start md:items-center min-h-[8rem] md:h-44 cursor-pointer transition hover:shadow-xl"
+                  onClick={() => handleCardClick(job)}
+                >
+                  <div className="flex flex-row items-center gap-4 w-full md:w-auto">
+                    <div className="w-10 h-10 rounded-full flex-shrink-0">
+                      <img src={job.logo} alt="" className="w-full h-full object-contain rounded-full" />
                     </div>
-                    <div className="ml-4">
-                      <h3 className="text-xl font-semibold text-[#030923]">{job.company}</h3>
-                      <p className="text-xs text-gray-600 mt-2 mb-4 flex items-center w-[300px]">
+                    <div className="ml-2 sm:ml-4">
+                      <h3 className="text-lg sm:text-xl font-semibold text-[#030923]">{job.company}</h3>
+                      <p className="text-xs text-gray-600 mt-2 mb-4 flex flex-wrap items-center w-full sm:w-[220px] md:w-[300px]">
                         <span className="mr-2"><i className="fas fa-map-marker-alt"></i></span>
                         {job.location} | 
                         <span className="mx-2"><i className="fas fa-calendar-alt"></i></span>
@@ -205,19 +216,19 @@ const Jobs = () => {
                       {renderJobStatus(job.status)}
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xl font-bold text-gray-800">{job.rate}</p>
+                  <div className="text-left md:text-right mt-4 md:mt-0 w-full md:w-auto">
+                    <p className="text-lg sm:text-xl font-bold text-gray-800">{job.rate}</p>
                     <div className="mt-2">
-                      <button 
+                      <button
                         className="text-blue-600 hover:text-blue-700 border-b-2 border-blue-600 pb-1"
-                        onClick={() => navigate(`/job/${job.company}`)}
+                        onClick={e => { e.stopPropagation(); navigate(`/job/${job.company}`); }}
                       >
                         View Job
                       </button>
                     </div>
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex flex-wrap items-center gap-2 mt-2">
                       {job.skills.map((skill, index) => (
-                        <span key={index} className="text-sm border border-gray-300 px-2 py-1 rounded-lg">{skill}</span>
+                        <span key={index} className="text-xs sm:text-sm border border-gray-300 px-2 py-1 rounded-lg">{skill}</span>
                       ))}
                     </div>
                   </div>
@@ -226,15 +237,16 @@ const Jobs = () => {
             </div>
           </div>
         </div>
-        <div className="w-1/4 p-6 ml-auto rounded-lg">
-          <div className="bg-white shadow-md rounded-2xl p-6 flex flex-col gap-4 mb-6">
+        {/* Sidebar */}
+        <div className="w-full lg:w-1/4 p-4 sm:p-6 md:p-6 lg:p-6 ml-0 lg:ml-auto rounded-lg">
+          <div className="bg-white shadow-md rounded-2xl p-4 sm:p-6 flex flex-col gap-4 mb-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl text-white">
                 <span className="font-semibold">C</span>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-[#030923]">Clay</h3>
-                <p className="text-sm text-gray-600">Consulting Firm</p>
+                <h3 className="text-base sm:text-lg font-semibold text-[#030923]">Clay</h3>
+                <p className="text-xs sm:text-sm text-gray-600">Consulting Firm</p>
                 <div className="flex items-center gap-1">
                   <span className="text-yellow-400">★</span>
                   <span>4.5</span>
@@ -256,43 +268,43 @@ const Jobs = () => {
               ))}
             </div>
             <div>
-              <h4 className="font-semibold">Active Jobs</h4>
-              <p className="text-[#007DF0]">3</p>
+              <h4 className="font-semibold text-xs sm:text-base">Active Jobs</h4>
+              <p className="text-[#007DF0] text-xs sm:text-base">3</p>
             </div>
             <div>
-              <h4 className="font-semibold">Availability Badge</h4>
-              <p className="text-[#007DF0]">On</p>
+              <h4 className="font-semibold text-xs sm:text-base">Availability Badge</h4>
+              <p className="text-[#007DF0] text-xs sm:text-base">On</p>
             </div>
             <div>
-              <h4 className="font-semibold">Promotion with GAIN</h4>
-              <p className="text-[#007DF0]">On</p>
+              <h4 className="font-semibold text-xs sm:text-base">Promotion with GAIN</h4>
+              <p className="text-[#007DF0] text-xs sm:text-base">On</p>
             </div>
             <div>
-              <h4 className="font-semibold">Promotion with Ads</h4>
-              <p className="text-gray-600">Off</p>
+              <h4 className="font-semibold text-xs sm:text-base">Promotion with Ads</h4>
+              <p className="text-gray-600 text-xs sm:text-base">Off</p>
             </div>
           </div>
-          <div className="bg-white shadow-md rounded-2xl p-6 flex flex-col gap-4 mb-6">
-            <h4 className="font-semibold text-xl">Preferences</h4>
+          <div className="bg-white shadow-md rounded-2xl p-4 sm:p-6 flex flex-col gap-4 mb-6">
+            <h4 className="font-semibold text-lg sm:text-xl">Preferences</h4>
             <div className="flex justify-between">
               <div className="flex flex-col">
-                <span className="text-sm">Hours Per Week</span>
-                <span className="text-sm">As per needed - Open to offers</span>
+                <span className="text-xs sm:text-sm">Hours Per Week</span>
+                <span className="text-xs sm:text-sm">As per needed - Open to offers</span>
               </div>
             </div>
             <div className="flex justify-between mt-2">
               <div className="flex flex-col">
-                <span className="text-sm">Profile Visibility</span>
-                <span className="text-sm">Public</span>
+                <span className="text-xs sm:text-sm">Profile Visibility</span>
+                <span className="text-xs sm:text-sm">Public</span>
               </div>
             </div>
             <div className="flex flex-col mt-2">
-              <span className="text-sm">Job Preference</span>
-              <span className="text-sm">Open to job offers</span>
+              <span className="text-xs sm:text-sm">Job Preference</span>
+              <span className="text-xs sm:text-sm">Open to job offers</span>
             </div>
             <div className="flex flex-col mt-2">
-              <span className="text-sm">My Categories</span>
-              <span className="text-sm">Project Management</span>
+              <span className="text-xs sm:text-sm">My Categories</span>
+              <span className="text-xs sm:text-sm">Project Management</span>
             </div>
           </div>
         </div>

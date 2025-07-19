@@ -161,23 +161,24 @@ const NewMatches = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto" >
+    <div className="max-w-7xl mx-auto">
       <div className="p-4 max-w-full">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
           <h2 className="text-2xl font-medium">Your newest matches</h2>
-          <button className="text-sm font-semibold underline hover:underline mr-12">
+          <button className="text-sm font-semibold underline hover:underline sm:mr-12">
             View All Jobs
           </button>
         </div>
 
-        <div className="flex">
+        {/* Responsive grid: 1 col on mobile, 2 on sm, 3 on md+ */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {matches.map((match, idx) => (
             <div
               key={idx}
               onClick={() => handleCardClick(match)}
-              className="rounded-xl border-2 border-[#B9DAFF] p-4 shadow-sm hover:shadow-lg transition bg-white h-[371px] w-[32%] mx-auto cursor-pointer"
+              className="rounded-xl border-2 border-[#B9DAFF] p-4 shadow-sm hover:shadow-lg transition bg-white h-[371px] cursor-pointer flex flex-col"
             >
-              <div className="flex justify-between items-start"  >
+              <div className="flex justify-between items-start">
                 <img
                   src={match.logo}
                   alt={match.company}
@@ -196,10 +197,11 @@ const NewMatches = () => {
               <hr className="my-3 border-black" />
 
               <div className="text-sm text-gray-600 space-y-4 mt-8">
-                <p>
+                <p className="flex flex-wrap items-center">
                   <img src="https://cdn-icons-png.flaticon.com/512/3239/3239948.png" alt="Hours" className="inline w-4 h-4 mr-1" />
                   {match.hours}
-                  <img src="https://cdn-icons-png.flaticon.com/512/927/927667.png" alt="Location" className="inline w-4 h-4 ml-16" />
+                  <span className="hidden xs:inline">&nbsp;&nbsp;</span>
+                  <img src="https://cdn-icons-png.flaticon.com/512/927/927667.png" alt="Location" className="inline w-4 h-4 ml-4 sm:ml-8" />
                   {match.location}
                 </p>
                 <p>
