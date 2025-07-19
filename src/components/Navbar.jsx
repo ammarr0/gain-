@@ -5,6 +5,7 @@ import LoginModal from '../components/loginpopup';
 const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
     { to: '/pricing', label: 'Pricing' },
@@ -38,6 +39,7 @@ const Navbar = () => {
         key={to}
         to={to}
         className={`text-gray-700 hover:text-blue-500 focus:text-[#007DF0] ${extraClass}`}
+        onClick={() => setIsMobileMenuOpen(false)}
       >
         {label}
       </Link>
@@ -73,22 +75,64 @@ const Navbar = () => {
       </div>
     ));
 
+  const renderMobileLinks = () =>
+    navLinks.map(({ to, label }) => (
+      <Link
+        key={to}
+        to={to}
+        className="block py-3 px-4 text-gray-700 hover:text-blue-500 focus:text-[#007DF0] border-b border-gray-200"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        {label}
+      </Link>
+    ));
+
+  const renderMobileDropdowns = () =>
+    dropdownLinks.map(({ label, links }) => (
+      <div key={label} className="border-b border-gray-200">
+        <div className="py-3 px-4 text-gray-700 font-medium">
+          {label}
+        </div>
+        <div className="bg-gray-50">
+          {links.map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              className="block py-2 px-8 text-gray-600 hover:text-blue-500 focus:text-[#007DF0]"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    ));
+
   return (
     <nav className="bg-white relative">
       <Link
         to="/"
-        className="focus:text-[#007DF0] absolute left-4 top-1/2 transform -translate-y-1/2"
+        className="focus:text-[#007DF0] absolute left-4 top-1/2 transform -translate-y-1/2 z-20"
       >
         <img src="/assets/logo.png" alt="Logo" className="h-12" />
       </Link>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-end h-16 items-center">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-6 text-sm font-medium">
+            {renderLinks()}
+            {renderDropdowns()}
+          </div>
+
+          {/* Search */}
           {!showSearch && (
-            <div className="flex space-x-6 text-sm font-medium">
-              {renderLinks()}
-              {renderDropdowns()}
-            </div>
+            <button
+              onClick={() => setShowSearch(!showSearch)}
+              className="text-gray-700 hover:text-blue-500 focus:outline-none focus:text-[#007DF0] ml-6"
+            >
+              <img src="/assets/search.png" alt="Search" className="h-5 w-5" />
+            </button>
           )}
 
           {showSearch && (
@@ -101,29 +145,122 @@ const Navbar = () => {
             </div>
           )}
 
-          <button
-            onClick={() => setShowSearch(!showSearch)}
-            className="text-gray-700 hover:text-blue-500 focus:outline-none focus:text-[#007DF0] ml-6"
-          >
-            <img src="/assets/search.png" alt="Search" className="h-5 w-5" />
-          </button>
+          {/* Desktop Auth Buttons */}
+          <div className="hidden md:flex items-center space-x-4 ml-6">
+            <button
+              onClick={() => setShowLoginModal(true)}
+              className="text-gray-700 px-3 py-1 rounded-full text-sm focus:text-[#007DF0] flex justify-center"
+              style={{ width: '100px' }}
+            >
+              Log In
+            </button>
+            <Link
+              to="/join-us"
+              className="bg-[#007DF0] text-white px-3 py-1 border border-[#007DF0] rounded-full hover:bg-blue-500 hover:text-white text-sm flex justify-center"
+              style={{ width: '100px' }}
+            >
+              Sign Up
+            </Link>
+          </div>
 
+          {/* Mobile Menu Button */}
           <button
-            onClick={() => setShowLoginModal(true)}
-            className="text-gray-700 px-3 py-1 rounded-full text-sm focus:text-[#007DF0] flex justify-center"
-            style={{ width: '100px' }}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden ml-6 text-gray-700 hover:text-blue-500 focus:outline-none focus:text-[#007DF0]"
           >
-            Log In
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {isMobileMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
           </button>
-          <Link
-            to="/join-us"
-            className="bg-[#007DF0] text-white px-3 py-1 border border-[#007DF0] rounded-full hover:bg-blue-500 hover:text-white text-sm flex justify-center"
-            style={{ width: '100px' }}
-          >
-            Sign Up
-          </Link>
         </div>
       </div>
+
+      {/* Mobile Menu Sidebar */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-50">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          
+          {/* Sidebar */}
+          <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-lg transform transition-transform duration-300 ease-in-out">
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="flex justify-between items-center p-4 border-b border-gray-200">
+                <h2 className="text-lg font-semibold text-gray-800">Menu</h2>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Mobile Search */}
+              <div className="p-4 border-b border-gray-200">
+                <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2">
+                  <img src="/assets/search.png" alt="Search" className="h-4 w-4 mr-2" />
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="flex-1 focus:outline-none text-sm"
+                  />
+                </div>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="flex-1 overflow-y-auto">
+                {renderMobileLinks()}
+                {renderMobileDropdowns()}
+              </div>
+
+              {/* Mobile Auth Buttons */}
+              <div className="p-4 border-t border-gray-200 space-y-3">
+                <button
+                  onClick={() => {
+                    setShowLoginModal(true);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full text-gray-700 px-4 py-2 rounded-full text-sm border border-gray-300 hover:bg-gray-50"
+                >
+                  Log In
+                </button>
+                <Link
+                  to="/join-us"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block w-full bg-[#007DF0] text-white px-4 py-2 rounded-full text-sm text-center hover:bg-blue-600"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showLoginModal && <LoginModal />}
     </nav>

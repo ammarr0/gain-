@@ -1,6 +1,7 @@
 // AITrainings.jsx
 import React from 'react';
 
+
 import CourseCard from '../components/CourseCard';
 import HeroSection from '../components/HeroSection';
 
@@ -56,7 +57,12 @@ const AITrainings = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {courses.map((course, index) => (
-            <CourseCard key={index} {...course} />
+            <div
+              key={index}
+              className="border-2 border-[#030923] border-opacity-50 rounded-2xl p-4 h-full flex flex-col"
+            >
+              <CourseCard {...course} />
+            </div>
           ))}
         </div>
         <div className="mt-8 sm:mt-12">
