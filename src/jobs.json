@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "title": "Data Engineer",
+    "description": "Ensure ethical use and deployment of AI technologies.",
+    "userName": "Google",
+    "location": "UK | Canada",
+    "rating": 4.8,
+    "jobs": 26,
+    "infoItems": [
+      {
+        "imgSrc": "location.png",
+        "altText": "Location",
+        "text": "UK | Canada"
+      },
+      {
+        "imgSrc": "calendar.png",
+        "altText": "Calendar",
+        "text": "25 hrs/wk"
+      },
+      {
+        "imgSrc": "clock.png",
+        "altText": "Clock",
+        "text": "Flexible"
+      }
+    ],
+    "tags": ["PyTorch", "Docker", "Kubernetes"],
+    "dueDate": "31-08-2025"
+  },
+  {
+    "id": 2,
+    "title": "AI Product Manager",
+    "description": "Collaborate with cross-functional teams to deliver AI solutions.",
+    "userName": "Tesla",
+    "location": "USA | Canada",
+    "rating": 4.9,
+    "jobs": 41,
+    "infoItems": [
+      {
+        "imgSrc": "location.png",
+        "altText": "Location",
+        "text": "USA | Canada"
+      },
+      {
+        "imgSrc": "calendar.png",
+        "altText": "Calendar",
+        "text": "40 hrs/wk"
+      },
+      {
+        "imgSrc": "clock.png",
+        "altText": "Clock",
+        "text": "On-site"
+      }
+    ],
+    "tags": ["Java", "Scala", "Spark"],
+    "dueDate": "06-09-2025"
+  },
+  {
+    "id": 3,
+    "title": "NLP Specialist",
+    "description": "Implement NLP solutions to process and understand text data.",
+    "userName": "Meta",
+    "location": "France | Germany",
+    "rating": 4.7,
+    "jobs": 30,
+    "infoItems": [
+      {
+        "imgSrc": "location.png",
+        "altText": "Location",
+        "text": "France | Germany"
+      },
+      {
+        "imgSrc": "calendar.png",
+        "altText": "Calendar",
+        "text": "30 hrs/wk"
+      },
+      {
+        "imgSrc": "clock.png",
+        "altText": "Clock",
+        "text": "Remote"
+      }
+    ],
+    "tags": ["Python", "TensorFlow", "Keras"],
+    "dueDate": "19-10-2025"
+  },
+  {
+    "id": 50,
+    "title": "AI Ethics Consultant",
+    "description": "Ensure ethical use and deployment of AI technologies.",
+    "userName": "Spotify",
+    "location": "UAE | United States",
+    "rating": 4.6,
+    "jobs": 29,
+    "infoItems": [
+      {
+        "imgSrc": "location.png",
+        "altText": "Location",
+        "text": "UAE | United States"
+      },
+      {
+        "imgSrc": "calendar.png",
+        "altText": "Calendar",
+        "text": "30 hrs/wk"
+      },
+      {
+        "imgSrc": "clock.png",
+        "altText": "Clock",
+        "text": "Hybrid"
+      }
+    ],
+    "tags": ["GCP", "Azure", "AWS"],
+    "dueDate": "25-11-2025"
+  }
+]

@@ -8,108 +8,41 @@ import clock from "../../assets/clock.png";
 import arrowup from "../../assets/arrow-up-right-white.png";
 import arrowupblack from "../../assets/arrow-up-right-black.png";
 import { useNavigate } from 'react-router-dom';
+import jobs from "../../jobs.json";
+
+const iconMap = {
+    "location.png": location,
+    "calendar.png": calendar,
+    "clock.png": clock,
+};
 
 function JobCard() {
     const navigate = useNavigate();
+
     const renderButton = (bgColor, textColor, text, imgSrc, onClick) => (
         <button
             className={`w-[135px] h-[28px] rounded-[16px] ${bgColor} text-sm ${textColor} flex items-center justify-center`}
-            onClick={onClick}
+            onClick={e => {
+                e.stopPropagation();
+                onClick();
+            }}
         >
             {text} <img src={imgSrc} alt="" className="ml-1" />
         </button>
     );
 
     const renderInfoItem = (imgSrc, altText, text) => (
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1" key={altText + text}>
             <img src={imgSrc} alt={altText} className="h-4 w-4" />
             <span className="text-sm text-gray-700">{text}</span>
         </div>
     );
 
-    const jobCardsData = [
-        {
-            title: "AI Risk Analysis",
-            description: "Develop machine learning models to assess and mitigate financial risks, including credit, market, and operational risks.",
-            userName: "Juxtapose",
-            location: "UAE | United States",
-            rating: 4.9,
-            jobs: 32,
-            infoItems: [
-                { imgSrc: location, altText: "Location", text: "UAE | United States" },
-                { imgSrc: calendar, altText: "Calendar", text: "25 hrs/wk" },
-                { imgSrc: clock, altText: "Clock", text: "Anytime" }
-            ],
-            tags: ["Project Management Tools", "Jira", "Hubspot"],
-            dueDate: "01-09-2025"
-        },
-        {
-            title: "AI Data Analysis",
-            description: "Analyze large datasets to extract meaningful insights and support decision-making processes.",
-            userName: "Reddit",
-            location: "UK | Canada",
-            rating: 4.8,
-            jobs: 28,
-            infoItems: [
-                { imgSrc: location, altText: "Location", text: "UK | Canada" },
-                { imgSrc: calendar, altText: "Calendar", text: "30 hrs/wk" },
-                { imgSrc: clock, altText: "Clock", text: "Flexible" }
-            ],
-            tags: ["Data Science", "Python", "R"],
-            dueDate: "15-10-2025"
-        },
-        {
-            title: "AI Model Deployment",
-            description: "Deploy AI models into production environments ensuring scalability and reliability.",
-            userName: "Bank of America",
-            location: "USA | Canada",
-            rating: 4.7,
-            jobs: 25,
-            infoItems: [
-                { imgSrc: location, altText: "Location", text: "USA | Canada" },
-                { imgSrc: calendar, altText: "Calendar", text: "20 hrs/wk" },
-                { imgSrc: clock, altText: "Clock", text: "Remote" }
-            ],
-            tags: ["AWS", "Docker", "Kubernetes"],
-            dueDate: "20-11-2025"
-        },
-        {
-            title: "AI Research",
-            description: "Conduct research on cutting-edge AI technologies and publish findings in top journals.",
-            userName: "Daenerys Targaryen",
-            location: "Australia | New Zealand",
-            rating: 4.9,
-            jobs: 40,
-            infoItems: [
-                { imgSrc: location, altText: "Location", text: "Australia | New Zealand" },
-                { imgSrc: calendar, altText: "Calendar", text: "40 hrs/wk" },
-                { imgSrc: clock, altText: "Clock", text: "On-site" }
-            ],
-            tags: ["AI Research", "TensorFlow", "PyTorch"],
-            dueDate: "05-12-2025"
-        },
-        {
-            title: "AI System Design",
-            description: "Design AI systems that integrate with existing infrastructure to enhance business operations.",
-            userName: "Cersei Lannister",
-            location: "France | Germany",
-            rating: 4.6,
-            jobs: 35,
-            infoItems: [
-                { imgSrc: location, altText: "Location", text: "France | Germany" },
-                { imgSrc: calendar, altText: "Calendar", text: "35 hrs/wk" },
-                { imgSrc: clock, altText: "Clock", text: "Hybrid" }
-            ],
-            tags: ["System Design", "Java", "C++"],
-            dueDate: "10-01-2026"
-        }
-    ];
-
     return (
         <div className="space-y-6">
-            {jobCardsData.map((job, index) => (
+            {jobs.map((job, index) => (
                 <div
-                    key={index}
+                    key={job.id || index}
                     className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[300px] justify-between cursor-pointer"
                     onClick={() => navigate(`/client/jobs-details`)}
                 >
@@ -140,13 +73,19 @@ function JobCard() {
                         </div>
                     </div>
                     <div className='flex flex-col md:flex-row gap-4'>
-                        {job.infoItems.map((item, idx) => renderInfoItem(item.imgSrc, item.altText, item.text))}
+                        {job.infoItems && job.infoItems.map((item, idx) =>
+                            renderInfoItem(
+                                iconMap[item.imgSrc] || location,
+                                item.altText,
+                                item.text
+                            )
+                        )}
                     </div>
 
                     <hr className="my-1 border-black" />
 
                     <div className="mt-3 flex flex-wrap gap-2">
-                        {job.tags.map((text, idx) => (
+                        {job.tags && job.tags.map((text, idx) => (
                             <span key={idx} className="bg-white border border-gray-200 text-sm text-black rounded px-3 py-1">{text}</span>
                         ))}
                         <p className="text-sm text-red-800 ml-auto">Due on: {job.dueDate}</p>

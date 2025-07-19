@@ -1,43 +1,55 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
-  const [showSearch, setShowSearch] = useState(false);
-  const [profileImage, setProfileImage] = useState('/assets/profile.png');
+const menuItems = [
+  { name: 'Home', icon: '/assets/home.svg', route: '/consultingfirm/home' },
+  { name: 'Jobs', icon: '/assets/Jobs.png', route: '/consultingfirm/jobs' },
+  { name: 'Projects', icon: '/assets/projects.svg', route: '/consultingfirm/projects' },
+  { name: 'Explore Talents', icon: '/assets/uidesigner.svg', route: '/consultingfirm/explore-talent' },
+  { name: 'Tracker', icon: '/assets/tracker.svg', route: '/consultingfirm/tracker' },
+  { name: 'Courses', icon: '/assets/courses.svg', route: '/consultingfirm/explore-course' },
+  { name: 'Community', icon: '/assets/community.svg', route: '/consultingfirm/community' },
+  { name: 'Earnings', icon: '/assets/earnings.svg', route: '/under-processing', extra: <span className="bg-gray-200 text-gray-700 text-xs rounded-full px-2 py-1 ml-2">$1500</span> },
+  { name: 'Invoices', icon: '/assets/invoices.png', route: '/under-processing' }
+];
+
+const Sidebar = () => {
+  const [active, setActive] = useState('Home');
+  const navigate = useNavigate();
+  const handleItemClick = (name, route) => {
+    setActive(name);
+    if (route) {
+      navigate(route);
+    }
+  };
 
   return (
-    <nav className="bg-white relative">
-      {/* Logo moved outside the centered container and placed at the far left */}
-      <Link
-        to="/"
-        className="focus:text-[#007DF0] absolute left-4 top-1/2 transform -translate-y-1/2"
-      >
-        <img src="/assets/logo.png" alt="Logo" className="h-12" />
-      </Link>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-end h-16 items-center space-x-8">
-          {showSearch && (
-            <div className="flex items-center border-b border-gray-300">
-              <input
-                type="text"
-                placeholder="Courses, Experts, or AI products"
-                className="w-72 px-3 py-1 focus:outline-none text-sm font-medium"
-              />
-            </div>
-          )}
-          <button
-            onClick={() => setShowSearch(!showSearch)}
-            className="text-gray-700 hover:text-blue-500 focus:outline-none focus:text-[#007DF0]"
+    // Hide sidebar on small screens, show on md and up
+    <div className="hidden md:block w-[25%] h-full bg-white">
+      <ul className="space-y-2 p-6 mt-4">
+        {menuItems.map(({ name, icon, route, extra }, index) => (
+          <li
+            key={name}
+            onClick={() => handleItemClick(name, route)}
+            className={`flex items-center gap-1 p-6 rounded-lg cursor-pointer transition ${active === name ? 'bg-gray-100' : 'hover:bg-[#F3F3F3]'}`}
           >
-            <img src="/assets/search.png" alt="Search" className="h-5 w-5" />
-          </button>
-          <img src="/assets/chat.png" alt="Chat" className="h-5 w-5" />
-          <img src="/assets/bell.png" alt="Notifications" className="h-5 w-5" />
-          <img src={profileImage} alt="Profile" className="h-9 w-9" />
-        </div>
-      </div>
-    </nav>
+            <img src={icon} alt={name} className="h-6 w-6" />
+            <span className="text-[#313131] text-xl">{name}</span>
+            {extra}
+          </li>
+        ))}
+        <li
+          key="Help Center"
+          onClick={() => setActive('Help Center')}
+          className={`flex items-center gap-1 p-6 rounded-lg cursor-pointer transition ${active === 'Help Center' ? 'bg-gray-100' : 'hover:bg-gray-50'}`}
+          style={{ marginTop: '100%' }}
+        >
+          <img src="/assets/arrowupright.png" alt="Help Center" className="h-6 w-7" />
+          <span className="text-[#313131] text-xl">Help Center</span>
+        </li>
+      </ul>
+    </div>
   );
 };
 
-export default Navbar;
+export default Sidebar;
