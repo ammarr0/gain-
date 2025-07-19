@@ -15,20 +15,20 @@ const PostJobs = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full my-8">
-      <div className="bg-white p-8 rounded-lg shadow-2xl max-w-2xl w-full">
-        <h1 className="text-2xl font-semibold mb-4 text-center">Post a New Job</h1>
+    <div className="flex justify-center items-center w-full min-h-screen py-6 px-2 sm:px-4 bg-gray-50">
+      <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-2xl w-full max-w-lg sm:max-w-xl md:max-w-2xl">
+        <h1 className="text-xl sm:text-2xl font-semibold mb-4 text-center">Post a New Job</h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4 grid grid-cols-2 gap-4">
+          <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {['Web Development', 'AI', 'Mobile Development', 'Other'].map((category) => (
               <div
                 key={category}
-                className={`bg-gray-100 p-4 rounded-lg text-center cursor-pointer ${
-                  selectedCategory === category ? 'border-2 border-blue-500' : ''
+                className={`bg-gray-100 p-3 sm:p-4 rounded-lg text-center cursor-pointer transition border ${
+                  selectedCategory === category ? 'border-2 border-blue-500' : 'border-transparent'
                 }`}
                 onClick={() => handleCategoryClick(category)}
               >
-                <p className="text-gray-700 font-bold">{category}</p>
+                <p className="text-gray-700 font-bold text-sm sm:text-base">{category}</p>
               </div>
             ))}
           </div>
@@ -77,7 +77,7 @@ const PostJobs = () => {
           <div className="mb-4">
             <button
               type="button"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-auto"
             >
               Add New Role
             </button>
@@ -93,8 +93,8 @@ const PostJobs = () => {
               placeholder="Enter key skills"
             />
           </div>
-          <div className="mb-4 flex justify-between">
-            <div className="w-1/2 pr-2">
+          <div className="mb-4 flex flex-col sm:flex-row sm:justify-between gap-3">
+            <div className="sm:w-1/2">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="budget">
                 Budget
               </label>
@@ -105,7 +105,7 @@ const PostJobs = () => {
                 placeholder="Enter budget"
               />
             </div>
-            <div className="w-1/2 pl-2">
+            <div className="sm:w-1/2">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="paymentType">
                 Payment Type
               </label>
@@ -128,8 +128,8 @@ const PostJobs = () => {
               placeholder="Enter budget range"
             />
           </div>
-          <div className="mb-4 flex justify-between">
-            <div className="w-1/2 pr-2">
+          <div className="mb-4 flex flex-col sm:flex-row sm:justify-between gap-3">
+            <div className="sm:w-1/2">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="jobDuration">
                 Job Duration
               </label>
@@ -140,7 +140,7 @@ const PostJobs = () => {
                 placeholder="Enter job duration"
               />
             </div>
-            <div className="w-1/2 pl-2">
+            <div className="sm:w-1/2">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="startDate">
                 Start Date
               </label>
@@ -151,8 +151,8 @@ const PostJobs = () => {
               />
             </div>
           </div>
-          <div className="mb-4 flex justify-between">
-            <div className="w-1/2 pr-2">
+          <div className="mb-4 flex flex-col sm:flex-row sm:justify-between gap-3">
+            <div className="sm:w-1/2">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="locationType">
                 Location Type
               </label>
@@ -163,7 +163,7 @@ const PostJobs = () => {
                 placeholder="Enter location type"
               />
             </div>
-            <div className="w-1/2 pl-2">
+            <div className="sm:w-1/2">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preferredLocation">
                 Preferred Location
               </label>
@@ -199,21 +199,21 @@ const PostJobs = () => {
           <div className="mb-4">
             <button
               type="button"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-auto"
             >
               Add More Questions
             </button>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <button
               type="button"
-              className="text-gray-500 font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+              className="text-gray-500 font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-full sm:w-auto"
             >
               Save Draft
             </button>
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-auto"
             >
               Post Job
             </button>

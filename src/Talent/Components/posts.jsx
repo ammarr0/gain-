@@ -32,35 +32,48 @@ An automation—Why waste human effort when an unblinking mind can handle tediou
 
 const PostFeed = () => {
     return (
-        <div className="flex flex-col items-center py-10 px-4 bg-white min-h-screen">
-            {posts.map((post, index) => (
-                <div key={index} className="bg-white shadow-sm border rounded-lg p-4 mb-6 w-4/5">
-                    {/* Header */}
-                    <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 rounded-full bg-gray-300" /> {/* Placeholder for profile pic */}
-                        <div>
-                            <h4 className="font-semibold text-gray-800">{post.name}</h4>
-                            <p className="text-sm text-gray-500">{post.title} • {post.time}</p>
+        <div className="flex flex-col items-center py-6 px-2 sm:px-4 bg-white min-h-screen w-full">
+            <div className="w-full flex flex-col items-center">
+                {posts.map((post, index) => (
+                    <div
+                        key={index}
+                        className="
+                            bg-white shadow-sm border rounded-lg p-3 sm:p-4 mb-6
+                            w-full max-w-md
+                            sm:max-w-lg
+                            md:max-w-xl
+                            lg:max-w-2xl
+                            xl:max-w-3xl
+                            transition-all
+                        "
+                    >
+                        {/* Header */}
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0" /> {/* Placeholder for profile pic */}
+                            <div>
+                                <h4 className="font-semibold text-gray-800">{post.name}</h4>
+                                <p className="text-sm text-gray-500">{post.title} • {post.time}</p>
+                            </div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="text-sm sm:text-base text-gray-800 mb-4 whitespace-pre-line">
+                            {post.content}
+                        </div>
+
+                        {/* Footer actions */}
+                        <div className="flex flex-col sm:flex-row sm:justify-between gap-2 text-sm text-gray-600">
+                            <button className="hover:underline text-left w-fit">Read Less</button>
+                            <div className="flex gap-2 sm:gap-4 flex-wrap">
+                                <button className="hover:underline">Like</button>
+                                <button className="hover:underline">Comment</button>
+                                <button className="hover:underline">Share</button>
+                                <button className="hover:underline">More</button>
+                            </div>
                         </div>
                     </div>
-
-                    {/* Content */}
-                    <div className="text-sm text-gray-800 mb-4 whitespace-pre-line">
-                        {post.content}
-                    </div>
-
-                    {/* Footer actions */}
-                    <div className="flex justify-between text-sm text-gray-600">
-                        <button className="hover:underline">Read Less</button>
-                        <div className="flex gap-4">
-                            <button className="hover:underline">Like</button>
-                            <button className="hover:underline">Comment</button>
-                            <button className="hover:underline">Share</button>
-                            <button className="hover:underline">More</button>
-                        </div>
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 };
