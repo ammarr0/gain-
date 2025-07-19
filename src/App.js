@@ -60,7 +60,11 @@ import TalentJobs from "./Talent/Pages/Jobs.jsx"
 import TalentProject from "./Talent/Pages/projects.jsx";
 import TalentExploreCourse from "./Talent/Pages/explore-courses.jsx";
 import TalentPostCourse from "./Talent/Pages/post-new-course.jsx";
-import TalentProfile from "./Talent/Pages/Profile.jsx"
+import TalentProfile from "./Talent/Pages/Profile.jsx";
+import TalentTracker from "./Talent/Pages/Tracker/invites.jsx";
+import TrackerApplications from "./Talent/Pages/Tracker/applications.jsx";
+import TrackerOffers from "./Talent/Pages/Tracker/joboffers.jsx";
+import TrackerProject from "./Talent/Pages/Tracker/projectoffers.jsx"
 const App = () => {
   return (
     <Router>
@@ -135,15 +139,18 @@ const App = () => {
                 <Route path="dashboard" element={<TalentDashboard />} />
                 <Route path="jobs" element={<TalentJobs />} />
                 <Route path="projects" element={<TalentProject />} />
-                <Route path="explore-course" element={<><TalentExploreCourse /></>} />
+                <Route path="explore-course" element={<TalentExploreCourse />} />
                 <Route path="job-application" element={<JobsApplication />} />
                 <Route path="post-job" element={<PostJobs />} />
                 <Route path="post-course" element={<TalentPostCourse />} />
                 <Route path="post-success" element={<PostSuccess />} />
-                <Route path="main-course" element={<><MainCourse /></>} />
-                <Route path="profile" element={<><ClientsProfile /></>} />
-                <Route path="my-invoices" element={<><Invoice /></>} />
-                <Route path="make-invoices" element={<><MakeInvoices /></>} />
+                <Route path="main-course" element={<MainCourse />} />
+                <Route path="profile" element={<ClientsProfile />} />
+                <Route path="tracker" element={<TalentTracker />} />
+
+                <Route path="/applications" element={< TrackerApplications />} />
+                <Route path="/joboffers" element={<TrackerOffers />} />
+                <Route path="/projectsoffers" element={<TrackerProject />} />
               </Routes>
             </div>
           </>
