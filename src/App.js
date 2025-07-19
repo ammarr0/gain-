@@ -147,7 +147,6 @@ const App = () => {
                 <Route path="main-course" element={<MainCourse />} />
                 <Route path="profile" element={<ClientsProfile />} />
                 <Route path="tracker" element={<TalentTracker />} />
-
                 <Route path="/applications" element={< TrackerApplications />} />
                 <Route path="/joboffers" element={<TrackerOffers />} />
                 <Route path="/projectsoffers" element={<TrackerProject />} />
