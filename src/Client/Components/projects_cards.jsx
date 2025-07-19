@@ -47,9 +47,9 @@ function JobCard() {
         <div className="space-y-6">
             {jobCardsData.map((job, index) => (
                 <div key={index} className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[300px] justify-between">
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                         <h2 className="text-2xl font-bold text-black">{job.title}</h2>
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 mt-4 md:mt-0">
                             {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Jobs", arrowupblack)}
                             {renderButton("bg-[#030923]", "text-white", "View Jobs", arrowup)}
                         </div>
@@ -59,7 +59,7 @@ function JobCard() {
 
                     <div className="mt-4 flex flex-col gap-3">
                         {job.userNames.map((userName, i) => (
-                            <div key={i} className="flex items-center gap-3">
+                            <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                                 <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />
                                 <div>
                                     <h3 className="font-semibold text-black">{userName}</h3>
@@ -77,13 +77,13 @@ function JobCard() {
                             </div>
                         ))}
                     </div>
-                    <div className='flex gap-4'>
+                    <div className='flex flex-wrap gap-4'>
                         {job.infoItems.map((item, idx) => renderInfoItem(item.imgSrc, item.altText, item.text))}
                     </div>
 
                     <hr className="my-1 border-black" />
 
-                    <div className="mt-3 flex gap-2">
+                    <div className="mt-3 flex flex-wrap gap-2">
                         {job.tags.map((text, idx) => (
                             <span key={idx} className="bg-white border border-gray-200 text-sm text-black rounded px-3 py-1">{text}</span>
                         ))}

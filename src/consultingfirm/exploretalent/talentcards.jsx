@@ -57,9 +57,9 @@ const talentData = [
 
 const TalentProfileCard = () => {
   return (
-    <>
+    <div className="container mx-auto px-4">
       {talentData.map((talent, index) => (
-        <div key={index} className="border rounded-xl p-6 shadow-sm bg-white w-[96%] mx-auto mb-6">
+        <div key={index} className="border rounded-xl p-6 shadow-sm bg-white w-full max-w-2xl mx-auto mb-6">
           <div className="flex flex-col md:flex-row justify-between gap-4">
             <div className="flex gap-4">
               <img
@@ -68,9 +68,9 @@ const TalentProfileCard = () => {
                 className="w-20 h-20 rounded-full object-cover border border-gray-300"
               />
               <div>
-                <h2 className="text-2xl font-semibold">{talent.name}</h2>
-                <p className="text-gray-500 text-lg">{talent.role}</p>
-                <div className="flex items-center text-black text-lg mt-1">
+                <h2 className="text-xl md:text-2xl font-semibold">{talent.name}</h2>
+                <p className="text-gray-500 text-base md:text-lg">{talent.role}</p>
+                <div className="flex items-center text-black text-base md:text-lg mt-1">
                   {[...Array(5)].map((_, i) => (
                     <FaStar key={i} />
                   ))}
@@ -79,40 +79,40 @@ const TalentProfileCard = () => {
             </div>
 
             <div className="flex flex-col items-end justify-between">
-              <div className="text-2xl text-black flex items-center gap-2">
+              <div className="text-lg md:text-2xl text-black flex items-center gap-2">
                 <span className="font-semibold">{talent.experience}</span> • <span>{talent.rate}</span>
-                <img src={linkedinIcon} alt="LinkedIn" />
-                <img src={calendarIcon} alt="Calendar" />
-                <img src={websiteIcon} alt="Website" />
+                <img src={linkedinIcon} alt="LinkedIn" className="w-5 h-5 md:w-6 md:h-6" />
+                <img src={calendarIcon} alt="Calendar" className="w-5 h-5 md:w-6 md:h-6" />
+                <img src={websiteIcon} alt="Website" className="w-5 h-5 md:w-6 md:h-6" />
               </div>
               <div className="flex gap-2 mt-4 md:mt-0">
-                <FiMessageCircle className="w-6 h-6 text-gray-500 cursor-pointer" />
-                <FiBookmark className="w-6 h-6 text-gray-500 cursor-pointer" />
-                <FiShare2 className="w-6 h-6 text-gray-500 cursor-pointer" />
+                <FiMessageCircle className="w-5 h-5 md:w-6 md:h-6 text-gray-500 cursor-pointer" />
+                <FiBookmark className="w-5 h-5 md:w-6 md:h-6 text-gray-500 cursor-pointer" />
+                <FiShare2 className="w-5 h-5 md:w-6 md:h-6 text-gray-500 cursor-pointer" />
               </div>
             </div>
           </div>
           <div>
-            <p className="text-lg text-gray-500 mt-1">📍 {talent.location} – 5:30 pm local time</p>
-            <span className="inline-block bg-blue-600 text-white text-base px-3 py-1 rounded-full mt-2">
+            <p className="text-base md:text-lg text-gray-500 mt-1">📍 {talent.location} – 5:30 pm local time</p>
+            <span className="inline-block bg-blue-600 text-white text-sm md:text-base px-3 py-1 rounded-full mt-2">
               ✅ {talent.availability}
             </span>
           </div>
           <hr className="my-4" />
-          <p className="text-gray-700 text-lg mt-4">
+          <p className="text-gray-700 text-base md:text-lg mt-4">
             {talent.description}
           </p>
           <hr className="my-4" />
           <div className="flex justify-end items-center mt-6 gap-2">
-            <button className="border border-black p-1 rounded-[10px] w-15 h-15 text-lg font-medium hover:bg-gray-100 px-5 py-2">
+            <button className="border border-black p-1 rounded-[10px] text-sm md:text-lg font-medium hover:bg-gray-100 px-4 md:px-5 py-2">
               View Profile
             </button>
-            <img src={menu} alt="" />
-            <img src={msg} alt="" className='border border-black p-1 rounded-[10px] w-15 h-15' />
+            <img src={menu} alt="" className="w-5 h-5 md:w-6 md:h-6" />
+            <img src={msg} alt="" className='border border-black p-1 rounded-[10px] w-5 h-5 md:w-6 md:h-6' />
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

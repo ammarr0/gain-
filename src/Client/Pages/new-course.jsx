@@ -16,34 +16,34 @@ const PostCourses = () => {
 
     return (
         <>
-        <div className='d-flex'>
+        <div className='flex flex-col'>
             <div className="flex flex-col md:flex-row gap-4 mb-8">
                 <div className="bg-yellow-100 rounded-2xl p-8 md:w-1/2 h-72 flex items-center">
-                    <p className="text-5xl text-gray-900 mb-2">
+                    <p className="text-3xl md:text-5xl text-gray-900 mb-2">
                         Teach and <br />
                         Transform <br/><strong>Live</strong> <br />
                     </p>
                 </div>
                 <div className="rounded-2xl border-2 border-yellow-100 p-8 md:w-1/2 flex items-center justify-center text-left">
-                    <p className="text-gray-700 text-3xl leading-relaxed">
+                    <p className="text-gray-700 text-xl md:text-3xl leading-relaxed">
                         Browse opportunities and take the next step in your firm’s journey.
                     </p>
                 </div>
             </div>
-            <div className="text-center mt-50">
-                    <p className=" text-3xl leading-relaxed font-bold">
+            <div className="text-center mt-12 md:mt-50">
+                    <p className="text-2xl md:text-3xl leading-relaxed font-bold">
                         Create a new AI Course
                     </p>
                     <br/>
-                    <p className="text-3xl leading-relaxed">
+                    <p className="text-xl md:text-3xl leading-relaxed">
                         Browse opportunities and take the next step in your firm’s journey.
                     </p>
             </div>
             <div className="flex justify-center items-center w-full my-8">
-                <div className="bg-white p-8 rounded-lg shadow-2xl max-w-2xl w-full">
-                    <h1 className="text-2xl font-semibold mb-4 text-center">Post a New Course</h1>
+                <div className="bg-white p-8 rounded-lg shadow-2xl max-w-full md:max-w-2xl w-full">
+                    <h1 className="text-xl md:text-2xl font-semibold mb-4 text-center">Post a New Course</h1>
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-4 grid grid-cols-2 gap-4">
+                        <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                             {['Web Development', 'AI', 'Mobile Development', 'Other'].map((category) => (
                                 <div
                                     key={category}
@@ -116,8 +116,8 @@ const PostCourses = () => {
                                 placeholder="Enter key skills"
                             />
                         </div>
-                        <div className="mb-4 flex justify-between">
-                            <div className="w-1/2 pr-2">
+                        <div className="mb-4 flex flex-col md:flex-row justify-between">
+                            <div className="w-full md:w-1/2 md:pr-2 mb-4 md:mb-0">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="courseDuration">
                                     Course Duration
                                 </label>
@@ -128,7 +128,7 @@ const PostCourses = () => {
                                     placeholder="Enter course duration"
                                 />
                             </div>
-                            <div className="w-1/2 pl-2">
+                            <div className="w-full md:w-1/2 md:pl-2">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="startDate">
                                     Start Date
                                 </label>
@@ -139,8 +139,8 @@ const PostCourses = () => {
                                 />
                             </div>
                         </div>
-                        <div className="mb-4 flex justify-between">
-                            <div className="w-1/2 pr-2">
+                        <div className="mb-4 flex flex-col md:flex-row justify-between">
+                            <div className="w-full md:w-1/2 md:pr-2 mb-4 md:mb-0">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="locationType">
                                     Location Type
                                 </label>
@@ -151,7 +151,7 @@ const PostCourses = () => {
                                     placeholder="Enter location type"
                                 />
                             </div>
-                            <div className="w-1/2 pl-2">
+                            <div className="w-full md:w-1/2 md:pl-2">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preferredLocation">
                                     Preferred Location
                                 </label>
@@ -192,10 +192,10 @@ const PostCourses = () => {
                                 Add More Questions
                             </button>
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col md:flex-row items-center justify-between">
                             <button
                                 type="button"
-                                className="text-gray-500 font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+                                className="text-gray-500 font-bold py-2 px-4 focus:outline-none focus:shadow-outline mb-4 md:mb-0"
                             >
                                 Save Draft
                             </button>

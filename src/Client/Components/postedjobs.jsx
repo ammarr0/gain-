@@ -56,28 +56,27 @@ function PostedJobs() {
         <div className="space-y-6 mt-7">
             {postedJobsData.map((job, index) => (
                 <div key={index} className="bg-white border border-gray-300 rounded-2xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between">
-                    <div className="flex justify-between items-center">
-                        <h2 className="text-2xl font-bold text-black">{job.title}</h2>
-                      
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <h2 className="text-xl md:text-2xl font-bold text-black">{job.title}</h2>
                     </div>
 
-                    <p className="text-black">{job.description}</p>
-                    <div className='flex gap-4'>
+                    <p className="text-black text-sm md:text-base">{job.description}</p>
+                    <div className='flex flex-wrap gap-2 md:gap-4'>
                         {job.infoItems.map((item, idx) => renderInfoItem(item.imgSrc, item.altText, item.text))}
                     </div>
 
                     <hr className="border-black" />
 
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                         {job.tags.map((text, idx) => (
-                            <span key={idx} className="bg-white border border-gray-200 text-sm text-black rounded px-3 py-1">{text}</span>
+                            <span key={idx} className="bg-white border border-gray-200 text-xs md:text-sm text-black rounded px-2 md:px-3 py-1">{text}</span>
                         ))}
-                        <div className="text-sm text-red-800 ml-auto">
+                        <div className="text-xs md:text-sm text-red-800 ml-auto">
 
-                        <div className="flex gap-4">
-                            {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Jobs", arrowupblack)}
-                            {renderButton("bg-[#030923]", "text-white", "View Jobs", arrowup)}
-                        </div>
+                            <div className="flex flex-wrap gap-2 md:gap-4">
+                                {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Jobs", arrowupblack)}
+                                {renderButton("bg-[#030923]", "text-white", "View Jobs", arrowup)}
+                            </div>
                         </div>
                     </div>
                 </div>

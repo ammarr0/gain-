@@ -14,24 +14,24 @@ function ActiveProjects() {
                 <p className="text-black mt-1">Track progress, deadlines, and deliverables for all ongoing projects.</p>
             </div>
 
-            <div className="flex gap-4 mb-6">
+            <div className="flex flex-wrap gap-4 mb-6">
                 <button
                     onClick={() => handleTabClick('active')}
-                    className={`w-[164px] h-[36px] pr-[16px] pl-[16px] rounded-[8px] text-sm font-medium ${activeTab === 'active' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
+                    className={`flex-1 min-w-[120px] h-[36px] pr-[16px] pl-[16px] rounded-[8px] text-sm font-medium ${activeTab === 'active' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
                         }`}
                 >
                     Active
                 </button>
                 <button
                     onClick={() => handleTabClick('draft')}
-                    className={`w-[164px] h-[36px] pr-[16px] pl-[16px] rounded-[8px] text-sm font-medium ${activeTab === 'draft' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
+                    className={`flex-1 min-w-[120px] h-[36px] pr-[16px] pl-[16px] rounded-[8px] text-sm font-medium ${activeTab === 'draft' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
                         }`}
                 >
                     Draft
                 </button>
                 <button
                     onClick={() => handleTabClick('close')}
-                    className={`w-[164px] h-[36px] pr-[16px] pl-[16px] rounded-[8px] text-sm font-medium ${activeTab === 'close' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
+                    className={`flex-1 min-w-[120px] h-[36px] pr-[16px] pl-[16px] rounded-[8px] text-sm font-medium ${activeTab === 'close' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
                         }`}
                 >
                     Closed

@@ -18,8 +18,8 @@ const Profile = () => {
       <h1 className="text-2xl font-bold">Your Profile</h1>
       <p className="text-gray-600 mt-2">Manage your profile and settings to maximize your experience on the platform.</p>
 
-      <div className="flex flex-col md:flex-row gap-6 mt-6">
-        <div className="md:w-1/4 bg-gray-100 p-4 rounded-lg">
+      <div className="flex flex-col lg:flex-row gap-6 mt-6">
+        <div className="lg:w-1/4 bg-gray-100 p-4 rounded-lg">
           <div className="text-center mb-6">
             <img src="/profile-placeholder.jpg" alt="Profile Picture" className="w-24 h-24 rounded-full mx-auto object-cover border-2 border-gray-300" />
             <p className="mt-2">Profile Picture <a href="#" className="text-blue-500 hover:underline">Click here to change</a></p>
@@ -30,8 +30,8 @@ const Profile = () => {
           <p className="mt-2">Billing and Payment</p>
           <p className="mt-2">Account Settings</p>
         </div>
-        <div className="md:w-3/4 bg-white p-6 rounded-lg shadow-md">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="lg:w-3/4 bg-white p-6 rounded-lg shadow-md">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <p className="text-gray-700">Company/Organization Name</p>
               <input 

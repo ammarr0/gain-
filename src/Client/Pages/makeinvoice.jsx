@@ -42,7 +42,7 @@ const MakeInvoices = () => {
     <div className="container mx-auto p-4 bg-white min-h-screen">
       {!showInvoice ? (
         <div>
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-6">
             <h1 className="text-2xl font-bold">Make Invoice</h1>
           </div>
 
@@ -116,12 +116,12 @@ const MakeInvoices = () => {
                 </table>
               </div>
 
-              <div className="bg-white p-4 rounded-lg flex justify-between items-center">
-                <div>
+              <div className="bg-white p-4 rounded-lg flex flex-col md:flex-row justify-between items-center">
+                <div className="mb-4 md:mb-0">
                   <h2 className="text-lg font-semibold mb-2">Currency of Invoice</h2>
                   <input type="text" value={invoiceData.currency} className="w-full mt-1 p-2 border border-gray-300 rounded" placeholder="Currency" />
                 </div>
-                <div>
+                <div className="mb-4 md:mb-0">
                   <h2 className="text-lg font-semibold mb-2">Total</h2>
                   <input type="text" value={invoiceData.total} className="w-full mt-1 p-2 border border-gray-300 rounded text-2xl font-bold" placeholder="Total" />
                 </div>
@@ -133,7 +133,7 @@ const MakeInvoices = () => {
       ) : (
         <div className="container mx-auto p-4 bg-white min-h-screen flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6">
               <div>
                 <h1 className="text-2xl font-bold">Invoice by</h1>
                 <div className="flex items-center gap-2">
@@ -147,7 +147,7 @@ const MakeInvoices = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
                 <h2 className="text-lg font-semibold mb-2">Bill To</h2>
                 <p>Tax ID: TaxFree</p>
@@ -206,8 +206,8 @@ const MakeInvoices = () => {
               </tbody>
             </table>
 
-            <div className="flex justify-between mt-6">
-              <button className="bg-blue-500 text-white px-4 py-2 rounded">Share Invoice</button>
+            <div className="flex flex-col md:flex-row justify-between mt-6">
+              <button className="bg-blue-500 text-white px-4 py-2 rounded mb-4 md:mb-0">Share Invoice</button>
               <button className="bg-blue-500 text-white px-4 py-2 rounded">Save Invoice</button>
             </div>
           </div>

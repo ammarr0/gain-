@@ -66,6 +66,7 @@ import TrackerApplications from "./Talent/Pages/Tracker/applications.jsx";
 import TrackerOffers from "./Talent/Pages/Tracker/joboffers.jsx";
 import TrackerProject from "./Talent/Pages/Tracker/projectoffers.jsx";
 import ConsultingFirmSidebar from "./consultingfirm/components/cfsidebar.jsx"
+import ClientMain from "./Talent/Pages/main-course.jsx"
 
 const App = () => {
   return (
@@ -128,6 +129,7 @@ const App = () => {
                 <Route path="my-projects" element={<ClientProjects />} />
                 <Route path="explore-talent" element={<><ClientExploreTalents /></>} />
                 <Route path="explore-course" element={<><ClientExploreCourse /></>} />
+                <Route path="main-course" element={<ClientMain />} />
                 <Route path="job-application" element={<JobsApplication />} />
                 <Route path="post-job" element={<PostJobs />} />
                 <Route path="post-course" element={<PostCourse />} />
