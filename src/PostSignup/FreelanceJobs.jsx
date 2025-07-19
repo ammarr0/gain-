@@ -142,20 +142,20 @@ const FreelanceJobs = () => {
   return (
     <section className="min-h-screen bg-white">
       {/* Top Heading */}
-      <div className="max-w-7xl mx-auto py-8 md:py-10">
-        <h1 className="text-4xl md:text-5xl font-2xl text-gray-800 ml-8 text-left">
+      <div className="max-w-7xl mx-auto py-8 md:py-10 px-4 sm:px-6">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-2xl text-gray-800 text-left ml-0 sm:ml-8">
           Freelance Projects
         </h1>
-        <p className="text-gray-600 text-lg mb-6 w-full ml-8 leading-relaxed mt-4">
+        <p className="text-gray-600 text-base sm:text-lg mb-6 w-full text-left ml-0 sm:ml-8 leading-relaxed mt-4">
           Find the right opportunities, and apply directly on the GAIN Platform.
         </p>
       </div>
 
       {/* Dropdowns */}
-      <div className="max-w-7xl mx-auto mb-8">
-        <div className="flex flex-wrap gap-2 justify-center">
+      <div className="max-w-7xl mx-auto mb-8 px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-2 justify-center">
           <select
-            className="w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+            className="w-full sm:w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
             onChange={(e) => setRegion(e.target.value)}
           >
             <option value="">Select Region</option>
@@ -165,7 +165,7 @@ const FreelanceJobs = () => {
           </select>
 
           <select
-            className="w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+            className="w-full sm:w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
             onChange={(e) => setLocation(e.target.value)}
           >
             <option value="">Select Location</option>
@@ -175,7 +175,7 @@ const FreelanceJobs = () => {
           </select>
 
           <select
-            className="w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+            className="w-full sm:w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
             onChange={(e) => setIndustry(e.target.value)}
           >
             <option value="">Select Industry</option>
@@ -185,7 +185,7 @@ const FreelanceJobs = () => {
           </select>
 
           <select
-            className="w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+            className="w-full sm:w-[290px] bg-white text-gray-700 text-sm rounded-xl px-4 py-3 border-2 border-black outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
             onChange={(e) => setJobType(e.target.value)}
           >
             <option value="">Select Job Type</option>
@@ -197,59 +197,59 @@ const FreelanceJobs = () => {
       </div>
 
       {/* Cards Container */}
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-y-6 gap-x-2">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4">
           {displayedJobs.map((job) => (
             <div
               key={job.id}
-              className="border-2 border-black rounded-2xl shadow-md p-6 flex flex-col transition-all transform hover:scale-105 hover:shadow-lg w-10/12 mx-auto"
+              className="border-2 border-black rounded-2xl shadow-md p-4 sm:p-6 flex flex-col transition-all transform hover:scale-[1.02] hover:shadow-lg w-full"
             >
               {/* Icon */}
               <img
                 src={job.icon}
                 alt="Job Icon"
-                className="w-16 h-16 mb-4 object-contain"
+                className="w-14 h-14 sm:w-16 sm:h-16 mb-4 object-contain mx-auto sm:mx-0"
               />
 
               {/* Title + Description */}
               <div className="mb-4">
-                <h2 className="text-lg font-semibold text-gray-800">{job.title}</h2>
-                <p className="text-sm text-gray-500 mt-1">
+                <h2 className="text-base sm:text-lg font-semibold text-gray-800">{job.title}</h2>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1">
                   {truncateTextByWords(job.description, 28)}
                 </p>
               </div>
 
               {/* Button Row */}
-              <div className="pt-4 mb-4">
+              <div className="pt-2 sm:pt-4 mb-4">
                 <a href="/join-us">
-                  <button className="bg-[#030923] text-white px-6 py-2 rounded-xl h-12 text-sm font-semibold hover:bg-blue-700 transition-colors w-full">
+                  <button className="bg-[#030923] text-white px-4 sm:px-6 py-2 rounded-xl h-10 sm:h-12 text-xs sm:text-sm font-semibold hover:bg-blue-700 transition-colors w-full">
                     More Info &amp; Apply
                   </button>
                 </a>
               </div>
 
               {/* Stats Row */}
-              <div className="text-sm text-gray-600 space-y-1 mt-3 mb-4">
-                <span className="text-lg font-2xl mr-1">Experience</span>
-                <span className="flex items-center mt-2 font-semibold text-lg">
+              <div className="text-xs sm:text-sm text-gray-600 space-y-1 mt-3 mb-4">
+                <span className="text-base sm:text-lg font-2xl mr-1">Experience</span>
+                <span className="flex items-center mt-2 font-semibold text-base sm:text-lg">
                   {job.experience}
                 </span>
                 <hr className="my-2 border-black" />
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-2xl mr-1 mt-2">Location</span>
-                  <span className="text-right mt-2 font-semibold text-lg">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                  <span className="text-base sm:text-lg font-2xl mr-1 mt-2">Location</span>
+                  <span className="text-left sm:text-right mt-1 sm:mt-2 font-semibold text-base sm:text-lg">
                     {job.location}
                   </span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-2xl mr-1">Est. Start</span>
-                  <span className="text-right font-semibold text-lg">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                  <span className="text-base sm:text-lg font-2xl mr-1">Est. Start</span>
+                  <span className="text-left sm:text-right font-semibold text-base sm:text-lg">
                     {job.start}
                   </span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-2xl mr-1">Duration</span>
-                  <span className="text-right font-semibold text-lg">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                  <span className="text-base sm:text-lg font-2xl mr-1">Duration</span>
+                  <span className="text-left sm:text-right font-semibold text-base sm:text-lg">
                     {job.duration}
                   </span>
                 </div>
@@ -259,13 +259,13 @@ const FreelanceJobs = () => {
               <hr className="my-2 border-black" />
 
               {/* Skills Section */}
-              <div className="mt-4 text-sm text-gray-600">
+              <div className="mt-4 text-xs sm:text-sm text-gray-600">
                 <span className="font-semibold">Skills:</span>
                 <ul className="flex flex-wrap gap-2 mt-2">
                   {job.skills.map((skill, idx) => (
                     <li
                       key={idx}
-                      className="text-gray-700 py-1 px-4 text-xs rounded-full border border-black"
+                      className="text-gray-700 py-1 px-3 sm:px-4 text-xs rounded-full border border-black"
                     >
                       {skill}
                     </li>
@@ -277,13 +277,13 @@ const FreelanceJobs = () => {
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-end mt-8 space-x-2">
+        <div className="flex flex-wrap items-center justify-center sm:justify-end mt-8 space-x-2">
           {/* Page numbers */}
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
             <button
               key={pageNum}
               onClick={() => setCurrentPage(pageNum)}
-              className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold 
+              className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold mb-2 sm:mb-0
                 ${
                   currentPage === pageNum
                     ? 'bg-[#313131] text-white'
