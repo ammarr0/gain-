@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Sidebar from "../components/cfsidebar";
 import Tabs from "./tabs";
 
 const jobOffers = [
@@ -16,7 +15,6 @@ const JobOffers = () => {
 
   return (
     <div className="flex">
-      <Sidebar />
       <div className="w-[80%] mt-6 mx-auto">
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="w-full bg-gray-100 rounded-lg border border-gray-300 p-16 shadow-sm">

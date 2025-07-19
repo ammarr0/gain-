@@ -19,6 +19,7 @@ const Sidebar = () => {
     if (route) {
       navigate(route);
     }
+    
   };
 
   return (

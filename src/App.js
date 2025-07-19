@@ -38,25 +38,25 @@ import Firm from './profile/firm.jsx';
 import CompletedJobs from './profile/completejob.jsx';
 import UP from './up.jsx';
 import ExploreTalentsSection from './consultingfirm/exploretalent/exporetalent.jsx';
-import ClientDashboard from "./Client/Pages/Dashboard.jsx"
-import ClientJobs from "./Client/Pages/myjobs.jsx"
-import JobsDetails from "./Client/Pages/jobsdetails.jsx"
-import JobsApplication from "./Client/Pages/Jobapplication.jsx"
-import ClientHeader from "./Client/Components/header.jsx"
-import ClientSidebar from "./Client/Components/sidebar.jsx"
-import ClientProjects from "./Client/Pages/projects.jsx"
-import ClientExploreTalents from "./Client/Pages/ExploreTalent.jsx"
-import ClientExploreCourse from "./Client/Pages/Course.jsx"
-import PostJobs from "./Client/Pages/PostJobs.jsx"
-import PostSuccess from "./Client/Pages/success.jsx"
-import MainCourse from "./Client/Pages/main-course.jsx"
-import PostCourse from "./Client/Pages/new-course.jsx"
-import ClientsProfile from "./Client/Pages/profile.jsx"
-import Invoice from "./Client/Pages/invoice.jsx"
-import MakeInvoices from "./Client/Pages/makeinvoice.jsx"
-import TalentSidebar from "./Talent/Components/siedbar.jsx"
-import TalentDashboard from "./Talent/Pages/Home.jsx"
-import TalentJobs from "./Talent/Pages/Jobs.jsx"
+import ClientDashboard from "./Client/Pages/Dashboard.jsx";
+import ClientJobs from "./Client/Pages/myjobs.jsx";
+import JobsDetails from "./Client/Pages/jobsdetails.jsx";
+import JobsApplication from "./Client/Pages/Jobapplication.jsx";
+import ClientHeader from "./Client/Components/header.jsx";
+import ClientSidebar from "./Client/Components/sidebar.jsx";
+import ClientProjects from "./Client/Pages/projects.jsx";
+import ClientExploreTalents from "./Client/Pages/ExploreTalent.jsx";
+import ClientExploreCourse from "./Client/Pages/Course.jsx";
+import PostJobs from "./Client/Pages/PostJobs.jsx";
+import PostSuccess from "./Client/Pages/success.jsx";
+import MainCourse from "./Client/Pages/main-course.jsx";
+import PostCourse from "./Client/Pages/new-course.jsx";
+import ClientsProfile from "./Client/Pages/profile.jsx";
+import Invoice from "./Client/Pages/invoice.jsx";
+import MakeInvoices from "./Client/Pages/makeinvoice.jsx";
+import TalentSidebar from "./Talent/Components/siedbar.jsx";
+import TalentDashboard from "./Talent/Pages/Home.jsx";
+import TalentJobs from "./Talent/Pages/Jobs.jsx";
 import TalentProject from "./Talent/Pages/projects.jsx";
 import TalentExploreCourse from "./Talent/Pages/explore-courses.jsx";
 import TalentPostCourse from "./Talent/Pages/post-new-course.jsx";
@@ -64,7 +64,9 @@ import TalentProfile from "./Talent/Pages/Profile.jsx";
 import TalentTracker from "./Talent/Pages/Tracker/invites.jsx";
 import TrackerApplications from "./Talent/Pages/Tracker/applications.jsx";
 import TrackerOffers from "./Talent/Pages/Tracker/joboffers.jsx";
-import TrackerProject from "./Talent/Pages/Tracker/projectoffers.jsx"
+import TrackerProject from "./Talent/Pages/Tracker/projectoffers.jsx";
+import ConsultingFirmSidebar from "./consultingfirm/components/cfsidebar.jsx"
+
 const App = () => {
   return (
     <Router>
@@ -76,7 +78,6 @@ const App = () => {
         <Route path="/careers" element={<><Navbar /><Careers /><Footer /></>} />
         <Route path="/contact" element={<><Navbar /><ContactUs /><Footer /></>} />
         <Route path="/ai-trainings" element={<><Navbar /><AITrainings /><Footer /></>} />
-        <Route path="/consultingfirm/home" element={<CFHome />} />
         <Route path="/client/signup" element={<ClientSignUp />} />
         <Route path="/pricing" element={<><Navbar /><Pricing /><Footer /></>} />
         <Route path="/for-clients/whatweoffer" element={<><Navbar /><WhatWeOffer /><Footer /></>} />
@@ -88,24 +89,32 @@ const App = () => {
         <Route path="/new-matches" element={<><Navbar /><NewMatches /><Footer /></>} />
         <Route path="/job/:company" element={<><Navbar /><JobDetails /><Footer /></>} />
         <Route path="/apply" element={<><Navbar /><Apply /><Footer /></>} />
-        <Route path="/consultingfirm/jobs" element={<><Navbar /><Jobs /><Footer /></>} />
-        <Route path="/consultingfirm/projects" element={<><Navbar /><Projects /><Footer /></>} />
-        <Route path="/consultingfirm/tracker" element={<><Navbar /><Invites /><Footer /></>} />
-        <Route path="/consultingfirm/applications" element={<><Navbar /><Applications /><Footer /></>} />
-        <Route path="/consultingfirm/joboffers" element={<><Navbar /><Offers /><Footer /></>} />
-        <Route path="/consultingfirm/projectsoffers" element={<><Navbar /><Project /><Footer /></>} />
-        <Route path="/consultingfirm/myjobs" element={<><Navbar /><MyJobs /><Footer /></>} />
-        <Route path="/consultingfirm/invoices" element={<><Navbar /><Invoices /><Footer /></>} />
-        <Route path="/consultingfirm/community" element={<><Navbar /><Community /><Footer /></>} />
-        <Route path="/consultingfirm/explore-course" element={<><Navbar /><ExploreCourse /><Footer /></>} />
-        <Route path="/consultingfirm/main-course" element={<><Navbar /><Main /><Footer /></>} />
-        <Route path="/consultingfirm/video" element={<><Navbar /><Video /><Footer /></>} />
-        <Route path="/client/profile" element={<><Navbar /><ClientProfile /><Footer /></>} />
-        <Route path="/client/detail" element={<><Navbar /><ClientDetails /><Footer /></>} />
-        <Route path="/client/firm" element={<><Navbar /><Firm /><Footer /></>} />
-        <Route path="/client/completedjobs" element={<><Navbar /><CompletedJobs /><Footer /></>} />
         <Route path="/under-processing" element={<><Navbar /><UP /><Footer /></>} />
-        <Route path="/consultingfirm/explore-talent" element={<><Navbar /><ExploreTalentsSection /><Footer /></>} />
+        
+        <Route path="/consultingfirm/*" element={
+          <>
+            <ClientHeader />
+            <div style={{ display: 'flex' }}>
+              <ConsultingFirmSidebar />
+              <Routes>
+                <Route path="home" element={<CFHome />} />
+                <Route path="jobs" element={<Jobs />} />
+                <Route path="projects" element={<Projects />} />
+                <Route path="tracker" element={<Invites />} />
+                <Route path="applications" element={<Applications />} />
+                <Route path="joboffers" element={<Offers />} />
+                <Route path="projectsoffers" element={<Project />} />
+                <Route path="myjobs" element={<MyJobs />} />
+                <Route path="invoices" element={<Invoices />} />
+                <Route path="community" element={<Community />} />
+                <Route path="explore-course" element={<ExploreCourse />} />
+                <Route path="main-course" element={<Main />} />
+                <Route path="video" element={<Video />} />
+                <Route path="explore-talent" element={<ExploreTalentsSection />} />
+              </Routes>
+            </div>
+          </>
+        } />
 
         <Route path="/client/*" element={
           <>
@@ -147,16 +156,15 @@ const App = () => {
                 <Route path="main-course" element={<MainCourse />} />
                 <Route path="profile" element={<ClientsProfile />} />
                 <Route path="tracker" element={<TalentTracker />} />
-                <Route path="/applications" element={< TrackerApplications />} />
-                <Route path="/joboffers" element={<TrackerOffers />} />
-                <Route path="/projectsoffers" element={<TrackerProject />} />
+                <Route path="applications" element={<TrackerApplications />} />
+                <Route path="joboffers" element={<TrackerOffers />} />
+                <Route path="projectsoffers" element={<TrackerProject />} />
               </Routes>
             </div>
           </>
         } />
       </Routes>
     </Router>
-
   );
 };
 

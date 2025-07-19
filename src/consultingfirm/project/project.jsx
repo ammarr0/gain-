@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../components/cfsidebar.jsx';
 import { SiPanasonic } from 'react-icons/si';
 import FintechJobCard from '../components/FintechJobCard.jsx';
 
@@ -163,7 +162,6 @@ const Projects = () => {
 
   return (
     <div className="w-full min-h-screen flex bg-white">
-      <Sidebar />
       <div className="flex-1 flex">
         <div className="w-3/4 p-8">
           <div className="mx-auto max-w-6xl">

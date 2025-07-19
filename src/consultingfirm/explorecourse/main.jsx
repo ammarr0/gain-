@@ -1,7 +1,6 @@
 import React from "react";
 import { Star } from "lucide-react";
 import List from "../components/mainpage"
-import Sidebar from "../components/cfsidebar";
 
 const CoursePreviewCard = ({ course }) => {
     const demoData = {
@@ -24,7 +23,6 @@ const CoursePreviewCard = ({ course }) => {
     return (
         <>
             <div className="flex">
-                <Sidebar />
                 <div className="max-w-4xl mx-auto p-4 bg-white">
                     <div className="w-full h-60 bg-gray-100 rounded-lg mb-4"></div>
                     <h2 className="text-2xl font-bold text-gray-900 mb-2">

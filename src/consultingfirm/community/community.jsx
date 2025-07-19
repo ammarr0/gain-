@@ -6,7 +6,6 @@ import {
   Share2,
   MoreHorizontal,
 } from 'lucide-react';
-import Sidebar from '../components/cfsidebar';
 
 const posts = [
   {
@@ -54,7 +53,6 @@ const posts = [
 const CommunityPost = () => {
   return (
     <div className='flex'>
-      <Sidebar />
       <div className="w-[80%] mx-auto p-6 bg-white min-h-screen">
         <div className="text-center mb-6">
           <h2 className="text-xl md:text-2xl font-semibold text-gray-900">
