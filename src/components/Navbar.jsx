@@ -44,7 +44,6 @@ const Navbar = () => {
         {label}
       </Link>
     ));
-
   const renderDropdowns = () =>
     dropdownLinks.map(({ label, links }) => (
       <div key={label} className="group inline-block relative">
@@ -58,7 +57,7 @@ const Navbar = () => {
             <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
           </svg>
         </button>
-        <ul className="absolute hidden text-gray-700 bg-white group-hover:block">
+        <ul className="absolute hidden text-gray-700 bg-white group-hover:block min-w-max shadow-lg">
           {links.map(({ to, label }, index) => (
             <li key={to}>
               <Link
