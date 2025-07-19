@@ -1,5 +1,9 @@
+
 import React, { useState } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
+
+// Responsive styles (Tailwind CSS is assumed to be used in the project)
+// If you need to add custom CSS for responsiveness, you can do so here or in a CSS file.
 
 const jobListings = [
   {

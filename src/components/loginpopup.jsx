@@ -46,7 +46,19 @@ const LoginModal = () => {
     return (
         isModalVisible && (
             <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-                <div className="bg-white rounded-2xl w-full max-w-md py-7 text-center shadow-xl">
+                <div className="bg-white rounded-2xl w-full max-w-md py-7 text-center shadow-xl relative">
+                    {/* Cross Icon at top right */}
+                    <button
+                        onClick={() => setIsModalVisible(false)}
+                        className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 focus:outline-none"
+                        aria-label="Close"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                            <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                        </svg>
+                    </button>
                     <h2 className="text-2xl font-semibold mb-1">Log In</h2>
                     <p className="text-sm text-blue-600 mb-6 cursor-pointer hover:underline">Log in with your account.</p>
                     <hr className="border-t-2 border-blue-600 mb-6" />
@@ -58,14 +70,14 @@ const LoginModal = () => {
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-4 py-2 border rounded-lg"
+                                className="w-full px-4 py-2 border-2 border-blue-500 rounded-lg focus:outline-none focus:border-blue-700"
                             />
                             <input
                                 type="password"
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full px-4 py-2 border rounded-lg"
+                                className="w-full px-4 py-2 border-2 border-blue-500 rounded-lg focus:outline-none focus:border-blue-700"
                             />
                             <button onClick={handleLogin} className="w-full px-4 py-2 border rounded-lg bg-blue-600 text-white hover:bg-blue-700">
                                 Log In
