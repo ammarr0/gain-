@@ -145,7 +145,7 @@ const App = () => {
           <>
             <ClientHeader />
             <div style={{ display: 'flex' }}>
-           {  /* <TalentSidebar /> */}
+           <TalentSidebar /> 
               <Routes>
                 <Route path="dashboard" element={<TalentDashboard />} />
                 <Route path="jobs" element={<TalentJobs />} />

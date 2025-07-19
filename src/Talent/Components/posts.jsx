@@ -39,11 +39,7 @@ const PostFeed = () => {
                         key={index}
                         className="
                             bg-white shadow-sm border rounded-lg p-3 sm:p-4 mb-6
-                            w-full max-w-md
-                            sm:max-w-lg
-                            md:max-w-xl
-                            lg:max-w-2xl
-                            xl:max-w-3xl
+                            w-full
                             transition-all
                         "
                     >
