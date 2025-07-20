@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({
@@ -8,10 +9,36 @@ const Profile = () => {
     emailAddress: '',
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProfileData({ ...profileData, [name]: value });
-  };
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const accessToken = Cookies.get('access_token');
+        const response = await fetch('https://gain-b7ea8e7de810.herokuapp.com/users', {
+          method: 'GET',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+          },
+        });
+        const data = await response.json();
+        console.log('Fetched profile data:', data); 
+        
+        if (data && data.length > 0) {
+          const user = data[0]; 
+          setProfileData({
+            companyName: user.companyName || '',
+            location: user.city || '',
+            phoneNumber: user.phone_no || '',
+            emailAddress: user.email || '',
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      }
+    };
+
+    fetchProfileData();
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -38,8 +65,8 @@ const Profile = () => {
                 type="text" 
                 name="companyName" 
                 value={profileData.companyName} 
-                onChange={handleInputChange} 
-                className="w-full mt-1 p-2 border border-gray-300 rounded" 
+                onChange={(e) => setProfileData({ ...profileData, companyName: e.target.value })} 
+                className="w-full mt-1 p-2 border border-gray-300 rounded text-black" 
               />
             </div>
             <div>
@@ -48,8 +75,8 @@ const Profile = () => {
                 type="text" 
                 name="location" 
                 value={profileData.location} 
-                onChange={handleInputChange} 
-                className="w-full mt-1 p-2 border border-gray-300 rounded" 
+                onChange={(e) => setProfileData({ ...profileData, location: e.target.value })} 
+                className="w-full mt-1 p-2 border border-gray-300 rounded text-black" 
               />
             </div>
             <div>
@@ -58,8 +85,8 @@ const Profile = () => {
                 type="text" 
                 name="phoneNumber" 
                 value={profileData.phoneNumber} 
-                onChange={handleInputChange} 
-                className="w-full mt-1 p-2 border border-gray-300 rounded" 
+                onChange={(e) => setProfileData({ ...profileData, phoneNumber: e.target.value })} 
+                className="w-full mt-1 p-2 border border-gray-300 rounded text-black" 
               />
             </div>
             <div>
@@ -68,8 +95,8 @@ const Profile = () => {
                 type="email" 
                 name="emailAddress" 
                 value={profileData.emailAddress} 
-                onChange={handleInputChange} 
-                className="w-full mt-1 p-2 border border-gray-300 rounded" 
+                onChange={(e) => setProfileData({ ...profileData, emailAddress: e.target.value })} 
+                className="w-full mt-1 p-2 border border-gray-300 rounded text-black" 
               />
             </div>
           </div>

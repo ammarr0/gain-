@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Don't forget to import the CSS!
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './PostSignup/home/Home.jsx';
@@ -92,6 +94,7 @@ const App = () => {
         <Route path="/job/:company" element={<><Navbar /><JobDetails /><Footer /></>} />
         <Route path="/apply" element={<><Navbar /><Apply /><Footer /></>} />
         <Route path="/under-processing" element={<><Navbar /><UP /><Footer /></>} />
+     
         
         <Route path="/consultingfirm/*" element={
           <>
@@ -113,6 +116,7 @@ const App = () => {
                 <Route path="main-course" element={<Main />} />
                 <Route path="video" element={<Video />} />
                 <Route path="explore-talent" element={<ExploreTalentsSection />} />
+                <Route path="/profile" element={<><TalentProfile /></>} />
               </Routes>
             </div>
           </>
@@ -134,7 +138,7 @@ const App = () => {
                 <Route path="job-application" element={<JobsApplication />} />
                 <Route path="post-job" element={<PostJobs />} />
                 <Route path="post-course" element={<PostCourse />} />
-                <Route path="profile-page" element={<><TalentProfile /></>} />
+                <Route path="/profile" element={<><TalentProfile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="make-invoices" element={<><MakeInvoices /></>} />
               </Routes>
@@ -148,7 +152,7 @@ const App = () => {
             <div style={{ display: 'flex' }}>
            <TalentSidebar /> 
               <Routes>
-                <Route path="dashboard" element={<TalentDashboard />} />
+                <Route path="home" element={<TalentDashboard />} />
                 <Route path="jobs" element={<TalentJobs />} />
                 <Route path="projects" element={<TalentProject />} />
                 <Route path="explore-course" element={<TalentExploreCourse />} />
@@ -162,11 +166,13 @@ const App = () => {
                 <Route path="applications" element={<TrackerApplications />} />
                 <Route path="joboffers" element={<TrackerOffers />} />
                 <Route path="projectsoffers" element={<TrackerProject />} />
+                <Route path="/profile" element={<><TalentProfile /></>} />
               </Routes>
             </div>
           </>
         } />
       </Routes>
+      <ToastContainer />
     </Router>
   );
 };

@@ -26,9 +26,9 @@ const LoginModal = () => {
         })
         .then(data => {
             console.log('Login successful:', data);
-            toast.success(data.message || 'Login successful!');
             Cookies.set('access_token', data.access_token, { expires: 7 });
             setIsModalVisible(false);
+            toast.success(data.message || 'Login successful!');
             if (data.user.role === 'COMPANY' || data.user.role === 'USER') {
                 navigate("/consultingfirm/home/");
             } else if (data.user.role === 'CUSTOMER_SUPPORT') {
@@ -39,7 +39,11 @@ const LoginModal = () => {
         })
         .catch(error => {
             console.error('Login failed:', error.message);
-            toast.error(error.message || 'Login failed!');
+            if (error.message.toLowerCase().includes('invalid credentials')) {
+                toast.error('Invalid credentials! Please check your email and password.');
+            } else {
+                toast.error(error.message || 'Login failed! Please check your email and password.');
+            }
         });
     };
 

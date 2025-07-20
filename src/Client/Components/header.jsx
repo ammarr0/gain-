@@ -17,6 +17,7 @@ const menuItems = [
 const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [active, setActive] = useState('Home');
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
   const navigate = useNavigate();
 
   const handleItemClick = (name, route) => {
@@ -25,6 +26,12 @@ const Header = () => {
       navigate(route);
     }
     setSidebarOpen(false);
+  };
+
+  const handleLogout = () => {
+    // Clear user data and perform logout action
+    localStorage.removeItem('access_token'); // Example for clearing token
+    navigate('/'); // Redirect to login page
   };
 
   return (
@@ -38,15 +45,38 @@ const Header = () => {
           <Search size={28} className="text-gray-600 cursor-pointer" />
           <MessageSquare size={28} className="text-gray-600 cursor-pointer" />
           <Bell size={28} className="text-gray-600 cursor-pointer" />
-          <img
-            src={User}
-            alt="User"
-            className="h-8 w-8 rounded-full object-cover cursor-pointer"
-          />
+          <div className="relative">
+            <img
+              src={User}
+              alt="User"
+              className="h-8 w-8 rounded-full object-cover cursor-pointer"
+              onClick={() => setDropdownOpen(!dropdownOpen)} // Toggle dropdown visibility
+            />
+            {/* Dropdown Menu */}
+            {dropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border">
+                <ul>
+                  <li
+                    onClick={() => navigate('/client/profile')}
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  >
+                    Profile
+                  </li>
+                  <li
+                    onClick={handleLogout}
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  >
+                    Logout
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
           <Menu size={28} className="text-gray-600 cursor-pointer md:hidden" onClick={() => setSidebarOpen(!sidebarOpen)} />
         </div>
       </header>
 
+      {/* Sidebar for mobile */}
       {sidebarOpen && (
         <div className="md:hidden fixed inset-0 bg-white z-50">
           <div className="flex items-center justify-between p-4 border-b">

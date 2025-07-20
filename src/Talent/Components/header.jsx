@@ -7,7 +7,7 @@ import { Home, Briefcase, Users, Search as SearchIcon, GraduationCap, Globe, Wal
 
 // Use the Talent menu items from file_context_0
 const menuItems = [
-  { name: 'Home', icon: <Home size={24} color="#313131" />, route: '/talent/dashboard/' },
+  { name: 'Home', icon: <Home size={24} color="#313131" />, route: '/talent/home/' },
   { name: 'Jobs', icon: <Briefcase size={24} color="#313131" />, route: '/talent/jobs/' },
   { name: 'Projects', icon: <Users size={24} color="#313131" />, route: '/talent/projects/' },
   { name: 'Tracker', icon: <SearchIcon size={24} color="#313131" />, route: '/talent/tracker' },
