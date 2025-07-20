@@ -1,17 +1,76 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 const PostProject = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [projectData, setProjectData] = useState({
+    title: '',
+    description: '',
+    experience: '',
+    location: '',
+    start_date: '',
+    duration: '',
+    image: '',
+    category: '',
+    open_roles: '',
+    role_descriptions: '',
+    key_skills: '',
+    budget: '',
+    payment_type: '',
+    budget_range: '',
+    location_type: '',
+    preferred_location: '',
+    preferred_location_talent_requirements: '',
+    questions_for_candidates: '',
+    additional_questions: '',
+    save_draft: false
+  });
   const navigate = useNavigate();
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
+    setProjectData({ ...projectData, category });
   };
 
-  const handleSubmit = (event) => {
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setProjectData({ ...projectData, [id]: value });
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    navigate('/client/post-success');
+    const accessToken = Cookies.get('access_token');
+    try {
+      const response = await fetch('https://gain-b7ea8e7de810.herokuapp.com/projects/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+          ...projectData,
+          open_roles: projectData.open_roles.split(',').map(role => role.trim()),
+          role_descriptions: projectData.role_descriptions.split(',').map(desc => desc.trim()),
+          key_skills: projectData.key_skills.split(',').map(skill => skill.trim()),
+          questions_for_candidates: projectData.questions_for_candidates.split(',').map(question => question.trim()),
+          additional_questions: projectData.additional_questions.split(',').map(question => question.trim()),
+          budget: parseFloat(projectData.budget),
+        }),
+      });
+
+      if (response.ok) {
+        toast.success('Project posted successfully!');
+        navigate('/client/post-success');
+      } else {
+        toast.error('Failed to post project');
+        console.error('Failed to post project');
+      }
+    } catch (error) {
+      toast.error('An error occurred while posting the project');
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -33,58 +92,66 @@ const PostProject = () => {
             ))}
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="projectTitle">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
               Project Title
             </label>
             <input
               type="text"
-              id="projectTitle"
+              id="title"
+              value={projectData.title}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter project title"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="projectDescription">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
               Project Description
             </label>
             <textarea
-              id="projectDescription"
+              id="description"
+              value={projectData.description}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter project description"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="openRoles">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="open_roles">
               Open Roles
             </label>
             <input
               type="text"
-              id="openRoles"
+              id="open_roles"
+              value={projectData.open_roles}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter open roles"
+              placeholder="Enter open roles (comma-separated)"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="roleDescription">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="role_descriptions">
               Role Description
             </label>
             <textarea
-              id="roleDescription"
+              id="role_descriptions"
+              value={projectData.role_descriptions}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter role description"
+              placeholder="Enter role descriptions (comma-separated)"
             />
           </div>
           <div className="mb-4">
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="keySkills">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="key_skills">
               Key Skills
             </label>
             <input
               type="text"
-              id="keySkills"
+              id="key_skills"
+              value={projectData.key_skills}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter key skills"
+              placeholder="Enter key skills (comma-separated)"
             />
           </div>
           <div className="mb-4 flex flex-col sm:flex-row sm:justify-between gap-3">
@@ -95,106 +162,123 @@ const PostProject = () => {
               <input
                 type="text"
                 id="budget"
+                value={projectData.budget}
+                onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter budget"
               />
             </div>
             <div className="sm:w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="paymentType">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="payment_type">
                 Payment Type
               </label>
               <input
                 type="text"
-                id="paymentType"
+                id="payment_type"
+                value={projectData.payment_type}
+                onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter payment type"
               />
             </div>
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="budgetRange">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="budget_range">
               Budget Range
             </label>
             <input
               type="text"
-              id="budgetRange"
+              id="budget_range"
+              value={projectData.budget_range}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter budget range"
             />
           </div>
           <div className="mb-4 flex flex-col sm:flex-row sm:justify-between gap-3">
             <div className="sm:w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="projectDuration">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="duration">
                 Project Duration
               </label>
               <input
                 type="text"
-                id="projectDuration"
+                id="duration"
+                value={projectData.duration}
+                onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter project duration"
               />
             </div>
             <div className="sm:w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="startDate">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="start_date">
                 Start Date
               </label>
               <input
                 type="date"
-                id="startDate"
+                id="start_date"
+                value={projectData.start_date}
+                onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
           </div>
           <div className="mb-4 flex flex-col sm:flex-row sm:justify-between gap-3">
             <div className="sm:w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="locationType">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="location_type">
                 Location Type
               </label>
               <input
                 type="text"
-                id="locationType"
+                id="location_type"
+                value={projectData.location_type}
+                onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter location type"
               />
             </div>
             <div className="sm:w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preferredLocation">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preferred_location">
                 Preferred Location
               </label>
               <input
                 type="text"
-                id="preferredLocation"
+                id="preferred_location"
+                value={projectData.preferred_location}
+                onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter preferred location"
               />
             </div>
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preferredLocationTalentRequirements">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preferred_location_talent_requirements">
               Preferred Location Talent Requirements
             </label>
             <input
               type="text"
-              id="preferredLocationTalentRequirements"
+              id="preferred_location_talent_requirements"
+              value={projectData.preferred_location_talent_requirements}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter preferred location talent requirements"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="candidateQuestions">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="questions_for_candidates">
               Questions for Candidates
             </label>
             <textarea
-              id="candidateQuestions"
+              id="questions_for_candidates"
+              value={projectData.questions_for_candidates}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter questions for candidates"
+              placeholder="Enter questions for candidates (comma-separated)"
             />
-          </div>
-          <div className="mb-4">
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <button
               type="button"
+              onClick={() => setProjectData({ ...projectData, save_draft: true })}
               className="text-gray-500 font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-full sm:w-auto"
             >
               Save Draft

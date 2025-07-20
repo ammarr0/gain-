@@ -1,17 +1,60 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 const PostJobs = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    project_type: '',
+    skills: '',
+    location: '',
+    hourly_rate: '',
+  });
   const navigate = useNavigate();
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
+    setFormData({ ...formData, project_type: category });
   };
 
-  const handleSubmit = (event) => {
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    navigate('/client/post-success');
+    const accessToken = Cookies.get('access_token');
+    try {
+      const response = await fetch('https://gain-b7ea8e7de810.herokuapp.com/jobs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          ...formData,
+          skills: formData.skills.split(',').map(skill => skill.trim()),
+          files: [],
+          is_disabled: false,
+          is_deleted: false,
+          created_by: '',
+          updated_by: '',
+        }),
+      });
+
+      if (response.ok) {
+        toast.success('Job posted successfully!');
+        navigate('/client/post-success');
+      } else {
+        toast.error('Failed to post job. Please try again.');
+      }
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+    }
   };
 
   return (
@@ -32,159 +75,67 @@ const PostJobs = () => {
             ))}
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="projectTitle">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
               Project Title
             </label>
             <input
               type="text"
-              id="projectTitle"
+              id="title"
+              value={formData.title}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter project title"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="projectDescription">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
               Project Description
             </label>
             <textarea
-              id="projectDescription"
+              id="description"
+              value={formData.description}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter project description"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="openRoles">
-              Open Roles
-            </label>
-            <input
-              type="text"
-              id="openRoles"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter open roles"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="roleDescription">
-              Role Description
-            </label>
-            <textarea
-              id="roleDescription"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter role description"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="keySkills">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="skills">
               Key Skills
             </label>
             <input
               type="text"
-              id="keySkills"
+              id="skills"
+              value={formData.skills}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter key skills"
+              placeholder="Enter key skills (comma-separated)"
             />
           </div>
-          <div className="mb-4 flex flex-col sm:flex-row sm:justify-between gap-3">
-            <div className="sm:w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="budget">
-                Budget
-              </label>
-              <input
-                type="text"
-                id="budget"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter budget"
-              />
-            </div>
-            <div className="sm:w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="paymentType">
-                Payment Type
-              </label>
-              <input
-                type="text"
-                id="paymentType"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter payment type"
-              />
-            </div>
-          </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="budgetRange">
-              Budget Range
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="hourly_rate">
+              Hourly Rate
             </label>
             <input
               type="text"
-              id="budgetRange"
+              id="hourly_rate"
+              value={formData.hourly_rate}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter budget range"
+              placeholder="Enter hourly rate"
             />
           </div>
-          <div className="mb-4 flex flex-col sm:flex-row sm:justify-between gap-3">
-            <div className="sm:w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="jobDuration">
-                Job Duration
-              </label>
-              <input
-                type="text"
-                id="jobDuration"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter job duration"
-              />
-            </div>
-            <div className="sm:w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="startDate">
-                Start Date
-              </label>
-              <input
-                type="date"
-                id="startDate"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-          </div>
-          <div className="mb-4 flex flex-col sm:flex-row sm:justify-between gap-3">
-            <div className="sm:w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="locationType">
-                Location Type
-              </label>
-              <input
-                type="text"
-                id="locationType"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter location type"
-              />
-            </div>
-            <div className="sm:w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preferredLocation">
-                Preferred Location
-              </label>
-              <input
-                type="text"
-                id="preferredLocation"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter preferred location"
-              />
-            </div>
-          </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preferredLocationTalentRequirements">
-              Preferred Location Talent Requirements
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="location">
+              Location
             </label>
             <input
               type="text"
-              id="preferredLocationTalentRequirements"
+              id="location"
+              value={formData.location}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter preferred location talent requirements"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="candidateQuestions">
-              Questions for Candidates
-            </label>
-            <textarea
-              id="candidateQuestions"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter questions for candidates"
+              placeholder="Enter location"
             />
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">

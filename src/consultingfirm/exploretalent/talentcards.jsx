@@ -9,7 +9,7 @@ import msg from "../../assets/msg.png";
 
 const talentData = [
   {
-    name: "Ned Stark",
+    name: "Ned Sta",
     role: "Project Manager",
     experience: "6 Years",
     rate: "$150.00/hr",
@@ -59,7 +59,7 @@ const TalentProfileCard = () => {
   return (
     <div className="container mx-auto px-4">
       {talentData.map((talent, index) => (
-        <div key={index} className="border rounded-xl p-6 shadow-sm bg-white w-full max-w-2xl mx-auto mb-6">
+        <div key={index} className="border rounded-xl p-6 shadow-sm bg-white w-full mx-auto mb-6">
           <div className="flex flex-col md:flex-row justify-between gap-4">
             <div className="flex gap-4">
               <img

@@ -21,28 +21,28 @@ const CoursePreviewCard = ({ course }) => {
     const displayCourse = course || demoData;
 
     return (
-        <div className="flex justify-center items-start w-full min-h-screen bg-white px-2 sm:px-4 py-6">
-            <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 md:p-8 bg-white rounded-lg shadow-md">
-                <div className="w-full h-40 sm:h-60 bg-gray-100 rounded-lg mb-4"></div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2 text-left">
+        <div className="flex justify-center items-start w-full min-h-screen bg-white px-4 sm:px-8 py-8" style={{border:"4px solid black"}}>
+            <div className="w-full max-w-6xl mx-auto p-6 sm:p-8 md:p-10 bg-white rounded-lg shadow-lg">
+                <div className="w-full h-60 sm:h-80 bg-gray-100 rounded-lg mb-6"></div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4 text-left">
                     {displayCourse.title}
                 </h2>
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-4 mb-4">
                     <img
                         src={displayCourse.instructor.avatar}
                         alt={displayCourse.instructor.name}
-                        className="w-8 h-8 rounded-full"
+                        className="w-10 h-10 rounded-full"
                     />
-                    <div className="text-sm text-gray-700 text-left">
+                    <div className="text-base text-gray-700 text-left">
                         {displayCourse.instructor.name}
-                        <span className="block text-xs text-gray-500">{displayCourse.instructor.location}</span>
+                        <span className="block text-sm text-gray-500">{displayCourse.instructor.location}</span>
                     </div>
                 </div>
-                <p className="text-gray-600 mb-4 text-left">{displayCourse.description}</p>
-                <div className="flex flex-wrap items-center text-sm text-gray-600 mb-4 text-left">
-                    <Star className="text-yellow-500 fill-yellow-500 w-4 h-4 mr-1" />
-                    <span className="font-semibold mr-1">{displayCourse.rating}</span>
-                    <span className="mr-3 text-gray-500">({displayCourse.reviews} Reviews)</span>
+                <p className="text-lg text-gray-600 mb-6 text-left">{displayCourse.description}</p>
+                <div className="flex flex-wrap items-center text-base text-gray-600 mb-6 text-left">
+                    <Star className="text-yellow-500 fill-yellow-500 w-5 h-5 mr-2" />
+                    <span className="font-semibold mr-2">{displayCourse.rating}</span>
+                    <span className="mr-4 text-gray-500">({displayCourse.reviews} Reviews)</span>
                     <span className="text-gray-500">
                         | {displayCourse.level} · {displayCourse.duration}
                     </span>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const chapters = [
   { title: "1. Introduction", description: "Introduction to the course.", videoId: "0HabxsuXW4g" },
@@ -15,25 +16,27 @@ const chapters = [
 
 const CourseVideoSection = () => {
   const [currentVideoId, setCurrentVideoId] = useState(chapters[0].videoId);
+  const navigate = useNavigate();
 
   return (
     <div
       className="w-full min-h-screen bg-white"
       style={{ overflowX: "hidden" }}
     >
+      <div className="px-2 sm:px-4 md:px-10 lg:px-20 py-4">
+      </div>
       <div
         className="
           flex flex-col md:flex-row
           gap-6
           px-2 sm:px-4 md:px-10 lg:px-20
           py-4
-          max-w-6xl
-          mx-auto
+          w-full
         "
       >
         <div className="flex-1 min-w-0">
           <div className="rounded-xl overflow-hidden mb-4 shadow-lg w-full">
-            <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
+            <div className="relative w-full" style={{ paddingTop: "40%" }}>
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
                 src={`https://www.youtube.com/embed/${currentVideoId}`}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CourseCard from "../../consultingfirm/explorecourse/courselist.jsx";
+import CourseCard from "../Components/coursecard.jsx";
 
 const Explore = () => {
   const navigate = useNavigate();
@@ -32,8 +32,12 @@ const Explore = () => {
     navigate(`/job/${match.company}`, { state: { match } });
   };
 
+  const handlePostCourseClick = () => {
+    navigate('/client/post-course');
+  };
+
   return (
-    <div className="w-full min-h-screen flex flex-col lg:flex-row bg-white">
+    <div className="w-full min-h-screen flex flex-col lg:flex-row bg-white" >
       <div className="flex-1 flex flex-col lg:flex-row">
         <div className="w-full lg:w-3/4 p-4 lg:p-8">
           <div className="mx-auto max-w-6xl">
@@ -57,6 +61,14 @@ const Explore = () => {
                   {tab}
                 </button>
               ))}
+            </div>
+            <div className="mb-8">
+              <button 
+                onClick={handlePostCourseClick} 
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Post a New Course
+              </button>
             </div>
             <div>
               <CourseCard courses={courses} />

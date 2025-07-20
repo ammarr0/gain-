@@ -95,6 +95,7 @@ const App = () => {
         <Route path="/job/:company" element={<><Navbar /><JobDetails /><Footer /></>} />
         <Route path="/apply" element={<><Navbar /><Apply /><Footer /></>} />
         <Route path="/under-processing" element={<><Navbar /><UP /><Footer /></>} />
+        <Route path="video" element={<Video />} />
      
         
         <Route path="/consultingfirm/*" element={
@@ -115,9 +116,8 @@ const App = () => {
                 <Route path="community" element={<Community />} />
                 <Route path="explore-course" element={<ExploreCourse />} />
                 <Route path="main-course" element={<Main />} />
-                <Route path="video" element={<Video />} />
                 <Route path="explore-talent" element={<ExploreTalentsSection />} />
-                <Route path="/profile" element={<><TalentProfile /></>} />
+                <Route path="profile" element={<><TalentProfile /></>} />
               </Routes>
             </div>
           </>
@@ -138,7 +138,7 @@ const App = () => {
                 <Route path="main-course" element={<ClientMain />} />
                 <Route path="job-application" element={<JobsApplication />} />
                 <Route path="post-job" element={<PostJobs />} />
-                <Route path="post-project" element={<PostProject />} />
+                <Route path="post-projects" element={<PostProject />} />
                 <Route path="post-course" element={<PostCourse />} />
                 <Route path="profile" element={<><TalentProfile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />

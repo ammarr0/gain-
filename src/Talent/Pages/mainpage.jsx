@@ -48,7 +48,7 @@ const IntroCard = () => {
   ];
 
   const handleImageClick = () => {
-    navigate('/consultingfirm/video');
+    navigate('/video');
   };
 
   return (

@@ -48,11 +48,11 @@ const IntroCard = () => {
   ];
 
   const handleImageClick = () => {
-    navigate('/consultingfirm/video');
+    navigate('/video');
   };
 
   return (
-    <div className="flex flex-col gap-5 max-w-3xl">
+    <div className="flex flex-col gap-5 max-w-3xl" >
       {demoData.map((data, index) => (
         <div key={index} className="flex items-start p-4 gap-5">
           <div
