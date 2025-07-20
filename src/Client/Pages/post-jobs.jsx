@@ -23,9 +23,8 @@ const PostJobs = () => {
             {['Web Development', 'AI', 'Mobile Development', 'Other'].map((category) => (
               <div
                 key={category}
-                className={`bg-gray-100 p-3 sm:p-4 rounded-lg text-center cursor-pointer transition border ${
-                  selectedCategory === category ? 'border-2 border-blue-500' : 'border-transparent'
-                }`}
+                className={`bg-gray-100 p-3 sm:p-4 rounded-lg text-center cursor-pointer transition border ${selectedCategory === category ? 'border-2 border-blue-500' : 'border-transparent'
+                  }`}
                 onClick={() => handleCategoryClick(category)}
               >
                 <p className="text-gray-700 font-bold text-sm sm:text-base">{category}</p>
@@ -73,14 +72,6 @@ const PostJobs = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter role description"
             />
-          </div>
-          <div className="mb-4">
-            <button
-              type="button"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-auto"
-            >
-              Add New Role
-            </button>
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="keySkills">
@@ -195,14 +186,6 @@ const PostJobs = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter questions for candidates"
             />
-          </div>
-          <div className="mb-4">
-            <button
-              type="button"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-auto"
-            >
-              Add More Questions
-            </button>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <button

@@ -16,13 +16,23 @@ const ExploreTalentsSection = () => {
 
         <div className='w-full lg:w-[50%]'>
           <div className="flex flex-col gap-4">
-            <div className="bg-white border-2 border-[#B0D0F7] rounded-xl p-4 md:p-6 flex justify-between items-center h-auto lg:h-[162px]">
+            <div
+              className="bg-white border-2 border-[#B0D0F7] rounded-xl p-4 md:p-6 flex justify-between items-center h-auto lg:h-[162px] cursor-pointer group"
+              onClick={() => window.location.href = "/client/post-job"}
+              role="button"
+              tabIndex={0}
+              onKeyPress={e => {
+                if (e.key === "Enter" || e.key === " ") {
+                  window.location.href = "/client/post-job";
+                }
+              }}
+            >
               <div>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-black text-center lg:text-left">Post a new job</h2>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-black text-center lg:text-left group-hover:underline">Post a new job</h2>
                 <p className="text-[#7A8A9C] text-sm md:text-base text-center lg:text-left">Create a new job and get the best AI Talent</p>
               </div>
               <div>
-                <img src={arrow} alt="" className="w-10 h-10 md:w-12 md:h-12" />
+                <img src={arrow} alt="" className="w-10 h-10 md:w-12 md:h-12 transition-transform group-hover:translate-x-2" />
               </div>
             </div>
 

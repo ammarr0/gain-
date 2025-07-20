@@ -123,7 +123,17 @@ const JobPosting = () => {
           {/* Right half (two boxes) */}
           <div className="md:w-1/2 flex flex-col gap-4">
             {/* Box 1: Post a new job */}
-            <div className="border-2 border-blue-500 rounded-xl p-4 sm:p-6 md:p-8 hover:shadow-md transition cursor-pointer h-auto md:h-[151px] flex flex-col justify-center">
+            <div
+              className="border-2 border-blue-500 rounded-xl p-4 sm:p-6 md:p-8 hover:shadow-md transition cursor-pointer h-auto md:h-[151px] flex flex-col justify-center"
+              onClick={() => window.location.href = "/client/post-job"}
+              role="button"
+              tabIndex={0}
+              onKeyPress={e => {
+                if (e.key === "Enter" || e.key === " ") {
+                  window.location.href = "/client/post-job";
+                }
+              }}
+            >
               <div className="flex items-center justify-between gap-2">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-semibold text-black">Post a new job</h3>
@@ -138,7 +148,17 @@ const JobPosting = () => {
 
             {/* Box 2: Hire a new talent */}
             <div className="border-2 border-blue-500 rounded-xl p-4 sm:p-6 md:p-8 hover:shadow-md transition cursor-pointer h-auto md:h-[151px] flex flex-col justify-center">
-              <div className="flex items-center justify-between gap-2">
+              <div
+                className="flex items-center justify-between gap-2"
+                onClick={() => window.location.href = "/talent/home"}
+                role="button"
+                tabIndex={0}
+                onKeyPress={e => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    window.location.href = "/talent/home";
+                  }
+                }}
+              >
                 <div>
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-black">Hire a new talent</h3>
                   <p className="text-[#313131] text-base sm:text-lg mt-1">

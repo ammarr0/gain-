@@ -49,7 +49,8 @@ import ClientSidebar from "./Client/Components/sidebar.jsx";
 import ClientProjects from "./Client/Pages/projects.jsx";
 import ClientExploreTalents from "./Client/Pages/ExploreTalent.jsx";
 import ClientExploreCourse from "./Client/Pages/Course.jsx";
-import PostJobs from "./Client/Pages/PostJobs.jsx";
+import PostJobs from "./Client/Pages/post-jobs.jsx";
+import PostProject from "./Client/Pages/post-projects.jsx";
 import PostSuccess from "./Client/Pages/success.jsx";
 import MainCourse from "./Client/Pages/main-course.jsx";
 import PostCourse from "./Client/Pages/new-course.jsx";
@@ -137,6 +138,7 @@ const App = () => {
                 <Route path="main-course" element={<ClientMain />} />
                 <Route path="job-application" element={<JobsApplication />} />
                 <Route path="post-job" element={<PostJobs />} />
+                <Route path="post-project" element={<PostProject />} />
                 <Route path="post-course" element={<PostCourse />} />
                 <Route path="/profile" element={<><TalentProfile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />

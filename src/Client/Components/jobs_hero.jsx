@@ -14,13 +14,19 @@ const JobsSection = () => {
                     borderRadius: '20px',
                     padding: '32px',
                 }}>
-                    <div className="mb-4 md:mb-0">
-                        <h2 className="text-2xl md:text-3xl font-semibold text-black">Post a new job</h2>
-                        <p className="text-[#7A8A9C] text-sm md:text-base">Create a new job and get the best AI Talent</p>
-                    </div>
-                    <div>
-                        <img src={arrow} alt="" className="w-12 h-12 md:w-14 md:h-14" />
-                    </div>
+                    <a
+                        href="/client/post-job"
+                        className="flex flex-col md:flex-row items-center cursor-pointer hover:bg-[#f0f6fd] transition-colors duration-200 rounded-xl p-2"
+                        style={{ textDecoration: 'none' }}
+                    >
+                        <div className="mb-4 md:mb-0 md:mr-4">
+                            <h2 className="text-2xl md:text-3xl font-semibold text-black">Post a new job</h2>
+                            <p className="text-[#7A8A9C] text-sm md:text-base">Create a new job and get the best AI Talent</p>
+                        </div>
+                        <div>
+                            <img src={arrow} alt="" className="w-12 h-12 md:w-14 md:h-14" />
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
