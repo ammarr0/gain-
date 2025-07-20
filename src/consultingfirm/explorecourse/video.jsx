@@ -17,52 +17,78 @@ const CourseVideoSection = () => {
   const [currentVideoId, setCurrentVideoId] = useState(chapters[0].videoId);
 
   return (
-    <div className="flex flex-col md:flex-row p-4 pl-20 pr-20 gap-6">
-      <div className="flex-1">
-        <div className="rounded-xl overflow-hidden mb-4 shadow-lg">
-          <iframe
-            className="w-full h-[500px]"
-            src={`https://www.youtube.com/embed/${currentVideoId}`}
-            title="Course Video"
-            allowFullScreen
-          ></iframe>
-        </div>
+    <div
+      className="w-full min-h-screen bg-white"
+      style={{ overflowX: "hidden" }}
+    >
+      <div
+        className="
+          flex flex-col md:flex-row
+          gap-6
+          px-2 sm:px-4 md:px-10 lg:px-20
+          py-4
+          max-w-6xl
+          mx-auto
+        "
+      >
+        <div className="flex-1 min-w-0">
+          <div className="rounded-xl overflow-hidden mb-4 shadow-lg w-full">
+            <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
+              <iframe
+                className="absolute top-0 left-0 w-full h-full"
+                src={`https://www.youtube.com/embed/${currentVideoId}`}
+                title="Course Video"
+                allowFullScreen
+                style={{ border: 0 }}
+              ></iframe>
+            </div>
+          </div>
 
-        <h1 className="text-2xl font-bold mb-2">{chapters.find(chapter => chapter.videoId === currentVideoId).title}</h1>
-        <div className="flex items-center gap-2 text-sm text-gray-700">
-          <img
-            src="https://i.pravatar.cc/40?img=12"
-            alt="Instructor"
-            className="w-8 h-8 rounded-full"
-          />
-          <div>
-            <div className="font-medium">Tyrion Lannister</div>
-            <div className="text-xs text-gray-500">King's Landing</div>
+          <h1 className="text-2xl font-bold mb-2 break-words">
+            {chapters.find(chapter => chapter.videoId === currentVideoId).title}
+          </h1>
+          <div className="flex items-center gap-2 text-sm text-gray-700 mb-2">
+            <img
+              src="https://i.pravatar.cc/40?img=12"
+              alt="Instructor"
+              className="w-8 h-8 rounded-full"
+            />
+            <div>
+              <div className="font-medium">Tyrion Lannister</div>
+              <div className="text-xs text-gray-500">King's Landing</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="w-full md:w-80 p-4 border rounded-lg bg-white shadow-sm h-fit">
-        <h3 className="font-semibold text-lg mb-3">Next</h3>
-        <div className="flex flex-col gap-3">
-          {chapters.map((item, index) => (
-            <div
-              key={index}
-              className="flex gap-3 p-2 bg-gray-100 rounded-lg cursor-pointer"
-              onClick={() => setCurrentVideoId(item.videoId)}
-            >
-              <iframe
-                className="w-16 h-14 bg-gray-300 rounded-md"
-                src={`https://www.youtube.com/embed/${item.videoId}`}
-                title={item.title}
-                allowFullScreen
-              ></iframe>
-              <div>
-                <h4 className="text-sm font-semibold">{item.title}</h4>
-                <p className="text-xs text-gray-600">{item.description}</p>
+        <div className="w-full md:w-80 p-4 border rounded-lg bg-white shadow-sm h-fit min-w-0">
+          <h3 className="font-semibold text-lg mb-3">Next</h3>
+          <div className="flex flex-col gap-3">
+            {chapters.map((item, index) => (
+              <div
+                key={index}
+                className={`flex gap-3 p-2 rounded-lg cursor-pointer transition
+                  ${item.videoId === currentVideoId ? "bg-blue-100" : "bg-gray-100 hover:bg-gray-200"}
+                `}
+                onClick={() => setCurrentVideoId(item.videoId)}
+              >
+                <div className="flex-shrink-0 w-16 h-14 bg-gray-300 rounded-md overflow-hidden">
+                  <div className="relative w-full h-full">
+                    <iframe
+                      className="absolute top-0 left-0 w-full h-full"
+                      src={`https://www.youtube.com/embed/${item.videoId}`}
+                      title={item.title}
+                      allowFullScreen
+                      style={{ border: 0 }}
+                    ></iframe>
+                  </div>
+                </div>
+                <div className="min-w-0">
+                  <h4 className="text-sm font-semibold truncate">{item.title}</h4>
+                  <p className="text-xs text-gray-600 truncate">{item.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -67,6 +67,7 @@ import TrackerOffers from "./Talent/Pages/Tracker/joboffers.jsx";
 import TrackerProject from "./Talent/Pages/Tracker/projectoffers.jsx";
 import ConsultingFirmSidebar from "./consultingfirm/components/cfsidebar.jsx"
 import ClientMain from "./Talent/Pages/main-course.jsx"
+import CFHeader from "./consultingfirm/components/cfnavbar.jsx";
 
 const App = () => {
   return (
@@ -94,7 +95,7 @@ const App = () => {
         
         <Route path="/consultingfirm/*" element={
           <>
-            <ClientHeader />
+            <CFHeader />
             <div style={{ display: 'flex' }}>
               <ConsultingFirmSidebar />
               <Routes>

@@ -19,37 +19,49 @@ const Explore = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex bg-white">
-      <div className="flex-1 flex" >
-        <div className="w-3/4 p-8">
+    <div
+      className="w-full min-h-screen bg-white"
+      style={{ overflowX: "hidden" }}
+    >
+      <div className="flex flex-col lg:flex-row w-full">
+        {/* Main Content */}
+        <div className="w-full lg:w-3/4 p-4 sm:p-6 md:p-8">
           <div className="mx-auto max-w-6xl">
             <div className="flex flex-col md:flex-row gap-4 mb-8">
-              <div className="bg-[#C7E1FF] rounded-2xl p-8 md:w-1/2 h-72" >
-                <h1 className="text-5xl font-semibold text-gray-900 mb-2">
+              <div className="bg-[#C7E1FF] rounded-2xl p-6 sm:p-8 md:w-1/2 h-56 sm:h-72 flex items-center">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-gray-900 mb-2 leading-tight break-words">
                   Discover <br />
                   Your Next <span className="font-bold">Opportunity</span> <br />
                   as a Firm
                 </h1>
               </div>
-              <div className="rounded-2xl border-2 border-blue-200 p-8 md:w-1/2 flex items-center justify-center text-left">
-                <p className="text-gray-700 text-3xl leading-relaxed">
+              <div className="rounded-2xl border-2 border-blue-200 p-6 sm:p-8 md:w-1/2 flex items-center justify-center text-left">
+                <p className="text-gray-700 text-xl sm:text-2xl md:text-3xl leading-relaxed break-words w-full">
                   Browse opportunities and take the next step in your firm’s journey.
                 </p>
               </div>
             </div>
-            <div className="flex items-center space-x-6 border-b border-gray-200 mb-8">
+            <div className="flex flex-wrap items-center space-x-0 sm:space-x-6 border-b border-gray-200 mb-8">
               {['Project Management Jobs', 'All Jobs', 'Saved Jobs'].map((tab, index) => (
-                <button key={index} className={`pb-2 ${index === 0 ? 'text-gray-900 font-semibold border-b-4 border-blue-500' : 'text-gray-500 hover:text-gray-700'}`}>
+                <button
+                  key={index}
+                  className={`pb-2 mr-4 sm:mr-0 mb-2 sm:mb-0 ${
+                    index === 0
+                      ? 'text-gray-900 font-semibold border-b-4 border-blue-500'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
                   {tab}
                 </button>
               ))}
             </div>
-            <div >
-          <  CourseCard/>
+            <div>
+              <CourseCard />
             </div>
           </div>
         </div>
-        <div className="w-1/4 p-6 ml-auto rounded-lg">
+        {/* Sidebar - hidden on small screens */}
+        <div className="hidden lg:block w-1/4 p-4 sm:p-6 ml-auto rounded-lg">
           <div className="bg-white shadow-md rounded-2xl p-6 flex flex-col gap-4 mb-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl text-white">

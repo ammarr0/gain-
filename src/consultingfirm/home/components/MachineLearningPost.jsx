@@ -26,72 +26,84 @@ const MachineLearningPost = () => {
   return (
     <div className="space-y-6 w-full max-w-7xl mx-auto">
       {/* ====== Top Heading Like Job Posting ====== */}
-      <h1 className="text-3xl font-lg ml-5 mt-6">Get career help from the community</h1>
+      <h1 className="text-2xl sm:text-3xl font-lg ml-2 sm:ml-5 mt-4 sm:mt-6 text-center sm:text-left">
+        Get career help from the community
+      </h1>
 
-      <div className="bg-white rounded-2xl p-6 max-w-7xl mx-auto my-4">
+      <div className="bg-white rounded-2xl p-3 sm:p-6 max-w-7xl mx-auto my-2 sm:my-4 shadow-sm">
         {/* Header */}
-        <div className="flex items-center space-x-4 mb-4">
-          <img src={post.userAvatar} alt="User Avatar" className="w-12 h-12 rounded-full" />
-          <div>
-            <h2 className="font-semibold text-xl">
-              {post.userName}
-              <span className="text-sm font-normal"> &nbsp;•&nbsp; {post.userTitle} &nbsp;•&nbsp; {post.postedAgo}</span>
-            </h2>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mb-4 space-y-2 sm:space-y-0">
+          <div className="flex items-center space-x-3">
+            <img
+              src={post.userAvatar}
+              alt="User Avatar"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
+            />
+            <div>
+              <h2 className="font-semibold text-lg sm:text-xl">
+                {post.userName}
+                <span className="text-xs sm:text-sm font-normal">
+                  &nbsp;•&nbsp;{post.userTitle}&nbsp;•&nbsp;{post.postedAgo}
+                </span>
+              </h2>
+            </div>
           </div>
         </div>
 
         {/* Post Title */}
-        <h3 className="font-semibold text-xl">
+        <h3 className="font-semibold text-lg sm:text-xl break-words">
           {post.title}
           <span className="italic"> {post.subtitle}</span>
         </h3>
 
         {/* Post Content */}
-        <div className="text-gray-700 font-lg mb-4 text-lg space-y-3">
+        <div className="text-gray-700 font-lg mb-4 text-base sm:text-lg space-y-3">
           {isExpanded
             ? post.content.map((para, i) => <p key={i}>{para}</p>)
             : <p>{post.content[0]}</p>}
         </div>
 
         {/* Read More / Read Less Button and Interaction Bar */}
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-4">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-[#313131] font-medium text-xl underline focus:outline-none"
+            className="text-[#313131] font-medium text-base sm:text-xl underline focus:outline-none w-fit"
           >
             {isExpanded ? "Read Less" : "Read More"}
           </button>
-          <div className="flex space-x-4">
-            <button className="flex items-center space-x-1 text-gray-600 hover:text-red-500">
+          <div className="flex space-x-4 justify-start sm:justify-end">
+            <button className="flex items-center space-x-1 text-gray-600 hover:text-red-500 focus:outline-none">
               <FaHeart size={20} />
             </button>
-            <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-500">
+            <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-500 focus:outline-none">
               <FaShareAlt size={20} />
             </button>
-            <button className="flex items-center space-x-1 text-gray-600 hover:text-yellow-500">
+            <button className="flex items-center space-x-1 text-gray-600 hover:text-yellow-500 focus:outline-none">
               <FaBookmark size={20} />
             </button>
           </div>
         </div>
 
         {/* Comment Box */}
-        <div className="flex-1 relative ml-3 mt-4">
-          <div className="flex justify-center">
-            <input
-              type="text"
-              placeholder="Post a reply"
-              className="w-[85%] border mt-3 border-[#313131] rounded-xl focus:outline-none focus:ring pl-10 pr-24 py-5"
-              style={{
-                backgroundImage: `url(/assets/user.png)`,
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: '50px 50px',
-                backgroundPosition: '15px 10px',
-                paddingLeft: '80px'
-              }}
-            />
-            <button className="absolute right-[9%] top-1/2 transform -translate-y-1/2 mt-2 bg-[#313131] text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-              Send
-            </button>
+        <div className="w-full relative mt-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center w-full gap-2">
+            <div className="relative w-full sm:w-[85%]">
+              <input
+                type="text"
+                placeholder="Post a reply"
+                className="w-full border mt-3 border-[#313131] rounded-xl focus:outline-none focus:ring pl-16 pr-24 py-3 sm:py-5 text-base sm:text-lg"
+                style={{
+                  backgroundImage: `url(/assets/user.png)`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: '40px 40px',
+                  backgroundPosition: '10px 10px',
+                  paddingLeft: '60px'
+                }}
+              />
+              <button className="absolute right-4 top-1/2 transform -translate-y-1/2 mt-0 sm:mt-2 bg-[#313131] text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-blue-700 text-sm sm:text-base">
+                Send
+              </button>
+            </div>
           </div>
         </div>
       </div>
