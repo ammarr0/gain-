@@ -161,23 +161,36 @@ const NewMatches = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto" >
+    <div className="max-w-7xl mx-auto w-full">
       <div className="p-4 max-w-full">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
           <h2 className="text-2xl font-medium">Your newest matches</h2>
-          <button className="text-sm font-semibold underline hover:underline mr-12">
+          <button className="text-sm font-semibold underline hover:underline sm:mr-12">
             View All Jobs
           </button>
         </div>
 
-        <div className="flex">
+        <div className="flex flex-col sm:flex-row gap-4">
           {matches.map((match, idx) => (
             <div
               key={idx}
               onClick={() => handleCardClick(match)}
-              className="rounded-xl border-2 border-[#B9DAFF] p-4 shadow-sm hover:shadow-lg transition bg-white h-[371px] w-[32%] mx-auto cursor-pointer"
+              className={`
+                rounded-xl border-2 border-[#B9DAFF] p-4 shadow-sm hover:shadow-lg transition bg-white
+                cursor-pointer
+                w-full
+                h-auto
+                sm:w-[48%] md:w-[32%] sm:h-[371px]
+                mx-auto
+                flex-shrink-0
+              `}
+              style={{
+                minWidth: 0,
+                maxWidth: "100%",
+                marginBottom: "1rem"
+              }}
             >
-              <div className="flex justify-between items-start"  >
+              <div className="flex justify-between items-start">
                 <img
                   src={match.logo}
                   alt={match.company}
@@ -196,11 +209,12 @@ const NewMatches = () => {
               <hr className="my-3 border-black" />
 
               <div className="text-sm text-gray-600 space-y-4 mt-8">
-                <p>
+                <p className="flex flex-wrap items-center">
                   <img src="https://cdn-icons-png.flaticon.com/512/3239/3239948.png" alt="Hours" className="inline w-4 h-4 mr-1" />
-                  {match.hours}
-                  <img src="https://cdn-icons-png.flaticon.com/512/927/927667.png" alt="Location" className="inline w-4 h-4 ml-16" />
-                  {match.location}
+                  <span>{match.hours}</span>
+                  <span className="hidden sm:inline ml-8"></span>
+                  <img src="https://cdn-icons-png.flaticon.com/512/927/927667.png" alt="Location" className="inline w-4 h-4 ml-4 sm:ml-16" />
+                  <span>{match.location}</span>
                 </p>
                 <p>
                   <img src="https://cdn-icons-png.flaticon.com/512/2088/2088617.png" alt="Clock" className="inline w-4 h-4 mr-1" />
