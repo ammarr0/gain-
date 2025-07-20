@@ -140,7 +140,7 @@ const App = () => {
                 <Route path="post-job" element={<PostJobs />} />
                 <Route path="post-project" element={<PostProject />} />
                 <Route path="post-course" element={<PostCourse />} />
-                <Route path="/profile" element={<><TalentProfile /></>} />
+                <Route path="profile" element={<><TalentProfile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="make-invoices" element={<><MakeInvoices /></>} />
               </Routes>
@@ -168,7 +168,7 @@ const App = () => {
                 <Route path="applications" element={<TrackerApplications />} />
                 <Route path="joboffers" element={<TrackerOffers />} />
                 <Route path="projectsoffers" element={<TrackerProject />} />
-                <Route path="/profile" element={<><TalentProfile /></>} />
+                <Route path="profile" element={<><TalentProfile /></>} />
               </Routes>
             </div>
           </>
