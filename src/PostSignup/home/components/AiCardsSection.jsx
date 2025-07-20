@@ -1,4 +1,3 @@
-// src/pages/home/components/AiCardsSection.jsx
 import React from 'react';
 
 const AiCardsSection = () => {

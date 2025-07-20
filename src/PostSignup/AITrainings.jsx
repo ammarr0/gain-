@@ -1,7 +1,6 @@
 // AITrainings.jsx
 import React from 'react';
 
-
 import CourseCard from '../components/CourseCard';
 import HeroSection from '../components/HeroSection';
 
@@ -55,13 +54,16 @@ const AITrainings = () => {
         <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 mb-6 mx-auto text-center onest-bold">
           Featured AI Courses
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+        {/* 3 cards per row, cards wider */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {courses.map((course, index) => (
             <div
               key={index}
-              className="border-2 border-[#030923] border-opacity-50 rounded-2xl p-4 h-full flex flex-col"
+              className="flex flex-col items-center"
             >
-              <CourseCard {...course} />
+              <div className="w-[350px]">
+                <CourseCard {...course} />
+              </div>
             </div>
           ))}
         </div>

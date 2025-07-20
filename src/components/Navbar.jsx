@@ -9,6 +9,7 @@ const Navbar = () => {
   const [openMobileDropdown, setOpenMobileDropdown] = useState(null);
 
   const navLinks = [
+    { to: '/', label: 'Home' },
     { to: '/pricing', label: 'Pricing' },
     { to: '/freelance-jobs', label: 'Freelance Jobs' },
     { to: '/ai-trainings', label: 'AI Trainings' },
