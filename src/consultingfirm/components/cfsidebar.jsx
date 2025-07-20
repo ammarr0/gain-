@@ -9,8 +9,6 @@ const menuItems = [
   { name: 'Tracker', icon: '/assets/tracker.svg', route: '/consultingfirm/tracker' },
   { name: 'Courses', icon: '/assets/courses.svg', route: '/consultingfirm/explore-course' },
   { name: 'Community', icon: '/assets/community.svg', route: '/consultingfirm/community' },
-  { name: 'Earnings', icon: '/assets/earnings.svg', route: '/under-processing', extra: <span className="bg-gray-200 text-gray-700 text-xs rounded-full px-2 py-1 ml-2">$1500</span> },
-  { name: 'Invoices', icon: '/assets/invoices.png', route: '/under-processing' }
 ];
 
 const Sidebar = () => {
