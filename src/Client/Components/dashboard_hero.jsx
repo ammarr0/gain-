@@ -36,13 +36,23 @@ const ExploreTalentsSection = () => {
               </div>
             </div>
 
-            <div className="bg-white border-2 border-[#B0D0F7] rounded-xl p-4 md:p-6 flex justify-between items-center h-auto lg:h-[162px]">
+            <div
+              className="bg-white border-2 border-[#B0D0F7] rounded-xl p-4 md:p-6 flex justify-between items-center h-auto lg:h-[162px] cursor-pointer group"
+              onClick={() => window.location.href = "/client/explore-talent"}
+              role="button"
+              tabIndex={0}
+              onKeyPress={e => {
+                if (e.key === "Enter" || e.key === " ") {
+                  window.location.href = "/client/explore-talent";
+                }
+              }}
+            >
               <div>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-black text-center lg:text-left">Hire a new talent</h2>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-black text-center lg:text-left group-hover:underline">Hire a new talent</h2>
                 <p className="text-[#7A8A9C] text-sm md:text-base text-center lg:text-left">Explore the right person for your next AI project</p>
               </div>
               <div>
-                <img src={arrow} alt="" className="w-10 h-10 md:w-12 md:h-12" />
+                <img src={arrow} alt="" className="w-10 h-10 md:w-12 md:h-12 transition-transform group-hover:translate-x-2" />
               </div>
             </div>
           </div>

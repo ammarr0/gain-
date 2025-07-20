@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Don't forget to import the CSS!
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './PostSignup/home/Home.jsx';
@@ -71,6 +71,7 @@ import TrackerProject from "./Talent/Pages/Tracker/projectoffers.jsx";
 import ConsultingFirmSidebar from "./consultingfirm/components/cfsidebar.jsx"
 import ClientMain from "./Talent/Pages/main-course.jsx"
 import CFHeader from "./consultingfirm/components/cfnavbar.jsx";
+import TalentHeader from "./Talent/Components/header.jsx";
 
 const App = () => {
   return (
@@ -150,7 +151,7 @@ const App = () => {
 
         <Route path="/talent/*" element={
           <>
-            <ClientHeader />
+            <TalentHeader />
             <div style={{ display: 'flex' }}>
            <TalentSidebar /> 
               <Routes>
@@ -164,11 +165,12 @@ const App = () => {
                 <Route path="post-success" element={<PostSuccess />} />
                 <Route path="main-course" element={<MainCourse />} />
                 <Route path="profile" element={<ClientsProfile />} />
-                <Route path="tracker" element={<TalentTracker />} />
                 <Route path="applications" element={<TrackerApplications />} />
                 <Route path="joboffers" element={<TrackerOffers />} />
                 <Route path="projectsoffers" element={<TrackerProject />} />
                 <Route path="profile" element={<><TalentProfile /></>} />
+                <Route path="my-invoices" element={<><Invoice /></>} />
+                <Route path="community" element={<Community />} />
               </Routes>
             </div>
           </>

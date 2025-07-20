@@ -1,52 +1,63 @@
 import React from 'react';
+import logo from '../../assets/logo.png'; // Adjust the path as needed
 
-const GainWelcomeSection = () => {
+const DashboardCards = ({ userName }) => {
+  const displayName = userName || 'Firm';
+
+  const cards = [
+    { 
+      text: 'Find your next job', 
+      subtext: 'Explore a wide range of AI and tech job opportunities tailored to your skills and interests. Apply easily and take the next step in your career journey.', 
+      button: 'Browse Jobs', 
+      color: 'bg-[#C7E1FF]' 
+    },
+    { 
+      text: 'Hire your next talent', 
+      subtext: 'Connect with top AI professionals and build your dream team. Post projects and find the perfect match for your business needs.', 
+      button: 'Browse Projects', 
+      color: 'bg-[#D8FBAB]' 
+    },
+    { 
+      text: 'Learn or teach AI Course', 
+      subtext: 'Upskill yourself with the latest AI courses or share your expertise by teaching others. Join a vibrant learning community.', 
+      button: 'Browse Courses', 
+      color: 'bg-[#CACDFF]' 
+    },
+  ];
+
   return (
-    <div className="flex flex-col md:flex-row items-start justify-start px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-10 gap-6 md:gap-6 font-sans w-full">
-      {/* Left Section */}
-      <div className="w-full md:w-1/3 mb-6 md:mb-0">
-        <h2 className="text-base sm:text-lg text-gray-600 mb-2">Welcome to</h2>
-        <div className="text-2xl sm:text-3xl font-bold flex items-center gap-1">
-          <span className="text-blue-900">GAIN</span>
-          <span className="text-blue-600 text-xl sm:text-2xl font-bold">+</span>
+    <div className="px-2 sm:px-4 py-2 w-full">
+      <div className="flex flex-col sm:flex-row items-center gap-6 w-full max-w-7xl mx-auto">
+        {/* Logo on the left */}
+        <div className="flex-shrink-0 flex flex-col items-center sm:items-start mb-4 sm:mb-0">
+          <img src={logo} alt="Logo" className="h-28 w-auto mb-2" />
         </div>
-        <p className="text-xs sm:text-sm text-gray-600 mt-4">
-          You now have complete access to our network of job opportunities and a thriving
-          career support community. Where will your career journey begin today?
-        </p>
-      </div>
-      {/* Right Cards */}
-      <div className="flex flex-col sm:flex-row gap-4 w-full md:w-4/5">
-        {/* Card 1 */}
-        <div className="bg-lime-200 p-4 sm:p-5 rounded-xl shadow-md w-full sm:w-56">
-          <h3 className="font-semibold text-gray-800 text-sm sm:text-md mb-4">
-            Collab with other experts on your next project
-          </h3>
-          <button className="bg-blue-950 text-white px-4 py-2 rounded-full text-xs sm:text-sm w-full">
-            Browse Projects
-          </button>
-        </div>
-        {/* Card 2 */}
-        <div className="bg-blue-200 p-4 sm:p-5 rounded-xl shadow-md w-full sm:w-56">
-          <h3 className="font-semibold text-gray-800 text-sm sm:text-md mb-4">
-            Find your next job
-          </h3>
-          <button className="bg-blue-950 text-white px-4 py-2 rounded-full text-xs sm:text-sm w-full">
-            Browse Jobs
-          </button>
-        </div>
-        {/* Card 3 */}
-        <div className="bg-purple-200 p-4 sm:p-5 rounded-xl shadow-md w-full sm:w-56">
-          <h3 className="font-semibold text-gray-800 text-sm sm:text-md mb-4">
-            Learn or teach AI Course
-          </h3>
-          <button className="bg-blue-950 text-white px-4 py-2 rounded-full text-xs sm:text-sm w-full">
-            Browse Courses
-          </button>
+        {/* Cards in a row */}
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full justify-center">
+          {cards.map((card, idx) => (
+            <div
+              key={idx}
+              className={`rounded-xl p-4 h-[260px] sm:h-[280px] md:h-[300px] w-full min-w-0 flex flex-col items-center justify-between ${card.color} shadow-[3px_3px_9px_0px_#0000001A,10px_12px_16px_0px_#00000017,24px_26px_21px_0px_#0000000D,42px_46px_25px_0px_#00000003,66px_72px_27px_0px_#00000000] transition-all`}
+              style={{
+                maxWidth: '340px',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                width: '100%',
+              }}
+            >
+              <div className="w-full">
+                <p className="font-semibold text-lg sm:text-xl md:text-2xl text-left mb-2">{card.text}</p>
+                <p className="text-gray-700 text-sm md:text-base text-left mb-4">{card.subtext}</p>
+              </div>
+              <button className="bg-black text-white px-4 py-2 sm:py-3 w-full sm:w-48 rounded-xl hover:bg-[#030923] transition">
+                {card.button}
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 };
 
-export default GainWelcomeSection;
+export default DashboardCards;

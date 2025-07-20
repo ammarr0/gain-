@@ -6,6 +6,7 @@ const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openMobileDropdown, setOpenMobileDropdown] = useState(null);
 
   const navLinks = [
     { to: '/pricing', label: 'Pricing' },
@@ -44,6 +45,7 @@ const Navbar = () => {
         {label}
       </Link>
     ));
+
   const renderDropdowns = () =>
     dropdownLinks.map(({ label, links }) => (
       <div key={label} className="group inline-block relative">
@@ -86,24 +88,46 @@ const Navbar = () => {
       </Link>
     ));
 
+  // Mobile dropdowns: do NOT open submenus by default, only on tap/click
   const renderMobileDropdowns = () =>
-    dropdownLinks.map(({ label, links }) => (
+    dropdownLinks.map(({ label, links }, idx) => (
       <div key={label} className="border-b border-gray-200">
-        <div className="py-3 px-4 text-gray-700 font-medium">
-          {label}
-        </div>
-        <div className="bg-gray-50">
-          {links.map(({ to, label }) => (
-            <Link
-              key={to}
-              to={to}
-              className="block py-2 px-8 text-gray-600 hover:text-blue-500 focus:text-[#007DF0]"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
+        <button
+          type="button"
+          className="w-full text-left py-3 px-4 text-gray-700 font-medium flex items-center justify-between focus:outline-none"
+          onClick={() =>
+            setOpenMobileDropdown(openMobileDropdown === idx ? null : idx)
+          }
+          aria-expanded={openMobileDropdown === idx}
+        >
+          <span>{label}</span>
+          <svg
+            className={`h-4 w-4 ml-2 transition-transform duration-200 ${
+              openMobileDropdown === idx ? 'transform rotate-180' : ''
+            }`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        {/* Only show submenu if openMobileDropdown === idx */}
+        {openMobileDropdown === idx && (
+          <div className="bg-gray-50">
+            {links.map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                className="block py-2 px-8 text-gray-600 hover:text-blue-500 focus:text-[#007DF0]"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     ));
 

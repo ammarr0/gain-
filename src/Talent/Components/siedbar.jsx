@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, Briefcase, Users, Search, GraduationCap, Globe, Wallet } from 'lucide-react';
+import { Home, Briefcase, Users, GraduationCap, Globe, Wallet } from 'lucide-react';
 
 const menuItems = [
   { name: 'Home', icon: <Home size={24} color="#313131" />, route: '/talent/home/' },
   { name: 'Jobs', icon: <Briefcase size={24} color="#313131" />, route: '/talent/jobs/' },
   { name: 'Projects', icon: <Users size={24} color="#313131" />, route: '/talent/projects/' },
-  { name: 'Tracker', icon: <Search size={24} color="#313131" />, route: '/talent/tracker' },
   { name: 'Courses', icon: <GraduationCap size={24} color="#313131" />, route: '/talent/explore-course' },
-  { name: 'Community', icon: <Globe size={24} color="#313131" />, route: '/client/my-invoices' },
-  { name: 'Earnings', icon: <Wallet size={24} color="#313131" />, route: '/client/my-invoices' }
+  { name: 'Community', icon: <Globe size={24} color="#313131" />, route: '/talent/community' },
+  { name: 'Earnings', icon: <Wallet size={24} color="#313131" />, route: '/talent/my-invoices' }
 ];
 
 const Sidebar = () => {
@@ -23,7 +22,6 @@ const Sidebar = () => {
   };
 
   return (
-    // Hide sidebar on small screens, show on md and up
     <div className="hidden md:block w-[25%] h-full bg-white">
       <ul className="space-y-2 p-6 mt-4">
         {menuItems.map(({ name, icon, route }, index) => (

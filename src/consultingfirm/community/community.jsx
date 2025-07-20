@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   MessageCircle,
@@ -60,8 +60,6 @@ const CommunityPost = () => {
       <div
         className="
           w-full
-          max-w-2xl
-          mx-auto
           p-2
           sm:p-4
           md:p-6
@@ -77,7 +75,7 @@ const CommunityPost = () => {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center border border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 mb-6 shadow-sm gap-2 sm:gap-0">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center border border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 mb-6 shadow-sm gap-2 sm:gap-0 w-full">
           <div className="flex-1 text-gray-500 mb-2 sm:mb-0">
             <span className="font-semibold text-black">🔍 clay</span> Ask the community for help
           </div>
@@ -92,7 +90,7 @@ const CommunityPost = () => {
         {posts.map((post) => (
           <div
             key={post.id}
-            className="border border-gray-200 rounded-xl p-3 sm:p-5 shadow-sm mb-6"
+            className="border border-gray-200 rounded-xl p-3 sm:p-5 shadow-sm mb-6 w-full"
           >
             <div className="flex items-center mb-3">
               <img
@@ -131,7 +129,7 @@ const CommunityPost = () => {
           </div>
         ))}
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center border rounded-full px-3 sm:px-4 py-2 shadow-sm gap-2 sm:gap-0">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center border rounded-full px-3 sm:px-4 py-2 shadow-sm gap-2 sm:gap-0 w-full">
           <span className="text-black font-semibold mr-0 sm:mr-2">🔍 clay</span>
           <input
             type="text"
