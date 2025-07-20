@@ -1,13 +1,26 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import jobs from "../../jobs.json";
 import location from "../../assets/location.png";
 import calendar from "../../assets/calendar.png";
 import clock from "../../assets/clock.png";
 import arrowup from "../../assets/arrow-up-right-white.png";
 import arrowupblack from "../../assets/arrow-up-right-black.png";
 
+const iconMap = {
+    "location.png": location,
+    "calendar.png": calendar,
+    "clock.png": clock,
+};
+
 function PostedJobs() {
-    const renderButton = (bgColor, textColor, text, imgSrc) => (
-        <button className={`w-[135px] h-[28px] rounded-[16px] ${bgColor} text-sm ${textColor} flex items-center justify-center`}>
+    const navigate = useNavigate();
+
+    const renderButton = (bgColor, textColor, text, imgSrc, onClick) => (
+        <button 
+            className={`w-[135px] h-[28px] rounded-[16px] ${bgColor} text-sm ${textColor} flex items-center justify-center`}
+            onClick={onClick}
+        >
             {text} <img src={imgSrc} alt="" className="ml-1" />
         </button>
     );
@@ -19,42 +32,9 @@ function PostedJobs() {
         </div>
     );
 
-    const postedJobsData = [
-        {
-            title: "AI Risk Analysis",
-            description: "Develop machine learning models to assess and mitigate financial risks, including credit, market, and operational risks.",
-            userName: "Tyrion Lannister",
-            location: "Kings Landing",
-            rating: 4.9,
-            jobs: 32,
-            infoItems: [
-                { imgSrc: location, altText: "Location", text: "UAE | United States" },
-                { imgSrc: calendar, altText: "Calendar", text: "25 hrs/wk" },
-                { imgSrc: clock, altText: "Clock", text: "Anytime" }
-            ],
-            tags: ["Project Management Tools", "Jira", "Hubspot"],
-            dueDate: "01-09-2025"
-        },
-        {
-            title: "AI Data Analysis",
-            description: "Analyze large datasets to extract meaningful insights and support decision-making processes.",
-            userName: "Arya Stark",
-            location: "Winterfell",
-            rating: 4.8,
-            jobs: 28,
-            infoItems: [
-                { imgSrc: location, altText: "Location", text: "UK | Canada" },
-                { imgSrc: calendar, altText: "Calendar", text: "30 hrs/wk" },
-                { imgSrc: clock, altText: "Clock", text: "Flexible" }
-            ],
-            tags: ["Data Science", "Python", "R"],
-            dueDate: "15-10-2025"
-        },
-    ];
-
     return (
         <div className="space-y-6 mt-7">
-            {postedJobsData.map((job, index) => (
+            {jobs.map((job, index) => (
                 <div key={index} className="bg-white border border-gray-300 rounded-2xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                         <h2 className="text-xl md:text-2xl font-bold text-black">{job.title}</h2>
@@ -62,7 +42,7 @@ function PostedJobs() {
 
                     <p className="text-black text-sm md:text-base">{job.description}</p>
                     <div className='flex flex-wrap gap-2 md:gap-4'>
-                        {job.infoItems.map((item, idx) => renderInfoItem(item.imgSrc, item.altText, item.text))}
+                        {job.infoItems.map((item, idx) => renderInfoItem(iconMap[item.imgSrc], item.altText, item.text))}
                     </div>
 
                     <hr className="border-black" />
@@ -72,10 +52,10 @@ function PostedJobs() {
                             <span key={idx} className="bg-white border border-gray-200 text-xs md:text-sm text-black rounded px-2 md:px-3 py-1">{text}</span>
                         ))}
                         <div className="text-xs md:text-sm text-red-800 ml-auto">
-
+                            Due on: {job.dueDate}
                             <div className="flex flex-wrap gap-2 md:gap-4">
-                                {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Jobs", arrowupblack)}
-                                {renderButton("bg-[#030923]", "text-white", "View Jobs", arrowup)}
+                                {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Jobs", arrowupblack, () => navigate(`/client/jobs-details/${job.id}`))}
+                                {renderButton("bg-[#030923]", "text-white", "View Jobs", arrowup, () => navigate(`/client/jobs-details/${job.id}`))}
                             </div>
                         </div>
                     </div>

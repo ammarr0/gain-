@@ -44,13 +44,13 @@ function JobCard() {
                 <div
                     key={job.id || index}
                     className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[300px] justify-between cursor-pointer"
-                    onClick={() => navigate(`/client/jobs-details`)}
+                    onClick={() => navigate(`/client/jobs-details/${job.id}`)}
                 >
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                         <h2 className="text-xl md:text-2xl font-bold text-black">{job.title}</h2>
                         <div className="flex flex-wrap gap-2 md:gap-4 mt-2 md:mt-0">
-                            {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Jobs", arrowupblack, () => navigate(`/client/jobs-details`))}
-                            {renderButton("bg-[#030923]", "text-white", "View Jobs", arrowup, () => navigate(`/client/jobs-details`))}
+                            {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Jobs", arrowupblack, () => navigate(`/client/jobs-details/${job.id}`))}
+                            {renderButton("bg-[#030923]", "text-white", "View Jobs", arrowup, () => navigate(`/client/jobs-details/${job.id}`))}
                         </div>
                     </div>
 

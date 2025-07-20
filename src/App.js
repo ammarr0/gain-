@@ -125,7 +125,7 @@ const App = () => {
               <Routes>
                 <Route path="dashboard" element={<ClientDashboard />} />
                 <Route path="my-jobs" element={<ClientJobs />} />
-                <Route path="jobs-details" element={<JobsDetails />} />
+                <Route path="jobs-details/:id" element={<JobsDetails />} />
                 <Route path="my-projects" element={<ClientProjects />} />
                 <Route path="explore-talent" element={<><ClientExploreTalents /></>} />
                 <Route path="explore-course" element={<><ClientExploreCourse /></>} />

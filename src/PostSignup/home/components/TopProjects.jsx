@@ -1,110 +1,88 @@
-// src/pages/home/components/TopProjects.jsx
+
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-const TopProjects = () => {
+const NewestMatches = () => {
+  const matches = [
+    {
+      company: "Juxtapose",
+      role: "Product Designer",
+      hours: "25 hrs/wk",
+      location: "Work from anywhere",
+      time: "Anytime",
+      logo: "/assets/juxtapose.png",
+      logoSize: "w-16 h-16",
+      positions: ["UI Designer", "UX Researcher", "Backend Developer", "Machine Learner"]
+    },
+    {
+      company: "Reddit",
+      role: "Product Designer",
+      hours: "25 hrs/wk",
+      location: "United States | Canada",
+      time: "Anytime",
+      logo: "/assets/reddit.png",
+      logoSize: "w-16 h-16",
+      positions: ["UI Designer", "UX Researcher", "Backend Developer", "Machine Learner"]
+    },
+    {
+      company: "Bank of America",
+      role: "Sr. UX Researcher",
+      hours: "25 hrs/wk",
+      location: "United States only",
+      time: "Anytime",
+      logo: "/assets/bankofamerica.png",
+      logoSize: "w-16 h-16",
+      positions: ["UI Designer", "UX Researcher", "Backend Developer", "Machine Learner"]
+    },
+  ];
+
   return (
-    <section className="py-12 w-full">
-      <h2 className="text-2xl md:text-2xl ml-4 md:ml-48 font-md text-left mb-6">
-        Top Projects on GAIN+
-      </h2>
-
-      <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center justify-center gap-10 md:gap-40 px-6">
-        {/* Card 1 */}
-        <div className="border border-black rounded-2xl p-6 flex flex-col w-full sm:w-80">
-          <img
-            src="/assets/justpayee.png"
-            alt="Justpayee"
-            className="w-16 h-16 object-contain mb-3"
-          />
-          <h3 className="text-lg font-semibold mb-1">Justpayee</h3>
-          <p className="text-sm text-gray-600 mb-3">Website Development</p>
-
-          <h4 className="text-sm font-lg mb-1">Open Positions</h4>
-          <ul className="list-disc list-inside text-lg text-gray-700 mb-4">
-            <li>UI Designer</li>
-            <li>UX Researcher</li>
-            <li>Backend Developer</li>
-            <li>Machine Learner</li>
-          </ul>
-
-          <div className="border-t border-black mt-auto mb-3" />
-
-          <Link to="/join-us" className="flex justify-center">
-            <button
-              type="button"
-              className="border border-black rounded-xl px-12 py-1 text-sm flex items-center justify-between hover:bg-gray-100"
-            >
-              Join us to view project
-              <span className="ml-2 text-lg">↗</span>
-            </button>
-          </Link>
+    <div className="max-w-7xl mx-auto">
+      <div className="p-4 max-w-full">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-medium text-black">Your Top Projects</h2>
+          <button className="text-sm font-semibold text-black underline hover:underline mr-12">View All Jobs</button>
         </div>
+        <div className="flex flex-wrap gap-4 mt-4 item-center justify-center">
+          {matches.map((match, idx) => (
+            <div key={idx} className="rounded-xl border-2 border-black p-4 shadow-sm hover:shadow-lg transition bg-white h-[460px] w-[400px] mx-auto">
+              <div className="flex justify-between items-start">
+                <img src={match.logo} alt={match.company} className={`${match.logoSize} rounded-md mb-2`} />
+                <div className="flex gap-2">
+                  <button>
+                    <img src="/assets/share.png" alt="Share" className="w-5 h-5" />
+                  </button>
+                  <button>
+                    <img src="/assets/bookmark.png" alt="Bookmark" className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
 
-        {/* Card 2 */}
-        <div className="border border-black rounded-2xl p-6 flex flex-col w-full sm:w-80">
-          <img
-            src="https://www.redditinc.com/assets/images/site/reddit-logo.png"
-            alt="Reddit"
-            className="w-16 h-16 object-contain mb-3"
-          />
-          <h3 className="text-lg font-semibold mb-1">Reddit</h3>
-          <p className="text-sm text-gray-600 mb-3">App Development</p>
+              <h3 className="text-xl font-semibold text-[#030923]">{match.company}</h3>
+              <p className="text-gray-600 text-2xl mt-2">{match.role}</p>
+              <p className="text-sm  font-md mt-2">Open Positions</p>
+              <ul className="mt-3 list-disc list-inside">
+                {match.positions.map((position, posIdx) => (
+                  <li key={posIdx} className="text-lg ml-2">{position}</li>
+                ))}
+              </ul>
 
-          <h4 className="text-sm font-lg mb-1">Open Positions</h4>
-          <ul className="list-disc list-inside text-lg text-gray-700 mb-4">
-            <li>UI Designer</li>
-            <li>UX Researcher</li>
-            <li>Backend Developer</li>
-            <li>Machine Learner</li>
-          </ul>
+              <hr className="my-3 border-black" />
 
-          <div className="border-t border-black mt-auto mb-3" />
-
-          <Link to="/join-us" className="flex justify-center">
-            <button
-              type="button"
-              className="border border-black rounded-xl px-12 py-1 text-sm flex items-center justify-between hover:bg-gray-100"
-            >
-              Join us to view project
-              <span className="ml-2 text-lg">↗</span>
-            </button>
-          </Link>
-        </div>
-
-        {/* Card 3 */}
-        <div className="border border-black rounded-2xl p-6 flex flex-col w-full sm:w-80">
-          <img
-            src="https://about.bankofamerica.com/assets/images/brand-logo.png"
-            alt="Bank of America"
-            className="w-16 h-16 object-contain mb-3"
-          />
-          <h3 className="text-lg font-semibold mb-1">Bank of America</h3>
-          <p className="text-sm text-gray-600 mb-3">Fintech Product Development</p>
-
-          <h4 className="text-sm font-lg mb-1">Open Positions</h4>
-          <ul className="list-disc list-inside text-lg text-gray-700 mb-4">
-            <li>UI Designer</li>
-            <li>UX Researcher</li>
-            <li>Backend Developer</li>
-            <li>Machine Learner</li>
-          </ul>
-
-          <div className="border-t border-black mt-auto mb-3" />
-
-          <Link to="/join-us" className="flex justify-center">
-            <button
-              type="button"
-              className="border border-black rounded-xl px-12 py-1 text-sm flex items-center justify-between hover:bg-gray-100"
-            >
-              Join us to view project
-              <span className="ml-2 text-lg">↗</span>
-            </button>
-          </Link>
+              <div className="text-sm text-gray-600 space-y-4 mt-8">
+                <p>
+                  <img src="https://cdn-icons-png.flaticon.com/512/3239/3239948.png" alt="Hours" className="inline w-4 h-4 mr-1" />
+                  {match.hours}
+                  <img src="https://cdn-icons-png.flaticon.com/512/927/927667.png" alt="Location" className="inline w-4 h-4 ml-16 mr- " />
+                  {match.location}
+                </p>
+                <p><img src="https://cdn-icons-png.flaticon.com/512/2088/2088617.png" alt="Clock" className="inline w-4 h-4 mr-1 " />{match.time}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default TopProjects;
+export default NewestMatches;
