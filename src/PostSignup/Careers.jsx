@@ -2,9 +2,6 @@
 import React, { useState } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
 
-// Responsive styles (Tailwind CSS is assumed to be used in the project)
-// If you need to add custom CSS for responsiveness, you can do so here or in a CSS file.
-
 const jobListings = [
   {
     title: 'Administration Manager',
@@ -74,7 +71,6 @@ const testimonials = [
 
 const Careers = () => {
   const [openJob, setOpenJob] = useState(null);
-
   const toggleJob = (index) => {
     setOpenJob(openJob === index ? null : index);
   };
@@ -150,7 +146,6 @@ const Careers = () => {
           )}
         </div>
       ))}
-
       {/* Testimonials */}
       <div className="mt-12">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Testimonials</h2>

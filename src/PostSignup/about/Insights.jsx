@@ -15,7 +15,7 @@ const insightsData = [
 const InsightsPage = () => {
   return (
     <div className="bg-white py-10 w-full overflow-x-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full"  >
         {/* Top Section */}
         <section className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12 w-full">
           <div className="w-full md:w-1/2 max-w-md">
@@ -31,7 +31,7 @@ const InsightsPage = () => {
         </section>
 
         {/* Filters: Category and Search */}
-        <div className="flex flex-col md:flex-row gap-4 w-full mb-8">
+        <div className="flex flex-col md:flex-row gap-4 w-full mb-8" >
           <div className="flex flex-col w-full">
             <label className="text-sm font-medium text-[#313131] mb-1">Category</label>
             <select className="border border-[#313131] rounded-xl px-4 py-3 text-[#313131] bg-white w-full">
@@ -71,6 +71,8 @@ const InsightsPage = () => {
             justify-items-center
             w-full
           "
+
+          
         >
           {insightsData.map((item, index) => (
             <div
@@ -91,7 +93,7 @@ const InsightsPage = () => {
                 height: '100%',
               }}
             >
-              <div className="bg-gray-200 h-40 sm:h-44 md:h-48 rounded-3xl w-full"></div>
+              <div className="bg-gray-200 h-40 sm:h-44 md:h-48 rounded-2xl w-full"></div>
               <div className="p-4 flex flex-col flex-1">
                 <p className="text-sm text-gray-700 mb-2">{item.date}</p>
                 <h2 className="text-lg sm:text-xl font-semibold text-[#030923] mt-2">{item.title}</h2>

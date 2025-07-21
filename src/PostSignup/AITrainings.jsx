@@ -6,15 +6,18 @@ import HeroSection from '../components/HeroSection';
 
 // Export the courses array
 export const courses = [
+  { title: "Advanced Machine Learning", rating: 4.9, reviews: 25, level: "Advanced", duration: "6-10" },
+  { title: "Data Science Essentials", rating: 4.7, reviews: 20, level: "Intermediate", duration: "2-6" },
+  { title: "Web Development Bootcamp", rating: 4.9, reviews: 30, level: "Beginner to Advanced", duration: "4-12" },
+  { title: "Cybersecurity Fundamentals", rating: 4.6, reviews: 10, level: "Beginner", duration: "3-8" },
+  { title: "Cloud Computing Basics", rating: 4.5, reviews: 18, level: "Beginner", duration: "1-4" },
   { title: "Introduction to Artificial Intelligence (AI)", rating: 4.8, reviews: 29, level: "Beginner", duration: "1-4" },
-  { title: "Artificial Intelligence for Business", rating: 4.5, reviews: 15, level: "Intermediate", duration: "2-5"  },
+  { title: "Artificial Intelligence for Business", rating: 4.5, reviews: 15, level: "Intermediate", duration: "2-5" },
   { title: "Artificial Intelligence in Marketing", rating: 5.0, reviews: 140, level: "Beginner", duration: "1-5" },
   { title: "Artificial Intelligence for Cyber Security", rating: 4.7, reviews: 25, level: "Beginner", duration: "2-4" },
   { title: "Artificial Intelligence for Business", rating: 4.6, reviews: 33, level: "Intermediate", duration: "1-3" },
   { title: "Artificial Intelligence in Marketing", rating: 5.0, reviews: 140, level: "Beginner", duration: "1-5" },
-  { title: "Artificial Intelligence for Cyber Security", rating: 4.7, reviews: 25, level: "Beginner", duration: "2-4" },
-  { title: "Artificial Intelligence for Business", rating: 4.6, reviews: 33, level: "Intermediate", duration: "1-3" },
-  { title: "Artificial Intelligence in Marketing", rating: 5.0, reviews: 140, level: "Beginner", duration: "1-5" },
+  { title: "Artificial Intelligence for Cyber Security", rating: 4.7, reviews: 25, level: "Beginner", duration: "2-4" }
 ];
 
 const AITrainings = () => {
@@ -59,7 +62,7 @@ const AITrainings = () => {
           {courses.map((course, index) => (
             <div
               key={index}
-              className="flex flex-col items-center"
+              className="rounded-2xl w-auto h-full flex flex-col"
             >
               <div className="w-[350px]">
                 <CourseCard {...course} />

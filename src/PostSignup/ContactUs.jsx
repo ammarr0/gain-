@@ -35,8 +35,8 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="bg-[#f0f8ff] min-h-screen flex flex-col">
-      
+    <div className="bg-white min-h-screen flex flex-col">
+
       {/* Heading & Subheading Container */}
       <div className="bg-white py-8 px-4 ">
         <div className="max-w-4xl mx-auto">
@@ -48,7 +48,7 @@ const ContactUs = () => {
           </p>
         </div>
       </div>
-      
+
       {/* Contact Form Container */}
       <div className="flex-grow flex items-center justify-center py-10 px-4">
         <div className="bg-white p-8 rounded-2xl shadow-md border border-gray-200 max-w-3xl w-full">
@@ -150,7 +150,7 @@ const ContactUs = () => {
                            border-gray-300 rounded mt-1"
               />
               <label className="ml-2 text-sm text-gray-600">
-                By ticking this box, you agree to receive information and 
+                By ticking this box, you agree to receive information and
                 promotions from GAIN. You can unsubscribe at any time.
               </label>
             </div>
