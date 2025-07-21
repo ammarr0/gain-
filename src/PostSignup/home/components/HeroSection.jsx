@@ -4,8 +4,8 @@ export default function HeroSection() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4" >
       <div className="block md:hidden mb-[100px]">
-          <div className="bg-white/90 rounded-2xl shadow-lg py-4 px-3 text-center max-w-xs mx-auto">
-            <h1 className="text-2xl font-bold mb-3 text-[#030923]">Welcome to GAIN</h1>
+          <div className="bg-white/90 rounded-2xl shadow-lg py-0 px-3 text-center max-w-xs mx-auto mb-[20px]">
+            <h1 className="text-2xl font-bold mb-[20px] text-[#030923]">Welcome to GAIN</h1>
             <p className="text-gray-700 text-base">
               Discover top AI jobs, freelance projects, and upskill with industry-leading courses. 
               Start your journey in the world of AI today!
