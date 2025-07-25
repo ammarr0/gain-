@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-// Helper function to get cookie value by name
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -10,25 +11,23 @@ function getCookie(name) {
 }
 
 const PostCourses = () => {
-    const [selectedCategory, setSelectedCategory] = useState('');
     const [formData, setFormData] = useState({
-        courseTitle: '',
-        courseDescription: '',
-        courseModules: '',
-        moduleDescription: '',
-        keySkills: '',
-        courseDuration: '',
-        startDate: '',
-        locationType: '',
-        preferredLocation: '',
-        courseRequirements: '',
-        candidateQuestions: '',
+        title: '',
+        description: '',
+        media: [],
+        course_level: '',
+        estimated_time: '',
+        category: '',
     });
+    const [mediaInput, setMediaInput] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
     const handleCategoryClick = (category) => {
-        setSelectedCategory(category);
+        setFormData((prev) => ({
+            ...prev,
+            category,
+        }));
     };
 
     const handleChange = (e) => {
@@ -39,27 +38,29 @@ const PostCourses = () => {
         }));
     };
 
+    const handleMediaAdd = () => {
+        if (mediaInput.trim() !== '') {
+            setFormData((prev) => ({
+                ...prev,
+                media: [...prev.media, mediaInput.trim()],
+            }));
+            setMediaInput('');
+        }
+    };
+
+    const handleMediaRemove = (index) => {
+        setFormData((prev) => ({
+            ...prev,
+            media: prev.media.filter((_, i) => i !== index),
+        }));
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsSubmitting(true);
-
-        // Prepare payload for API
         const payload = {
-            category: selectedCategory,
-            title: formData.courseTitle,
-            description: formData.courseDescription,
-            modules: formData.courseModules,
-            moduleDescription: formData.moduleDescription,
-            keySkills: formData.keySkills,
-            duration: formData.courseDuration,
-            startDate: formData.startDate,
-            locationType: formData.locationType,
-            preferredLocation: formData.preferredLocation,
-            requirements: formData.courseRequirements,
-            candidateQuestions: formData.candidateQuestions,
+            ...formData,
         };
-
-        // Get access_token from cookies
         const accessToken = getCookie('access_token');
 
         try {
@@ -75,11 +76,10 @@ const PostCourses = () => {
             if (response.ok) {
                 navigate('/client/post-success');
             } else {
-                // Optionally handle error
-                alert('Failed to post course. Please try again.');
+                toast.error('Failed to post course. Please try again.');
             }
         } catch (error) {
-            alert('An error occurred while posting the course.');
+            toast.error('An error occurred while posting the course.');
         } finally {
             setIsSubmitting(false);
         }
@@ -118,7 +118,7 @@ const PostCourses = () => {
                             {['Web Development', 'AI', 'Mobile Development', 'Other'].map((category) => (
                                 <div
                                     key={category}
-                                    className={`bg-gray-100 p-4 rounded-lg text-center cursor-pointer ${selectedCategory === category ? 'border-2 border-blue-500' : ''
+                                    className={`bg-gray-100 p-4 rounded-lg text-center cursor-pointer ${formData.category === category ? 'border-2 border-blue-500' : ''
                                         }`}
                                     onClick={() => handleCategoryClick(category)}
                                 >
@@ -127,13 +127,13 @@ const PostCourses = () => {
                             ))}
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="courseTitle">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
                                 Course Title
                             </label>
                             <input
                                 type="text"
-                                id="courseTitle"
-                                value={formData.courseTitle}
+                                id="title"
+                                value={formData.title}
                                 onChange={handleChange}
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 placeholder="Enter course title"
@@ -141,12 +141,12 @@ const PostCourses = () => {
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="courseDescription">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
                                 Course Description
                             </label>
                             <textarea
-                                id="courseDescription"
-                                value={formData.courseDescription}
+                                id="description"
+                                value={formData.description}
                                 onChange={handleChange}
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 placeholder="Enter course description"
@@ -154,121 +154,71 @@ const PostCourses = () => {
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="courseModules">
-                                Course Modules
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="media">
+                                Media (URLs, one at a time)
+                            </label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    id="mediaInput"
+                                    value={mediaInput}
+                                    onChange={e => setMediaInput(e.target.value)}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Add media URL"
+                                />
+                                <button
+                                    type="button"
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                    onClick={handleMediaAdd}
+                                    disabled={!mediaInput.trim()}
+                                >
+                                    Add
+                                </button>
+                            </div>
+                            <ul className="mt-2">
+                                {formData.media.map((url, idx) => (
+                                    <li key={idx} className="flex items-center gap-2">
+                                        <span className="text-sm text-gray-700 break-all">{url}</span>
+                                        <button
+                                            type="button"
+                                            className="text-red-500 text-xs"
+                                            onClick={() => handleMediaRemove(idx)}
+                                        >
+                                            Remove
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="course_level">
+                                Course Level
+                            </label>
+                            <select
+                                id="course_level"
+                                value={formData.course_level}
+                                onChange={handleChange}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                required
+                            >
+                                <option value="">Select level</option>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="estimated_time">
+                                Estimated Time (e.g. 4-6 weeks)
                             </label>
                             <input
                                 type="text"
-                                id="courseModules"
-                                value={formData.courseModules}
+                                id="estimated_time"
+                                value={formData.estimated_time}
                                 onChange={handleChange}
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                placeholder="Enter course modules"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="moduleDescription">
-                                Module Description
-                            </label>
-                            <textarea
-                                id="moduleDescription"
-                                value={formData.moduleDescription}
-                                onChange={handleChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                placeholder="Enter module description"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="keySkills">
-                                Key Skills
-                            </label>
-                            <input
-                                type="text"
-                                id="keySkills"
-                                value={formData.keySkills}
-                                onChange={handleChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                placeholder="Enter key skills"
-                            />
-                        </div>
-                        <div className="mb-4 flex flex-col md:flex-row justify-between">
-                            <div className="w-full md:w-1/2 md:pr-2 mb-4 md:mb-0">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="courseDuration">
-                                    Course Duration
-                                </label>
-                                <input
-                                    type="text"
-                                    id="courseDuration"
-                                    value={formData.courseDuration}
-                                    onChange={handleChange}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="Enter course duration"
-                                />
-                            </div>
-                            <div className="w-full md:w-1/2 md:pl-2">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="startDate">
-                                    Start Date
-                                </label>
-                                <input
-                                    type="date"
-                                    id="startDate"
-                                    value={formData.startDate}
-                                    onChange={handleChange}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                />
-                            </div>
-                        </div>
-                        <div className="mb-4 flex flex-col md:flex-row justify-between">
-                            <div className="w-full md:w-1/2 md:pr-2 mb-4 md:mb-0">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="locationType">
-                                    Location Type
-                                </label>
-                                <input
-                                    type="text"
-                                    id="locationType"
-                                    value={formData.locationType}
-                                    onChange={handleChange}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="Enter location type"
-                                />
-                            </div>
-                            <div className="w-full md:w-1/2 md:pl-2">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preferredLocation">
-                                    Preferred Location
-                                </label>
-                                <input
-                                    type="text"
-                                    id="preferredLocation"
-                                    value={formData.preferredLocation}
-                                    onChange={handleChange}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="Enter preferred location"
-                                />
-                            </div>
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="courseRequirements">
-                                Course Requirements
-                            </label>
-                            <input
-                                type="text"
-                                id="courseRequirements"
-                                value={formData.courseRequirements}
-                                onChange={handleChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                placeholder="Enter course requirements"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="candidateQuestions">
-                                Questions for Candidates
-                            </label>
-                            <textarea
-                                id="candidateQuestions"
-                                value={formData.candidateQuestions}
-                                onChange={handleChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                placeholder="Enter questions for candidates"
+                                placeholder="Enter estimated time"
+                                required
                             />
                         </div>
                         <div className="flex flex-col md:flex-row items-center justify-between">

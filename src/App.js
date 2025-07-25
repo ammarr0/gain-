@@ -51,7 +51,7 @@ import ClientExploreTalents from "./Client/Pages/ExploreTalent.jsx";
 import ClientExploreCourse from "./Client/Pages/Course.jsx";
 import PostJobs from "./Client/Pages/post-jobs.jsx";
 import PostProject from "./Client/Pages/post-projects.jsx";
-import PostSuccess from "./Client/Pages/success.jsx";
+// Remove duplicate import of PostSuccess
 import MainCourse from "./Client/Pages/main-course.jsx";
 import PostCourse from "./Client/Pages/new-course.jsx";
 import ClientsProfile from "./Client/Pages/profile.jsx";
@@ -72,6 +72,7 @@ import ConsultingFirmSidebar from "./consultingfirm/components/cfsidebar.jsx"
 import ClientMain from "./Talent/Pages/main-course.jsx"
 import CFHeader from "./consultingfirm/components/cfnavbar.jsx";
 import TalentHeader from "./Talent/Components/header.jsx";
+import PostSuccess from "./Client/Pages/success.jsx";
 
 const App = () => {
   return (
@@ -119,6 +120,7 @@ const App = () => {
                 <Route path="main-course" element={<Main />} />
                 <Route path="explore-talent" element={<ExploreTalentsSection />} />
                 <Route path="profile" element={<><TalentProfile /></>} />
+                <Route path="post-success" element={<><PostSuccess /></>} />
               </Routes>
             </div>
           </>
@@ -144,6 +146,7 @@ const App = () => {
                 <Route path="profile" element={<><TalentProfile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="make-invoices" element={<><MakeInvoices /></>} />
+                <Route path="post-success" element={<><PostSuccess /></>} />
               </Routes>
             </div>
           </>
@@ -171,6 +174,7 @@ const App = () => {
                 <Route path="profile" element={<><TalentProfile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="community" element={<Community />} />
+                <Route path="post-success" element={<><PostSuccess /></>} />
               </Routes>
             </div>
           </>

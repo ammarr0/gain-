@@ -17,11 +17,10 @@ function Success() {
           />
         </svg>
         <h2 className="text-2xl font-semibold text-gray-900 mt-4">
-          Your Job Post Is Live
+          Your Post Is Live
         </h2>
         <p className="text-gray-600 mt-2">
-          Applicants can now preview your job. You can also see all your job
-          postings on your homepage.
+          Your post has been successfully published and is now visible to others.
         </p>
       </div>
     </div>
