@@ -1,5 +1,12 @@
 import React from 'react';
 
+const cardLinks = [
+  '/consultingfirm/projects',    
+  '/consultingfirm/jobs',        
+  '/consultingfirm/explore-talent',        
+  '/consultingfirm/explore-course', 
+];
+
 const DashboardCards = ({ userName }) => {
   const displayName = userName || ' Firm ';
 
@@ -27,9 +34,13 @@ const DashboardCards = ({ userName }) => {
               }}
             >
               <p className="font-semibold text-lg sm:text-xl md:text-2xl text-left mb-2 w-full">{card.text}</p>
-              <button className="bg-black text-white px-4 py-2 sm:py-3 w-full sm:w-48 rounded-xl hover:bg-[#030923] transition">
+              <a
+                href={cardLinks[idx]}
+                className="bg-black text-white px-4 py-2 sm:py-3 w-full sm:w-48 rounded-xl hover:bg-[#030923] transition text-center block"
+                tabIndex={0}
+              >
                 {card.button}
-              </button>
+              </a>
             </div>
           ))}
         </div>

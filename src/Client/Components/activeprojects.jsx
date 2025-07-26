@@ -23,16 +23,14 @@ function ActiveProjects() {
                     In Progress
                 </button>
                 <button
-                    onClick={() => handleTabClick('on-hold')}
-                    className={`px-4 md:px-6 py-2 rounded-md text-xs md:text-sm font-medium ${activeTab === 'on-hold' ? 'bg-black text-white' : 'bg-white text-black border border-black'
-                        }`}
+                    disabled
+                    className="px-4 md:px-6 py-2 rounded-md text-xs md:text-sm font-medium bg-gray-300 text-gray-500 cursor-not-allowed"
                 >
                     On Hold
                 </button>
                 <button
-                    onClick={() => handleTabClick('completed')}
-                    className={`px-4 md:px-6 py-2 rounded-md text-xs md:text-sm font-medium ${activeTab === 'completed' ? 'bg-black text-white' : 'bg-white text-black border border-black'
-                        }`}
+                    disabled
+                    className="px-4 md:px-6 py-2 rounded-md text-xs md:text-sm font-medium bg-gray-300 text-gray-500 cursor-not-allowed"
                 >
                     Completed
                 </button>

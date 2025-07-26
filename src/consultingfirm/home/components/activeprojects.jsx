@@ -35,8 +35,18 @@ const ActiveProjects = () => {
 
       <div className="flex gap-2  mt-8">
         <button className="bg-black text-white px-10 py-2 rounded-lg">In Progress</button>
-        <button className="border text-gray-600 px-10 py-2 rounded-lg">On Hold</button>
-        <button className="border text-gray-600 px-10 py-2 rounded-lg">Completed</button>
+        <button
+          className="bg-gray-300 text-gray-500 px-10 py-2 rounded-lg cursor-not-allowed"
+          disabled
+        >
+          On Hold
+        </button>
+        <button
+          className="bg-gray-300 text-gray-500 px-10 py-2 rounded-lg cursor-not-allowed"
+          disabled
+        >
+          Completed
+        </button>
       </div>
 
       <div className="border border-[#848484] rounded-xl p-6 shadow-sm mt-10">
