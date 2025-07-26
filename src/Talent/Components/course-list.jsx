@@ -7,8 +7,9 @@ import { FaSearch, FaThLarge, FaGraduationCap, FaSlidersH, FaClock, FaDollarSign
 const CourseCard = () => {
   const navigate = useNavigate();
 
-  const handleCourseClick = () => {
-    navigate(`/client/main-course`);
+  // Now handleCourseClick uses the course id for navigation
+  const handleCourseClick = (id) => {
+    navigate(`/client/main-course/${id}`);
   };
 
   return (
@@ -38,9 +39,9 @@ const CourseCard = () => {
           <FaDollarSign className="mr-2 text-gray-500" /> Pricing
         </button>
       </div>
-      {Data.map((course, index) => (
+      {Data.map((course) => (
         <div 
-          key={index} 
+          key={course.id} 
           className="w-full bg-white p-6 flex flex-col sm:flex-row items-start gap-6 mb-4 border-b cursor-pointer"
           onClick={() => handleCourseClick(course.id)}
         >

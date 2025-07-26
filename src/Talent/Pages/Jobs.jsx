@@ -1,161 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import User from "../../assets/user.png";
+import location from "../../assets/location.png";
+import arrowup from "../../assets/arrow-up-right-white.png";
+import arrowupblack from "../../assets/arrow-up-right-black.png";
 import { useNavigate } from 'react-router-dom';
 
-const matches = [
-  {
-    company: "Juxtapose",
-    role: "Product Designer",
-    rate: "$80/hr",
-    hours: "25 hrs/wk",
-    location: "Work from anywhere",
-    time: "Anytime",
-    logo: "/assets/juxtapose.png", 
-    logoSize: "w-16 h-16",
-    responsibilities: [
-      "Develop user-centered product designs that improve customer experience.",
-      "Collaborate with engineering and product teams for implementation.",
-      "Lead design sessions and present design concepts to stakeholders."
-    ],
-    requirements: [
-      "3+ years experience in product design.",
-      "Proficiency with Figma, Sketch, and prototyping tools.",
-      "Strong portfolio demonstrating UX/UI expertise."
-    ],
-    offer: [
-      "Remote-first company with flexible hours.",
-      "Competitive salary and benefits.",
-      "Opportunities for career growth and development."
-    ],
-    apply: "Please share your resume and a design portfolio that demonstrates your work and design thinking process.",
-    skills: [
-      "Business Development",
-      "Market Knowledge",
-      "Technical Acumen"
-    ],
-    projectType: "Full Time",
-    status: "Accepting Applications",
-    client: {
-      verifiedPayment: true,
-      verifiedPhone: true,
-      country: "USA",
-      location: "New York 3:52 AM",
-      jobsPosted: 10,
-      openJobs: 4,
-      totalSpent: "$25,000",
-      hires: 10,
-      activeJobs: 4,
-      memberSince: "January, 2025",
-      jobLink: "https://www.gain.com/job1345763432"
-    }
-  },
-  {
-    company: "Reddit",
-    role: "Product Designer",
-    rate: "$80/hr",
-    hours: "25 hrs/wk",
-    location: "United States | Canada",
-    time: "Anytime",
-    logo: "/assets/reddit.png",
-    logoSize: "w-16 h-16",
-    responsibilities: [
-      "Design engaging user experiences for Reddit's platforms.",
-      "Collaborate with cross-functional teams to define product design strategy.",
-      "Conduct user research to identify pain points and opportunities."
-    ],
-    requirements: [
-      "5+ years of product design experience.",
-      "Experience with responsive and mobile-first designs.",
-      "Ability to collaborate in a fast-paced team environment."
-    ],
-    offer: [
-      "Flexible working arrangements including remote options.",
-      "Stock options and comprehensive health benefits.",
-      "Creative and inclusive company culture."
-    ],
-    apply: "Submit your portfolio and resume detailing relevant product design experience.",
-    skills: [
-      "Business Development",
-      "Market Knowledge",
-      "Analytical Skills"
-    ],
-    projectType: "Full Time",
-    status: "Accepting Applications",
-    client: {
-      verifiedPayment: true,
-      verifiedPhone: true,
-      country: "USA",
-      location: "New York 3:52 AM",
-      jobsPosted: 15,
-      openJobs: 5,
-      totalSpent: "$30,000",
-      hires: 12,
-      activeJobs: 5,
-      memberSince: "February, 2025",
-      jobLink: "https://www.gain.com/job1345763445"
-    }
-  },
-  {
-    company: "Bank of America",
-    role: "Sr. UX Researcher",
-    rate: "$100 - 120/hr",
-    hours: "25 hrs/wk",
-    location: "United States only",
-    time: "Anytime",
-    logo: "/assets/bankofamerica.png", 
-    logoSize: "w-16 h-16",
-    responsibilities: [
-      "Plan and conduct user research to inform design decisions.",
-      "Analyze research data to generate actionable insights.",
-      "Collaborate with design, product, and engineering teams to improve UX."
-    ],
-    requirements: [
-      "5+ years of UX research experience, preferably in finance.",
-      "Proficiency in both qualitative and quantitative research methods.",
-      "Strong communication and presentation skills."
-    ],
-    offer: [
-      "Remote work flexibility.",
-      "Competitive compensation and benefits.",
-      "Professional development opportunities."
-    ],
-    apply: "Please attach your resume and a statement about your UX research philosophy and experience.",
-    skills: [
-      "Market Knowledge",
-      "Technical Acumen",
-      "Analytical Skills"
-    ],
-    projectType: "Full Time",
-    status: "Accepting Applications",
-    client: {
-      verifiedPayment: true,
-      verifiedPhone: true,
-      country: "USA",
-      location: "New York 3:52 AM",
-      jobsPosted: 20,
-      openJobs: 8,
-      totalSpent: "$50,000",
-      hires: 18,
-      activeJobs: 8,
-      memberSince: "March, 2025",
-      jobLink: "https://www.gain.com/job1345763489"
-    }
-  }
-];
+// Helper to get cookie
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
+
+const accessToken = getCookie('access_token');
 
 const Jobs = () => {
   const navigate = useNavigate();
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 10;
 
-  const renderJobStatus = (status) => {
-    const statusClasses = {
-      "Accepting Applications": 'bg-green-200 text-green-700',
-      "Closed": 'bg-red-200 text-red-700',
-      "Pending": 'bg-yellow-200 text-yellow-700'
-    };
-    return <span className={`text-sm px-3 py-2 rounded-lg ${statusClasses[status]}`}>{status}</span>;
-  };
+  useEffect(() => {
+    setLoading(true);
+    fetch('https://gain-b7ea8e7de810.herokuapp.com/jobs/list', {
+      headers: {
+        'Authorization': accessToken ? `Bearer ${accessToken}` : ''
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data && data.status && Array.isArray(data.data)) {
+          setJobs(data.data);
+        } else {
+          setJobs([]);
+        }
+        setLoading(false);
+      })
+      .catch(error => {
+        setError('Error fetching jobs');
+        setLoading(false);
+      });
+  }, []);
 
-  const handleCardClick = (match) => {
-    navigate(`/job/${match.company}`, { state: { match } });
+  const renderButton = (bgColor, textColor, text, imgSrc, onClick) => (
+    <button
+      className={`w-[135px] h-[28px] rounded-[16px] ${bgColor} text-sm ${textColor} flex items-center justify-center`}
+      onClick={e => {
+        e.stopPropagation();
+        onClick();
+      }}
+    >
+      {text} <img src={imgSrc} alt="" className="ml-1" />
+    </button>
+  );
+
+  const renderInfoItem = (icon, label, value) => (
+    <div className="flex items-center gap-1" key={label + value}>
+      <img src={icon} alt={label} className="h-4 w-4" />
+      <span className="text-sm text-gray-700">{value}</span>
+    </div>
+  );
+
+  // Pagination logic
+  const totalPages = Math.ceil(jobs.length / jobsPerPage);
+  const startIdx = (currentPage - 1) * jobsPerPage;
+  const endIdx = startIdx + jobsPerPage;
+  const jobsToDisplay = jobs.slice(startIdx, endIdx);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
   };
 
   return (
@@ -191,50 +109,104 @@ const Jobs = () => {
               ))}
             </div>
             {/* Job Cards */}
-            <div className="space-y-8 sm:space-y-10 md:space-y-12">
-              {matches.map((job, idx) => (
+            <div className="space-y-6">
+              {loading && (
+                <div className="text-center py-8">Loading jobs...</div>
+              )}
+              {error && (
+                <div className="text-center text-red-600 py-8">{error}</div>
+              )}
+              {!loading && !error && jobsToDisplay.length === 0 && (
+                <div className="text-center py-8 text-gray-500">No jobs found.</div>
+              )}
+              {!loading && !error && jobsToDisplay.map((job, index) => (
                 <div
-                  key={idx}
-                  className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-10 flex flex-col md:flex-row justify-between items-start md:items-center min-h-[8rem] md:h-44 cursor-pointer transition hover:shadow-xl"
-                  onClick={() => handleCardClick(job)}
+                  key={job._id || index}
+                  className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between cursor-pointer"
+                  onClick={() => navigate(`/client/jobs/${job._id}`)}
                 >
-                  <div className="flex flex-row items-center gap-4 w-full md:w-auto">
-                    <div className="w-10 h-10 rounded-full flex-shrink-0">
-                      <img src={job.logo} alt="" className="w-full h-full object-contain rounded-full" />
-                    </div>
-                    <div className="ml-2 sm:ml-4">
-                      <h3 className="text-lg sm:text-xl font-semibold text-[#030923]">{job.company}</h3>
-                      <p className="text-xs text-gray-600 mt-2 mb-4 flex flex-wrap items-center w-full sm:w-[220px] md:w-[300px]">
-                        <span className="mr-2"><i className="fas fa-map-marker-alt"></i></span>
-                        {job.location} | 
-                        <span className="mx-2"><i className="fas fa-calendar-alt"></i></span>
-                        {job.hours} | 
-                        <span className="ml-2"><i className="fas fa-clock"></i></span>
-                        Anytime
-                      </p>
-                      <div className="border-b border-gray-300 mb-4"></div>
-                      {renderJobStatus(job.status)}
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <h2 className="text-xl md:text-2xl font-bold text-black">{job.title}</h2>
+                    <div className="flex flex-wrap gap-2 md:gap-4 mt-2 md:mt-0">
+                      {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Job", arrowupblack, () => navigate(`/client/jobs/${job._id}`))}
+                      {renderButton("bg-[#030923]", "text-white", "View Job", arrowup, () => navigate(`/client/jobs/${job._id}`))}
                     </div>
                   </div>
-                  <div className="text-left md:text-right mt-4 md:mt-0 w-full md:w-auto">
-                    <p className="text-lg sm:text-xl font-bold text-gray-800">{job.rate}</p>
-                    <div className="mt-2">
-                      <button
-                        className="text-blue-600 hover:text-blue-700 border-b-2 border-blue-600 pb-1"
-                        onClick={e => { e.stopPropagation(); navigate(`/job/${job.company}`); }}
-                      >
-                        View Job
-                      </button>
+
+                  <p className="text-black mt-2">{job.description}</p>
+
+                  <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3">
+                    <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />
+                    <div>
+                      <h3 className="font-semibold text-black">{job.project_type || "N/A"}</h3>
+                      <hr className="border-black" />
+                      <p className="text-xs text-black">{job.location}</p>
                     </div>
-                    <div className="flex flex-wrap items-center gap-2 mt-2">
-                      {job.skills.map((skill, index) => (
-                        <span key={index} className="text-xs sm:text-sm border border-gray-300 px-2 py-1 rounded-lg">{skill}</span>
+                    <div className="flex items-center gap-2">
+                      {renderInfoItem(location, "Location", job.location)}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-700 font-semibold">Hourly Rate:</span>
+                      <span className="text-lg text-gray-700">{job.hourly_rate}</span>
+                    </div>
+                  </div>
+                  <div className='flex flex-col md:flex-row gap-4 mt-2'>
+                    {job.skills && job.skills.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {job.skills.map((skill, idx) => (
+                          <span key={idx} className="bg-white border border-gray-200 text-sm text-black rounded px-3 py-1">{skill}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {job.files && job.files.length > 0 && (
+                    <div className="mt-2 flex flex-col gap-1">
+                      <span className="text-xs font-semibold text-gray-700">Files:</span>
+                      {job.files.map((file, idx) => (
+                        <a
+                          key={idx}
+                          href={file}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline text-xs break-all"
+                        >
+                          {file}
+                        </a>
                       ))}
                     </div>
-                  </div>
+                  )}
                 </div>
               ))}
             </div>
+            {/* Pagination Controls */}
+            {!loading && !error && totalPages > 1 && (
+              <div className="flex justify-center items-center mt-8 gap-2">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`px-3 py-1 rounded-md border ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                >
+                  Prev
+                </button>
+                {Array.from({ length: totalPages }, (_, idx) => (
+                  <button
+                    key={idx + 1}
+                    onClick={() => handlePageChange(idx + 1)}
+                    className={`px-3 py-1 rounded-md border ${currentPage === idx + 1 ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                  >
+                    {idx + 1}
+                  </button>
+                ))}
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className={`px-3 py-1 rounded-md border ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
         </div>
         {/* Sidebar */}

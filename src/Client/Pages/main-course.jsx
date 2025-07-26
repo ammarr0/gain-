@@ -4,7 +4,7 @@ import List from "../../consultingfirm/components/mainpage"
 
 const CoursePreviewCard = ({ course }) => {
     const demoData = {
-        title: "Introduction to Artificial Intelligence (AI)",
+        title: "Introduction to Artificial Intelligence (AIL)",
         description:
             "Learn the basics of AI, its core concepts, and real-world applications, including machine learning and natural language processing, to prepare for the AI-driven future.",
         instructor: {

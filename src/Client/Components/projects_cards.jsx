@@ -8,27 +8,7 @@ import arrowupblack from "../../assets/arrow-up-right-black.png";
 function JobCard() {
     const [jobCardsData, setJobCardsData] = useState([]);
 
-    useEffect(() => {
-        const fetchJobData = async () => {
-            try {
-                const response = await fetch('hhttps://gain-b7ea8e7de810.herokuapp.com/projects/list', {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('access-token')}`
-                    }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setJobCardsData(data);
-                } else {
-                    console.error('Failed to fetch job data');
-                }
-            } catch (error) {
-                console.error('Error fetching job data:', error);
-            }
-        };
-
-        fetchJobData();
-    }, []);
+ 
 
     const renderButton = (bgColor, textColor, text, imgSrc) => (
         <button className={`w-[135px] h-[28px] rounded-[16px] ${bgColor} text-sm ${textColor} flex items-center justify-center`}>
@@ -44,7 +24,7 @@ function JobCard() {
     );
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6" >
             {jobCardsData.map((job, index) => (
                 <div key={index} className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[300px] justify-between">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
@@ -57,7 +37,7 @@ function JobCard() {
 
                     <p className="text-black mt-2">{job.description}</p>
 
-                    <div className="mt-4 flex flex-col gap-3">
+                    <div className="mt-4 flex flex-col gap-3" style={{border:"4px solid black"}}>
                         {job.userNames.map((userName, i) => (
                             <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                                 <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />

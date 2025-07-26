@@ -43,6 +43,7 @@ import ExploreTalentsSection from './consultingfirm/exploretalent/exporetalent.j
 import ClientDashboard from "./Client/Pages/Dashboard.jsx";
 import ClientJobs from "./Client/Pages/myjobs.jsx";
 import JobsDetails from "./Client/Pages/jobsdetails.jsx";
+import ProjectDetails from "./Client/Pages/projects-details.jsx";
 import JobsApplication from "./Client/Pages/Jobapplication.jsx";
 import ClientHeader from "./Client/Components/header.jsx";
 import ClientSidebar from "./Client/Components/sidebar.jsx";
@@ -73,6 +74,7 @@ import ClientMain from "./Talent/Pages/main-course.jsx"
 import CFHeader from "./consultingfirm/components/cfnavbar.jsx";
 import TalentHeader from "./Talent/Components/header.jsx";
 import PostSuccess from "./Client/Pages/success.jsx";
+import CFJobsDetails from "./consultingfirm/jobs/jobdetails.jsx"
 
 const App = () => {
   return (
@@ -108,6 +110,7 @@ const App = () => {
               <Routes>
                 <Route path="home" element={<CFHome />} />
                 <Route path="jobs" element={<Jobs />} />
+                <Route path="jobs/:id" element={<CFJobsDetails />} />
                 <Route path="projects" element={<Projects />} />
                 <Route path="tracker" element={<Invites />} />
                 <Route path="applications" element={<Applications />} />
@@ -133,12 +136,13 @@ const App = () => {
               <ClientSidebar />
               <Routes>
                 <Route path="dashboard" element={<ClientDashboard />} />
-                <Route path="my-jobs" element={<ClientJobs />} />
-                <Route path="jobs-details/:id" element={<JobsDetails />} />
+                <Route path="jobs" element={<ClientJobs />} />
+                <Route path="jobs/:id" element={<JobsDetails />} />
                 <Route path="my-projects" element={<ClientProjects />} />
+                <Route path="projects/:id" element={<ProjectDetails />} />
                 <Route path="explore-talent" element={<><ClientExploreTalents /></>} />
                 <Route path="explore-course" element={<><ClientExploreCourse /></>} />
-                <Route path="main-course" element={<ClientMain />} />
+                <Route path="main-course/:id" element={<ClientMain />} />
                 <Route path="job-application" element={<JobsApplication />} />
                 <Route path="post-job" element={<PostJobs />} />
                 <Route path="post-projects" element={<PostProject />} />
@@ -160,7 +164,9 @@ const App = () => {
               <Routes>
                 <Route path="home" element={<TalentDashboard />} />
                 <Route path="jobs" element={<TalentJobs />} />
+                <Route path="jobs/:id" element={<JobsDetails />} />
                 <Route path="projects" element={<TalentProject />} />
+                <Route path="projects/:id" element={<ProjectDetails />} />
                 <Route path="explore-course" element={<TalentExploreCourse />} />
                 <Route path="job-application" element={<JobsApplication />} />
                 <Route path="post-job" element={<PostJobs />} />

@@ -42,7 +42,7 @@ const AITrainings = () => {
       </style>
       <div className="bg-white py-8 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 text-center sm:text-left">
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-2xl text-left text-gray-900 mb-3 onest-bold">
-          Artificial Intelligence (AI) Courses
+          Artificial Intelligence (AI) Course
         </h1>
         <p
           className="max-w-4xl text-left text-gray-600 onest-regular"

@@ -1,295 +1,156 @@
-import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import {
-  MapPinIcon,
-  ClockIcon,
-  CalendarIcon,
-  TagIcon,
-  BadgeCheckIcon,
-  ClipboardIcon,
-  ArrowLeftIcon,
-} from 'lucide-react'
-import Sidebar from '../../components/cfsidebar'
-import NewMatches from './newmatches'
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import SingleJobHero from "../../Client/Components/singlejob_hero";
 
-const JobDetails = () => {
-  const location = useLocation()
-  const navigate = useNavigate()
-  const { match } = location.state || {}
+const iconMap = {
+  "location.png": require("../../assets/location.png"),
+  "calendar.png": require("../../assets/calendar.png"),
+  "clock.png": require("../../assets/clock.png"),
+};
 
-  if (!match) {
-    return (
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <div className="flex-1 p-8">
-          <p className="text-black">No job data found.</p>
-        </div>
-      </div>
-    )
-  }
-  return (
-    <div className="flex min-h-screen w-full" >
-      <Sidebar />
-      <div className="flex-1 p-8">
-        <button
-            onClick={() => navigate(-1)}/*  */
-          className="inline-flex items-center text-sm mb-8 hover:text-black"
-        >
-          <ArrowLeftIcon className="w-4 h-4 mr-2" />
-          Back to Home
-        </button>
-
-        <div className="bg-white rounded-lg p-3 mb-6" >
-          <div className="flex items-start gap-4 mb-6">
-            <img
-              src={match.logo}
-              alt={match.company}
-              className="w-12 h-12 object-contain"
-            />
-            <div className="flex-1" >
-              <div className="flex items-center gap-2 text-black text-sm mb-1">
-                <span>{match.company}</span>
-                <span>|</span>
-                <span>Posted 25 Days Ago</span>
-              </div>
-              <h1 className="text-2xl font-semibold text-black mb-1">
-                {match.role}
-              </h1>
-              <p className="text-black">{match.projectLocation}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-8 text-sm text-black">
-            <div className="flex items-center gap-2">
-              <MapPinIcon className="w-4 h-4" />
-              <span>{match.location}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <ClockIcon className="w-4 h-4" />
-              <span>{match.hours}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CalendarIcon className="w-4 h-4" />
-              <span>{match.projectType}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <TagIcon className="w-4 h-4" />
-              <span>{match.rate}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg p-3 ml-5,. max-w-full">
-          <div className="prose">
-            <hr className="my-3 border-black" />
-            {match.responsibilities && (
-              <section className="mb-8">
-                <h2 className="text-lg font-semibold text-black mb-4">Responsibilities</h2>
-                <ul className="list-disc list-inside space-y-2 text-black">
-                  {match.responsibilities.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul>
-              </section>
-            )}
-
-            {match.requirements && (
-              <section className="mb-8">
-                <h2 className="text-lg font-semibold text-black mb-4">Requirements</h2>
-                <ul className="list-disc list-inside space-y-2 text-black">
-                  {match.requirements.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul>
-              </section>
-            )}
-
-            {match.offer && (
-              <section className="mb-8">
-                <h2 className="text-lg font-semibold text-black mb-4">What We Offer</h2>
-                <ul className="list-disc list-inside space-y-2 text-black">
-                  {match.offer.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul>
-              </section>
-            )}
-
-            {match.apply && (
-              <section className="mb-8">
-                <h2 className="text-lg font-semibold text-black mb-4">To Apply</h2>
-                <p className="text-black">{match.apply}</p>
-              </section>
-            )}
-
-            <hr className="my-3 border-black" />
-            <section className="mb-8">
-              <h2 className="text-lg font-semibold text-black mb-4">Project Type</h2>
-              <p className="text-black">{match.projectType}</p>
-            </section>
-            <hr className="my-3 border-black" />
-
-            <section className="mb-8">
-              <h2 className="text-lg font-semibold text-black mb-4">
-                Skills and Expertise
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {match.skills.map((skill, index) => (
-                  <span
-                    key={index}
-                    className="bg-gray-100 px-3 py-1 rounded-full text-sm text-black"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </section>
-            <hr className="my-3 border-black" />
-
-            <section className="mb-8 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-semibold text-black">Status:</span>
-                <span className="text-green-500 flex items-center gap-1">
-                  Accepting Applications
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 text-green-500"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4.5 12.75l6 6 9-13.5"
-                    />
-                  </svg>
-                </span>
-              </div>
-              <button className="bg-[#0D0C22] hover:bg-blue-600 text-white font-md py-2 px-4 rounded-lg">
-                Apply
-              </button>
-            </section>
-            <hr className="my-3 border-black" />
-            <div className="bg-white rounded-lg p-3 mb-6" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg p-3 mb-6 w-full">
-          <div className="prose">
-            <section className="mb-4 border border-black p-4 w-full rounded-2xl">
-              <h2 className="text-lg font-semibold text-black mb-4">Client's Recent History</h2>
-              <p className="text-black">
-                WordPress Website Development for Consulting Company <br />
-                <span className="text-gray-600">Oct 2004 - Present</span>
-              </p>
-            </section>
-
-            <section className="mb-8 border border-black p-4 w-full rounded-2xl">
-              <h2 className="text-lg font-semibold text-black mb-4">Other Open Jobs by this Client</h2>
-              <ul className="list-disc list-inside space-y-2 text-black">
-                <li>
-                  <a href="#" className="text-blue-500 hover:text-blue-600">
-                    Go High Level Automation Expert
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-blue-500 hover:text-blue-600">
-                    WordPress Expert for Mobile
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-blue-500 hover:text-blue-600">
-                    IG Reels Editor
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-blue-500 hover:text-blue-600">
-                    AI Model Trainer
-                  </a>
-                </li>
-              </ul>
-              {/* Add NewMatches Component below if needed */}
-            </section>
-          </div>
-        </div>
-
-        <div>
-          <NewMatches />
-        </div>
-      </div>
-
-      {/* Right sidebar */}
-      <div className="w-[350px] h-[2056q0px] bg-white rounded-lg p-6">
-        <button
-          // Pass job data to Apply page
-          onClick={() => navigate('/apply', { state: { match } })}
-          className="bg-[#0D0C22] text-white w-full py-3 rounded-xl text-sm font-medium mb-4"
-        >
-          Apply for this job
-        </button>
-
-        <button className="bg-white text-black border w-full py-3 rounded-xl text-sm font-medium flex items-center justify-center mb-4">
-          <img
-            src="/assets/bookmark.png"
-            alt="Bookmark"
-            className="w-5 h-5 mr-2"
-          />
-          Save this job
-        </button>
-        <h2 className="text-lg font-semibold text-black mb-4">About the Client</h2>
-        <div className="space-y-4">
-          {match.client.verifiedPayment && (
-            <div className="flex items-center text-sm text-black">
-              <BadgeCheckIcon className="w-4 h-4 text-blue-500 mr-2" />
-              Payment Method Verified
-            </div>
-          )}
-          {match.client.verifiedPhone && (
-            <div className="flex items-center text-sm text-black">
-              <BadgeCheckIcon className="w-4 h-4 text-blue-500 mr-2" />
-              Phone Number Verified
-            </div>
-          )}
-          <div className="space-y-3 pt-4 text-sm">
-            <p className="flex justify-between text-black">
-              <span className="font-medium text-black">{match.client.country}</span>
-            </p>
-            <p className="flex justify-between text-black">
-              <span className="font-medium text-black">{match.client.location}</span>
-            </p>
-            <p className="flex justify-between text-black">
-              <span className="font-medium text-black">{match.client.jobsPosted} Jobs Posted</span>
-            </p>
-            <p>
-              <span className="font-medium text-black">{match.client.openJobs} Open Jobs</span>
-            </p>
-            <p className="flex justify-between text-black">
-              <span className="font-medium text-black">{match.client.totalSpent}</span>
-            </p>
-            <p className="flex justify-between text-black">
-              <span className="font-medium text-black">
-                Member Since {match.client.memberSince}
-              </span>
-            </p>
-          </div>
-          <div className="pt-4">
-            <h3 className="text-sm font-medium text-black mb-2">Job Link</h3>
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                readOnly
-                value={match.client.jobLink}
-                className="flex-1 text-sm border rounded px-2 py-1"
-              />
-              <button className="text-blue-500 hover:text-blue-600">
-                <ClipboardIcon className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+// Helper to get cookie value by name
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
 }
 
-export default JobDetails;
+const JobPostPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [job, setJob] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Fetch job details from API with access_token from cookies
+    const fetchJob = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const accessToken = getCookie('access_token');
+        const response = await fetch(`https://gain-b7ea8e7de810.herokuapp.com/jobs/detail/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch job details");
+        }
+        const data = await response.json();
+        const jobData = data.data || data;
+        setJob(jobData);
+        console.log("Fetched job data:", jobData);
+      } catch (err) {
+        setError(err.message || "Error fetching job details");
+        setJob(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchJob();
+    }
+  }, [id]);
+
+  if (loading) return <div className="p-8 text-center text-gray-600">Loading...</div>;
+  if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
+  if (!job) return <div className="p-8 text-center text-gray-600">Job not found</div>;
+
+  return (
+    <div className="flex flex-col gap-4">
+      <SingleJobHero job={job} />
+      <div className="p-4 md:p-6">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 text-gray-700 mb-4">
+          <h1 className="text-2xl font-bold">{job.title}</h1>
+          <span className="hidden md:inline">•</span>
+          <p>{job.userName || job.clientName || job.companyName || ""}</p>
+          <span className="hidden md:inline">•</span>
+          <p>{job.location}</p>
+        </div>
+        <div className="flex items-center gap-4 mb-4">
+          <span>⭐ {job.rating || job.stars || ""}</span>
+          <span>Jobs: {job.jobs || job.totalJobs || ""}</span>
+        </div>
+        {/* Info Items */}
+        <div className="flex gap-4 mb-4">
+          {job.infoItems && Array.isArray(job.infoItems) && job.infoItems.map((item, idx) => (
+            <div className="flex items-center gap-1" key={idx}>
+              <img src={iconMap[item.imgSrc]} alt={item.altText} className="h-4 w-4" />
+              <span>{item.text}</span>
+            </div>
+          ))}
+        </div>
+        {/* Tags and Due Date */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {job.tags && Array.isArray(job.tags) && job.tags.map((tag, idx) => (
+            <span key={idx} className="bg-gray-200 px-3 py-1 rounded-full text-sm">{tag}</span>
+          ))}
+          {job.dueDate && (
+            <span className="ml-auto text-red-800">Due on: {job.dueDate}</span>
+          )}
+        </div>
+        {/* Extended Details */}
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 text-gray-700 mb-4">
+          <p className="text-xl md:text-2xl">{job.rate || job.salary || ""}</p>
+          <span className="hidden md:inline">•</span>
+          <p>{job.level || job.seniority || ""}</p>
+          <span className="hidden md:inline">•</span>
+          <p>{job.experience || ""}</p>
+        </div>
+        <div className="mb-4">
+          <p className="text-gray-600">{job.status || ""}</p>
+          <p className="text-gray-600">{job.timeZone || job.timezone || ""}</p>
+        </div>
+        <div className="mb-6">
+          {Array.isArray(job.description)
+            ? job.description.map((desc, index) => <p key={index}>{desc}</p>)
+            : <p>{job.description}</p>
+          }
+        </div>
+        <div className="mb-6">
+          <h2 className="text-lg md:text-xl font-semibold mb-2">Responsibilities:</h2>
+          <ul className="list-disc list-inside space-y-1">
+            {job.responsibilities && job.responsibilities.length > 0
+              ? job.responsibilities.map((responsibility, index) => (
+                  <li key={index}>{responsibility}</li>
+                ))
+              : <li>No responsibilities listed.</li>
+            }
+          </ul>
+        </div>
+        <div className="mb-6">
+          <h2 className="text-lg md:text-xl font-semibold mb-2">Requirements:</h2>
+          <ul className="list-disc list-inside space-y-1">
+            {job.requirements && job.requirements.length > 0
+              ? job.requirements.map((requirement, index) => (
+                  <li key={index}>{requirement}</li>
+                ))
+              : <li>No requirements listed.</li>
+            }
+          </ul>
+        </div>
+        <div className="mb-6">
+          <p>{job.applicationInstructions || job.instructions || ""}</p>
+        </div>
+        <div className="mb-4 text-sm text-gray-600">Project Type: {job.projectType || job.type || ""}</div>
+        <div className="mb-6">
+          <h2 className="text-lg md:text-xl font-semibold mb-2">Skills and Expertise</h2>
+          <div className="flex flex-wrap gap-2">
+            {job.skills && job.skills.length > 0
+              ? job.skills.map(skill => (
+                  <span key={skill} className="bg-gray-200 px-3 py-1 rounded-full text-sm">{skill}</span>
+                ))
+              : <span>No skills listed.</span>
+            }
+          </div>
+        </div>
+        <div className="text-green-600 font-semibold">Status: {job.applicationStatus || job.status || ""}</div>
+      </div>
+    </div>
+  );
+};
+
+export default JobPostPage;
