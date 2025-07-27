@@ -16,15 +16,15 @@ function ActiveProjects() {
 
             <div className="flex flex-wrap gap-2 md:gap-4 mb-6">
                 <button
-                    onClick={() => handleTabClick('active')}
-                    className={`flex-1 min-w-[80px] md:min-w-[100px] h-[32px] md:h-[36px] px-2 md:px-4 rounded-[8px] text-xs md:text-sm font-medium ${activeTab === 'active' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
+                    disabled
+                    className={`flex-1 min-w-[80px] md:min-w-[100px] h-[32px] md:h-[36px] px-2 md:px-4 rounded-[8px] text-xs md:text-sm font-medium cursor-not-allowed ${activeTab === 'active' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
                         }`}
                 >
                     Active
                 </button>
                 <button
-                    onClick={() => handleTabClick('draft')}
-                    className={`flex-1 min-w-[80px] md:min-w-[100px] h-[32px] md:h-[36px] px-2 md:px-4 rounded-[8px] text-xs md:text-sm font-medium ${activeTab === 'draft' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
+                    disabled
+                    className={`flex-1 min-w-[80px] md:min-w-[100px] h-[32px] md:h-[36px] px-2 md:px-4 rounded-[8px] text-xs md:text-sm font-medium cursor-not-allowed ${activeTab === 'draft' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
                         }`}
                 >
                     Draft

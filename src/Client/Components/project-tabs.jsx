@@ -23,15 +23,15 @@ function ActiveProjects() {
                     Active
                 </button>
                 <button
-                    onClick={() => handleTabClick('draft')}
-                    className={`flex-1 min-w-[120px] h-[36px] pr-[16px] pl-[16px] rounded-[8px] text-sm font-medium ${activeTab === 'draft' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
+                    disabled
+                    className={`flex-1 min-w-[120px] h-[36px] pr-[16px] pl-[16px] rounded-[8px] text-sm font-medium cursor-not-allowed ${activeTab === 'draft' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
                         }`}
                 >
                     Draft
                 </button>
                 <button
-                    onClick={() => handleTabClick('close')}
-                    className={`flex-1 min-w-[120px] h-[36px] pr-[16px] pl-[16px] rounded-[8px] text-sm font-medium ${activeTab === 'close' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
+                    disabled
+                    className={`flex-1 min-w-[120px] h-[36px] pr-[16px] pl-[16px] rounded-[8px] text-sm font-medium cursor-not-allowed ${activeTab === 'close' ? 'bg-[#CEF8C4] text-black' : 'bg-white text-[#848484] border border-[#848484]'
                         }`}
                 >
                     Closed

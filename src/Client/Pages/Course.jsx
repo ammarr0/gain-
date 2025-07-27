@@ -56,11 +56,25 @@ const Explore = () => {
               </div>
             </div>
             <div className="flex items-center space-x-6 border-b border-gray-200 mb-8 overflow-x-auto">
-              {['Project Management Jobs', 'All Jobs', 'Saved Jobs'].map((tab, index) => (
-                <button key={index} className={`pb-2 ${index === 0 ? 'text-gray-900 font-semibold border-b-4 border-blue-500' : 'text-gray-500 hover:text-gray-700'}`}>
-                  {tab}
-                </button>
-              ))}
+              <button className="pb-2 text-gray-900 font-semibold border-b-4 border-blue-500">
+                Project Management Jobs
+              </button>
+              <button
+                className="pb-2 text-gray-500 cursor-not-allowed opacity-60"
+                disabled
+                tabIndex={-1}
+                style={{ pointerEvents: 'none' }}
+              >
+                All Jobs
+              </button>
+              <button
+                className="pb-2 text-gray-500 cursor-not-allowed opacity-60"
+                disabled
+                tabIndex={-1}
+                style={{ pointerEvents: 'none' }}
+              >
+                Saved Jobs
+              </button>
             </div>
             <div className="mb-8">
               <button 
