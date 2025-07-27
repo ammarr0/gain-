@@ -74,7 +74,8 @@ import ClientMain from "./Talent/Pages/main-course.jsx"
 import CFHeader from "./consultingfirm/components/cfnavbar.jsx";
 import TalentHeader from "./Talent/Components/header.jsx";
 import PostSuccess from "./Client/Pages/success.jsx";
-import CFJobsDetails from "./consultingfirm/jobs/jobdetails.jsx"
+import CFJobsDetails from "./consultingfirm/jobs/jobdetails.jsx";
+import TalentMakeInvoices from "./Talent/Pages/invoice.jsx" 
 
 const App = () => {
   return (
@@ -179,6 +180,7 @@ const App = () => {
                 <Route path="projectsoffers" element={<TrackerProject />} />
                 <Route path="profile" element={<><TalentProfile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
+                <Route path="make-invoices" element={<><TalentMakeInvoices /></>} />
                 <Route path="community" element={<Community />} />
                 <Route path="post-success" element={<><PostSuccess /></>} />
               </Routes>
