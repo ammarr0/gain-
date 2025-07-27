@@ -76,6 +76,7 @@ import TalentHeader from "./Talent/Components/header.jsx";
 import PostSuccess from "./Client/Pages/success.jsx";
 import CFJobsDetails from "./consultingfirm/jobs/jobdetails.jsx";
 import TalentMakeInvoices from "./Talent/Pages/invoice.jsx" 
+import EditProfile from "./Client/Pages/editprofile.jsx"
 
 const App = () => {
   return (
@@ -178,6 +179,7 @@ const App = () => {
                 <Route path="applications" element={<TrackerApplications />} />
                 <Route path="joboffers" element={<TrackerOffers />} />
                 <Route path="projectsoffers" element={<TrackerProject />} />
+                <Route path="editprofile" element={<EditProfile />} />
                 <Route path="profile" element={<><TalentProfile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="make-invoices" element={<><TalentMakeInvoices /></>} />
