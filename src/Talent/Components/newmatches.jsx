@@ -1,6 +1,73 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Avactor component: visually improved avatar with initials fallback
+const Avactor = ({ name = "", image, size = 64 }) => {
+  // If image is provided, show image, else show initials
+  const initials = name
+    ? name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase()
+    : "AV";
+
+  // Gradient background for initials
+  const gradient =
+    "linear-gradient(135deg, #3B82F6 0%, #60A5FA 50%, #2563EB 100%)";
+
+  return image ? (
+    <div
+      className="relative flex items-center justify-center"
+      style={{
+        width: size,
+        height: size,
+      }}
+    >
+      <img
+        src={image}
+        alt={name}
+        className="rounded-full object-cover border-2 border-blue-300 shadow-md"
+        style={{
+          width: size,
+          height: size,
+          background: "#f3f4f6",
+        }}
+      />
+      <span
+        className="absolute bottom-0 right-0 block w-4 h-4 rounded-full border-2 border-white bg-green-400 shadow"
+        title="Verified"
+        style={{
+          boxShadow: "0 0 0 2px #fff",
+        }}
+      ></span>
+    </div>
+  ) : (
+    <div
+      className="rounded-full flex items-center justify-center font-bold text-white shadow-md border-2 border-blue-200"
+      style={{
+        width: size,
+        height: size,
+        fontSize: size / 2.2,
+        background: gradient,
+        userSelect: "none",
+        letterSpacing: "1px",
+        position: "relative",
+      }}
+    >
+      {initials}
+      <span
+        className="absolute bottom-0 right-0 block w-4 h-4 rounded-full border-2 border-white bg-green-400 shadow"
+        title="Verified"
+        style={{
+          boxShadow: "0 0 0 2px #fff",
+        }}
+      ></span>
+    </div>
+  );
+};
+
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -149,9 +216,12 @@ const NewMatches = () => {
     <div className="max-w-7xl mx-auto">
       <div className="p-4 max-w-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
-          <h2 className="text-2xl font-medium">Your newest matches</h2>
-          <button className="text-sm font-semibold underline hover:underline sm:mr-12">
-            View All Jobs
+          <h2 className="text-2xl font-medium">Your New Matches</h2>
+          <button
+            className="text-sm font-semibold underline hover:underline sm:mr-12"
+            onClick={() => navigate('/talent/projects/')}
+          >
+            View All Projects
           </button>
         </div>
         {loading ? (
@@ -168,10 +238,11 @@ const NewMatches = () => {
                 style={{ minWidth: 0 }}
               >
                 <div className="flex justify-between items-start">
-                  <img
-                    src={job.image || "/assets/default-company.png"}
-                    alt={job.title}
-                    className="w-16 h-16 rounded-md mb-2 object-cover bg-gray-100 flex-shrink-0"
+                  {/* Replace image with Avactor */}
+                  <Avactor
+                    name={job.title}
+                    image={job.image}
+                    size={64}
                   />
                   <div
                     className="flex gap-2 flex-shrink-0"

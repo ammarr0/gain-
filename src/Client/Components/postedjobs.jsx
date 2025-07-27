@@ -6,6 +6,32 @@ import clock from "../../assets/clock.png";
 import arrowup from "../../assets/arrow-up-right-white.png";
 import arrowupblack from "../../assets/arrow-up-right-black.png";
 
+// Simple blue Loader component
+function BlueLoader() {
+    return (
+        <div className="flex flex-col items-center justify-center">
+            <div
+                style={{
+                    border: "6px solid #e0e7ef",
+                    borderTop: "6px solid #2563eb",
+                    borderRadius: "50%",
+                    width: "48px",
+                    height: "48px",
+                    animation: "spin 1s linear infinite"
+                }}
+            />
+            <style>
+                {`
+                @keyframes spin {
+                    0% { transform: rotate(0deg);}
+                    100% { transform: rotate(360deg);}
+                }
+                `}
+            </style>
+        </div>
+    );
+}
+
 // Helper to get cookie value by name
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -73,9 +99,8 @@ function PostedJobs() {
     return (
         <div className="space-y-6 mt-7" >
             {loading ? (
-                <div className="flex justify-center items-center h-40">
-                    <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16 mr-4 animate-spin"></div>
-                    <span className="text-lg text-gray-700">Loading...</span>
+                <div className="flex flex-col justify-center items-center h-40">
+                    <BlueLoader />
                 </div>
             ) : error ? (
                 <div className="flex justify-center items-center h-40">
@@ -249,18 +274,6 @@ function PostedJobs() {
                     )}
                 </>
             )}
-            {/* Loader CSS (if not already in global styles) */}
-            <style>
-                {`
-                .loader {
-                    border-top-color: #3498db;
-                    animation: spinner 1s linear infinite;
-                }
-                @keyframes spinner {
-                    to {transform: rotate(360deg);}
-                }
-                `}
-            </style>
         </div>
     );
 }
