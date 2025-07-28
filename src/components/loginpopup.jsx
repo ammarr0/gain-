@@ -47,11 +47,16 @@ const LoginModal = () => {
         });
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleLogin();
+        }
+    };
+
     return (
         isModalVisible && (
             <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
                 <div className="bg-white rounded-2xl w-full max-w-md py-7 text-center shadow-xl relative">
-                    {/* Cross Icon at top right */}
                     <button
                         onClick={() => setIsModalVisible(false)}
                         className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 focus:outline-none"
@@ -68,13 +73,18 @@ const LoginModal = () => {
                     <hr className="border-t-2 border-blue-600 mb-6" />
 
                     <div className="space-y-4 p-6">
-                        <div className="space-y-4">
+                        <form
+                            className="space-y-4"
+                            onSubmit={e => { e.preventDefault(); handleLogin(); }}
+                        >
                             <input
                                 type="email"
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="w-full px-4 py-2 border-2 border-blue-500 rounded-lg focus:outline-none focus:border-blue-700"
+                                onKeyDown={handleKeyDown}
+                                autoComplete="username"
                             />
                             <input
                                 type="password"
@@ -82,11 +92,16 @@ const LoginModal = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full px-4 py-2 border-2 border-blue-500 rounded-lg focus:outline-none focus:border-blue-700"
+                                onKeyDown={handleKeyDown}
+                                autoComplete="current-password"
                             />
-                            <button onClick={handleLogin} className="w-full px-4 py-2 border rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+                            <button
+                                type="submit"
+                                className="w-full px-4 py-2 border rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                            >
                                 Log In
                             </button>
-                        </div>
+                        </form>
                     </div>
 
                     <p className="text-xs text-gray-500 px-10">
