@@ -49,7 +49,7 @@ const Header = () => {
   };
 
   const handleNotificationsClick = () => {
-    navigate('/talent/applications');
+    navigate('/talent/notifications');
   };
 
   const handleProfileClick = () => {

@@ -63,7 +63,7 @@ import TalentJobs from "./Talent/Pages/Jobs.jsx";
 import TalentProject from "./Talent/Pages/projects.jsx";
 import TalentExploreCourse from "./Talent/Pages/explore-courses.jsx";
 import TalentPostCourse from "./Talent/Pages/post-new-course.jsx";
-import TalentProfile from "./Talent/Pages/Profile.jsx";
+import Profile from "./Talent/Pages/Profile.jsx";
 import TalentTracker from "./Talent/Pages/Tracker/invites.jsx";
 import TrackerApplications from "./Talent/Pages/Tracker/applications.jsx";
 import TrackerOffers from "./Talent/Pages/Tracker/joboffers.jsx";
@@ -123,7 +123,7 @@ const App = () => {
                 <Route path="explore-course" element={<ExploreCourse />} />
                 <Route path="main-course" element={<Main />} />
                 <Route path="explore-talent" element={<ExploreTalentsSection />} />
-                <Route path="profile" element={<><TalentProfile /></>} />
+                <Route path="profile" element={<><Profile /></>} />
                 <Route path="post-success" element={<><PostSuccess /></>} />
               </Routes>
             </div>
@@ -148,7 +148,7 @@ const App = () => {
                 <Route path="post-job" element={<PostJobs />} />
                 <Route path="post-projects" element={<PostProject />} />
                 <Route path="post-course" element={<PostCourse />} />
-                <Route path="profile" element={<><TalentProfile /></>} />
+                <Route path="profile" element={<><Profile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="make-invoices" element={<><MakeInvoices /></>} />
                 <Route path="post-success" element={<><PostSuccess /></>} />
@@ -179,7 +179,7 @@ const App = () => {
                 <Route path="joboffers" element={<TrackerOffers />} />
                 <Route path="projectsoffers" element={<TrackerProject />} />
                 <Route path="edit-profile" element={<EditProfile />} />
-                <Route path="profile" element={<><TalentProfile /></>} />
+                <Route path="profile" element={<><Profile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="make-invoices" element={<><TalentMakeInvoices /></>} />
                 <Route path="community" element={<Community />} />
