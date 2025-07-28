@@ -8,7 +8,6 @@ const iconMap = {
   "clock.png": require("../../assets/clock.png"),
 };
 
-// Loader styled like in newmatches.jsx
 const PrimaryCircleLoader = () => (
   <>
     <style>
@@ -81,6 +80,7 @@ const JobPostPage = () => {
           throw new Error("Failed to fetch job details");
         }
         const data = await response.json();
+        console.log("Fetched job data:", data); // console coming data
         const jobData = data.data || data;
         setJob(jobData);
       } catch (err) {
@@ -97,46 +97,40 @@ const JobPostPage = () => {
     // eslint-disable-next-line
   }, [id]);
 
-  if (loading) return  <div className="p-8 text-center text-gray-600 w-full" ><PrimaryCircleLoader /></div>;
-  if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
-  if (!job) return <div className="p-8 text-center text-gray-600">Job not found</div>;
-
   function formatDate(dateStr) {
     if (!dateStr) return "";
     const d = new Date(dateStr);
     return d.toLocaleString();
   }
 
+  if (loading) return  <div className="p-8 text-center text-gray-600 w-full" ><PrimaryCircleLoader /></div>;
+  if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
+  if (!job) return <div className="p-8 text-center text-gray-600">Job not found</div>;
+
   return (
     <div className="flex flex-col lg:flex-row items-start min-h-screen bg-white py-8 w-full">
       {/* Main Content */}
-      <div className="w-full lg:w-3/4 bg-white shadow-lg rounded-2xl p-6 md:p-10">
+      <div className="w-full lg:w-3/4 bg-white shadow-lg rounded-2xl p-6 md:p-10" >
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 border-b pb-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 border-b pb-4" >
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-1">{job.title}</h1>
-            <div className="flex flex-wrap items-center gap-2 text-gray-500 text-sm">
-              <span className="flex items-center gap-1">
-                <img src={iconMap["location.png"]} alt="Location" className="h-4 w-4" />
-                {job.location}
+            <h1 className="text-4xl font-extrabold text-gray-900 mb-2 tracking-tight leading-tight">
+              {job.title}
+            </h1>
+            <div className="flex flex-wrap items-center gap-3 text-gray-500 text-sm mt-1">
+              <span className="flex items-center gap-1 bg-gray-100 rounded-full px-2 py-1">
+                <span className="text-gray-500">Posted by:</span>
+                <span className="font-semibold text-gray-700">{job.created_by ? job.created_by : "N/A"}</span>
               </span>
-              <span className="hidden md:inline">•</span>
-              <span>
-                Posted by: <span className="font-medium text-gray-700">{job.created_by ? job.created_by : "N/A"}</span>
+              <span className="flex items-center gap-1 bg-gray-100 rounded-full px-2 py-1">
+                <span className="text-gray-500">Created:</span>
+                <span className="font-semibold">{formatDate(job.created_at)}</span>
               </span>
-              <span className="hidden md:inline">•</span>
-              <span>
-                Created: <span className="font-medium">{formatDate(job.created_at)}</span>
-              </span>
-              <span className="hidden md:inline">•</span>
-              <span>
-                Updated: <span className="font-medium">{formatDate(job.updated_at)}</span>
+              <span className="flex items-center gap-1 bg-gray-100 rounded-full px-2 py-1">
+                <span className="text-gray-500">Updated:</span>
+                <span className="font-semibold">{formatDate(job.updated_at)}</span>
               </span>
             </div>
-          </div>
-          <div className="flex flex-col items-end gap-2">
-            <span className="text-xl font-semibold text-[#030923]">{job.hourly_rate ? `$${job.hourly_rate}/hr` : ""}</span>
-            <span className="text-xs text-gray-500">Project Type: <span className="font-medium text-gray-700">{job.project_type}</span></span>
           </div>
         </div>
 
@@ -145,32 +139,108 @@ const JobPostPage = () => {
           <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
             <img src={iconMap["clock.png"]} alt="Hourly Rate" className="h-4 w-4" />
             <span className="text-gray-700 font-medium">Hourly Rate:</span>
-            <span className="text-gray-900">${job.hourly_rate}</span>
+            <span className="text-gray-900">{job.budget !== null && job.budget !== undefined ? `$${job.budget}` : (job.budget_range ? `$${job.budget_range}` : "N/A")}</span>
           </div>
           <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
             <img src={iconMap["calendar.png"]} alt="Project Type" className="h-4 w-4" />
             <span className="text-gray-700 font-medium">Project Type:</span>
-            <span className="text-gray-900">{job.project_type}</span>
+            <span className="text-gray-900">{job.project_type || job.category || "N/A"}</span>
           </div>
           <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
-            <span className="text-gray-700 font-medium">Is Deleted:</span>
-            <span className={`font-semibold ${job.is_deleted ? "text-red-500" : "text-green-600"}`}>{job.is_deleted ? "Yes" : "No"}</span>
-          </div>
-          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
-            <span className="text-gray-700 font-medium">Is Disabled:</span>
-            <span className={`font-semibold ${job.is_disabled ? "text-red-500" : "text-green-600"}`}>{job.is_disabled ? "Yes" : "No"}</span>
+            <img src={iconMap["location.png"]} alt="Location Type" className="h-4 w-4" />
+            <span className="text-gray-700 font-medium">Location Type:</span>
+            <span className="text-gray-900">{job.location_type || "N/A"}</span>
           </div>
         </div>
 
         {/* Skills */}
-        {job.skills && Array.isArray(job.skills) && job.skills.length > 0 && (
+        {(job.skills && Array.isArray(job.skills) && job.skills.length > 0) ||
+         (job.key_skills && Array.isArray(job.key_skills) && job.key_skills.length > 0) ? (
           <div className="mb-6">
             <h3 className="text-md font-semibold text-gray-800 mb-2">Skills Required:</h3>
             <div className="flex flex-wrap gap-2">
-              {job.skills.map((tag, idx) => (
+              {job.skills && Array.isArray(job.skills) && job.skills.map((tag, idx) => (
                 <span key={idx} className="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">{tag}</span>
               ))}
+              {job.key_skills && Array.isArray(job.key_skills) && job.key_skills.map((tag, idx) => (
+                <span key={`keyskill-${idx}`} className="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">{tag}</span>
+              ))}
             </div>
+          </div>
+        ) : null}
+
+        {/* Open Roles */}
+        {job.open_roles && Array.isArray(job.open_roles) && job.open_roles.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">Open Roles:</h3>
+            <ul className="list-disc ml-6">
+              {job.open_roles.map((role, idx) => (
+                <li key={idx} className="text-gray-700">{role}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Role Descriptions */}
+        {job.role_descriptions && Array.isArray(job.role_descriptions) && job.role_descriptions.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">Role Descriptions:</h3>
+            <ul className="list-disc ml-6">
+              {job.role_descriptions.map((desc, idx) => (
+                <li key={idx} className="text-gray-700">{desc}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Project Details */}
+        <div className="mb-6">
+          <h3 className="text-md font-semibold text-gray-800 mb-2">Project Details</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <span className="font-medium text-gray-700">Start Date: </span>
+              <span className="text-gray-900">{job.start_date ? formatDate(job.start_date) : "N/A"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Duration: </span>
+              <span className="text-gray-900">{job.duration || "N/A"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Payment Type: </span>
+              <span className="text-gray-900">{job.payment_type || "N/A"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Preferred Location: </span>
+              <span className="text-gray-900">{job.preferred_location || "N/A"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Preferred Location Talent Requirements: </span>
+              <span className="text-gray-900">{job.preferred_location_talent_requirements || "N/A"}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Questions for Candidates */}
+        {job.questions_for_candidates && Array.isArray(job.questions_for_candidates) && job.questions_for_candidates.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">Questions for Candidates:</h3>
+            <ul className="list-disc ml-6">
+              {job.questions_for_candidates.map((q, idx) => (
+                <li key={idx} className="text-gray-700">{q}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Additional Questions */}
+        {job.additional_questions && Array.isArray(job.additional_questions) && job.additional_questions.filter(q => q && q.trim()).length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">Additional Questions:</h3>
+            <ul className="list-disc ml-6">
+              {job.additional_questions.filter(q => q && q.trim()).map((q, idx) => (
+                <li key={idx} className="text-gray-700">{q}</li>
+              ))}
+            </ul>
           </div>
         )}
 
@@ -178,27 +248,6 @@ const JobPostPage = () => {
         <div className="mb-6">
           <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">Description</h2>
           <p className="text-gray-700 leading-relaxed">{job.description}</p>
-        </div>
-
-        {/* Files */}
-        <div className="mb-6">
-          <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">Files</h2>
-          {Array.isArray(job.files) && job.files.length > 0 ? (
-            <ul className="list-disc list-inside space-y-1">
-              {job.files.map((file, idx) => (
-                <li key={idx}>
-                  <a href={file} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline break-all">{file}</a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <span className="text-gray-500">No files attached.</span>
-          )}
-        </div>
-
-        {/* Updated By */}
-        <div className="flex justify-end">
-          <span className="text-xs text-gray-500">Last updated by: <span className="font-medium text-gray-700">{job.updated_by ? job.updated_by : "N/A"}</span></span>
         </div>
       </div>
 

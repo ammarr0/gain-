@@ -76,6 +76,7 @@ import PostSuccess from "./Client/Pages/success.jsx";
 import CFJobsDetails from "./consultingfirm/jobs/jobdetails.jsx";
 import TalentMakeInvoices from "./Talent/Pages/invoice.jsx"
 import EditProfile from "./Client/Pages/editprofile.jsx"
+import Applyjobs from "./components/Apply.jsx"
 
 const App = () => {
   return (
@@ -170,6 +171,7 @@ const App = () => {
                 <Route path="projects/:id" element={<ProjectDetails />} />
                 <Route path="explore-course" element={<TalentExploreCourse />} />
                 <Route path="job-application" element={<JobsApplication />} />
+                <Route path="apply" element={<Apply />} />
                 <Route path="post-job" element={<PostJobs />} />
                 <Route path="post-course" element={<TalentPostCourse />} />
                 <Route path="main-course/:id" element={<ClientMain />} />
@@ -180,7 +182,6 @@ const App = () => {
                 <Route path="joboffers" element={<TrackerOffers />} />
                 <Route path="projectsoffers" element={<TrackerProject />} />
                 <Route path="edit-profile" element={<EditProfile />} />
-                <Route path="profile" element={<><Profile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="make-invoices" element={<><TalentMakeInvoices /></>} />
                 <Route path="community" element={<Community />} />

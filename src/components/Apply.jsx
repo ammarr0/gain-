@@ -74,7 +74,7 @@ const SidebarApplyJob = ({
         <aside className="w-full max-w-xs bg-white shadow-lg rounded-2xl p-6 sm:p-8 flex flex-col gap-8">
             <div className="flex flex-col gap-3">
                 <button
-                    onClick={onApplyClick}
+                    onClick={() => window.location.href = "/talent/apply"}
                     disabled={disabled}
                     className={`w-full px-6 py-2 rounded-lg font-semibold text-white bg-black hover:bg-gray-900 transition flex items-center justify-center gap-2 ${disabled ? "opacity-60 cursor-not-allowed" : ""
                         }`}

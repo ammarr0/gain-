@@ -2,6 +2,15 @@
 
 import React, { useState } from "react";
 
+// Helper function to get a cookie value by name
+function getCookie(name) {
+  if (typeof document === "undefined") return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+  return null;
+}
+
 const sidebarItems = [
   "Basic Information",
   "About",
@@ -10,53 +19,47 @@ const sidebarItems = [
   "Account Settings",
 ];
 
-const initialForms = {
-  "Basic Information": {
-    company: "",
-    location: "United States",
-    phone: "+12 345 67890943",
-    email: "jondoe@abcd.com",
-  },
-  "About": {
-    bio: "",
-    website: "",
-    linkedin: "",
-  },
-  "Preferences": {
-    notifications: true,
-    newsletter: false,
-    language: "English",
-  },
-  "Billing and Payment": {
-    cardNumber: "",
-    expiry: "",
-    cvv: "",
-    billingAddress: "",
-  },
-  "Account Settings": {
-    password: "",
-    confirmPassword: "",
-    twoFactor: false,
-  },
+// Unified initial form state as per the provided schema
+const initialForm = {
+  image: "",
+  first_name: "",
+  last_name: "",
+  fcm_token: "",
+  email: "",
+  country_code: "",
+  phone_no: "",
+  gender: "",
+  biography: "",
+  emergency_contact: "",
+  country: "",
+  street: "",
+  suite: "",
+  city: "",
+  post_code: "",
+  dob: "",
+  is_disabled: false,
+  is_deleted: false,
+  website: "",
+  linkedin: "",
 };
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("Basic Information");
   const [avatar, setAvatar] = useState("/avatar.jpg");
   const [avatarFile, setAvatarFile] = useState(null);
-  const [forms, setForms] = useState(initialForms);
+  const [form, setForm] = useState(initialForm);
+  const [loading, setLoading] = useState(false);
 
+  // Handle all input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForms((prev) => ({
+    setForm((prev) => ({
       ...prev,
-      [activeTab]: {
-        ...prev[activeTab],
-        [name]: type === "checkbox" ? checked : value,
-      },
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
+  // Handle avatar image change
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -64,76 +67,160 @@ const ProfilePage = () => {
     const reader = new FileReader();
     reader.onload = (ev) => {
       setAvatar(ev.target?.result);
+      setForm((prev) => ({
+        ...prev,
+        image: ev.target?.result || "",
+      }));
     };
     reader.readAsDataURL(file);
   };
 
-  const onSubmit = (e) => {
+  // Handle form submit and PUT to API
+  const onSubmit = async (e) => {
     e.preventDefault();
-    if (activeTab === "Account Settings" && forms["Account Settings"].password !== forms["Account Settings"].confirmPassword) {
-      alert("Passwords do not match!");
-      return;
+    setLoading(true);
+
+    // Optionally validate required fields here
+
+    try {
+      // Get access_token from cookies
+      const accessToken = getCookie("access_token");
+
+      const response = await fetch("https://gain-b7ea8e7de810.herokuapp.com/users", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update profile");
+      }
+
+      alert("Profile updated successfully!");
+    } catch (err) {
+      alert("Error updating profile: " + err.message);
+    } finally {
+      setLoading(false);
     }
-    if (activeTab === "Basic Information" && avatarFile) {
-      console.log("Uploading avatar:", avatarFile);
-    }
-    console.log("Submitting:", { [activeTab]: forms[activeTab] });
-    alert("Saved!");
   };
 
+  // Render form fields based on activeTab, but all fields are present in the form state
   const renderFormFields = () => {
     switch (activeTab) {
       case "Basic Information":
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-            <div > 
+            <div>
               <label className="block text-sm font-semibold text-black mb-2 bg-white">
-                Company/Organization Name
+                First Name
               </label>
               <input
                 type="text"
-                name="company"
-                placeholder="Your company"
-                value={forms["Basic Information"].company}
+                name="first_name"
+                placeholder="First Name"
+                value={form.first_name}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
-                autoComplete="organization"
+                autoComplete="given-name"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">Location</label>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Last Name
+              </label>
               <input
                 type="text"
-                name="location"
-                placeholder="United States"
-                value={forms["Basic Information"].location}
+                name="last_name"
+                placeholder="Last Name"
+                value={form.last_name}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
-                autoComplete="country"
+                autoComplete="family-name"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">Phone Number</label>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Email Address
+              </label>
+              <input
+                type="email"
+                name="email"
+                placeholder="jondoe@abcd.com"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
+                autoComplete="email"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Phone Number
+              </label>
               <input
                 type="tel"
-                name="phone"
+                name="phone_no"
                 placeholder="+12 345 67890943"
-                value={forms["Basic Information"].phone}
+                value={form.phone_no}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
                 autoComplete="tel"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">Email Address</label>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Country Code
+              </label>
               <input
-                type="email"
-                name="email"
-                placeholder="jondoe@abcd.com"
-                value={forms["Basic Information"].email}
+                type="text"
+                name="country_code"
+                placeholder="+1"
+                value={form.country_code}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
-                autoComplete="email"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Gender
+              </label>
+              <select
+                name="gender"
+                value={form.gender}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm"
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Date of Birth
+              </label>
+              <input
+                type="date"
+                name="dob"
+                value={form.dob}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Emergency Contact
+              </label>
+              <input
+                type="text"
+                name="emergency_contact"
+                placeholder="Emergency Contact"
+                value={form.emergency_contact}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
               />
             </div>
           </div>
@@ -142,34 +229,40 @@ const ProfilePage = () => {
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
             <div className="md:col-span-2">
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">Bio</label>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Biography
+              </label>
               <textarea
-                name="bio"
+                name="biography"
                 placeholder="Tell us about yourself..."
-                value={forms["About"].bio}
+                value={form.biography}
                 onChange={handleChange}
                 rows={4}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white resize-none"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">Website</label>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Website
+              </label>
               <input
                 type="url"
                 name="website"
                 placeholder="https://yourwebsite.com"
-                value={forms["About"].website}
+                value={form.website}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
               />
             </div>
-            <div >
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">LinkedIn</label>
+            <div>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                LinkedIn
+              </label>
               <input
                 type="url"
                 name="linkedin"
                 placeholder="https://linkedin.com/in/yourprofile"
-                value={forms["About"].linkedin}
+                value={form.linkedin}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
               />
@@ -180,39 +273,38 @@ const ProfilePage = () => {
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
             <div>
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">Language</label>
-              <select
-                name="language"
-                value={forms["Preferences"].language}
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                FCM Token
+              </label>
+              <input
+                type="text"
+                name="fcm_token"
+                placeholder="FCM Token"
+                value={form.fcm_token}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm"
-              >
-                <option>English</option>
-                <option>Spanish</option>
-                <option>French</option>
-                <option>German</option>
-              </select>
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
+              />
             </div>
             <div className="flex flex-col gap-4">
               <label className="flex items-center gap-2 text-black font-semibold bg-white">
                 <input
                   type="checkbox"
-                  name="notifications"
-                  checked={forms["Preferences"].notifications}
+                  name="is_disabled"
+                  checked={form.is_disabled}
                   onChange={handleChange}
                   className="accent-blue-600"
                 />
-                Enable Notifications
+                Is Disabled
               </label>
               <label className="flex items-center gap-2 text-black font-semibold bg-white">
                 <input
                   type="checkbox"
-                  name="newsletter"
-                  checked={forms["Preferences"].newsletter}
+                  name="is_deleted"
+                  checked={form.is_deleted}
                   onChange={handleChange}
                   className="accent-blue-600"
                 />
-                Subscribe to Newsletter
+                Is Deleted
               </label>
             </div>
           </div>
@@ -221,49 +313,66 @@ const ProfilePage = () => {
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
             <div>
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">Card Number</label>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Country
+              </label>
               <input
                 type="text"
-                name="cardNumber"
-                placeholder="1234 5678 9012 3456"
-                value={forms["Billing and Payment"].cardNumber}
+                name="country"
+                placeholder="Country"
+                value={form.country}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
-                maxLength={19}
-                inputMode="numeric"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">Expiry</label>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                City
+              </label>
               <input
                 type="text"
-                name="expiry"
-                placeholder="MM/YY"
-                value={forms["Billing and Payment"].expiry}
+                name="city"
+                placeholder="City"
+                value={form.city}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
-                maxLength={5}
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">CVV</label>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Street
+              </label>
               <input
-                type="password"
-                name="cvv"
-                placeholder="123"
-                value={forms["Billing and Payment"].cvv}
+                type="text"
+                name="street"
+                placeholder="Street"
+                value={form.street}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
-                maxLength={4}
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">Billing Address</label>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Suite
+              </label>
               <input
                 type="text"
-                name="billingAddress"
-                placeholder="123 Main St, City, Country"
-                value={forms["Billing and Payment"].billingAddress}
+                name="suite"
+                placeholder="Suite"
+                value={form.suite}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Post Code
+              </label>
+              <input
+                type="text"
+                name="post_code"
+                placeholder="Post Code"
+                value={form.post_code}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
               />
@@ -274,38 +383,28 @@ const ProfilePage = () => {
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
             <div>
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">New Password</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="New password"
-                value={forms["Account Settings"].password}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
-                autoComplete="new-password"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-black mb-2 bg-white">Confirm Password</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm password"
-                value={forms["Account Settings"].confirmPassword}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow shadow-sm bg-white"
-                autoComplete="new-password"
-              />
-            </div>
-            <div className="md:col-span-2 flex items-center gap-2 mt-2">
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Is Disabled
+              </label>
               <input
                 type="checkbox"
-                name="twoFactor"
-                checked={forms["Account Settings"].twoFactor}
+                name="is_disabled"
+                checked={form.is_disabled}
                 onChange={handleChange}
                 className="accent-blue-600"
               />
-              <span className="text-black font-semibold bg-white">Enable Two-Factor Authentication</span>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-black mb-2 bg-white">
+                Is Deleted
+              </label>
+              <input
+                type="checkbox"
+                name="is_deleted"
+                checked={form.is_deleted}
+                onChange={handleChange}
+                className="accent-blue-600"
+              />
             </div>
           </div>
         );
@@ -374,6 +473,10 @@ const ProfilePage = () => {
                       onClick={() => {
                         setAvatar("/avatar.jpg");
                         setAvatarFile(null);
+                        setForm((prev) => ({
+                          ...prev,
+                          image: "",
+                        }));
                       }}
                       disabled={!avatarFile}
                     >
@@ -397,11 +500,12 @@ const ProfilePage = () => {
                 <button
                   type="submit"
                   className="w-full md:w-auto inline-flex items-center justify-center rounded-lg bg-blue-600 px-8 py-3 text-white text-lg font-bold shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  disabled={loading}
                 >
                   <svg className="w-6 h-6 mr-2 -ml-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
-                  Save Changes
+                  {loading ? "Saving..." : "Save Changes"}
                 </button>
               </div>
             </form>
