@@ -49,6 +49,14 @@ const TABS = [
   { label: 'Saved Jobs', key: 'saved' }
 ];
 
+// Helper function to get first 30 words of a string
+function getFirstNWords(text, n) {
+  if (!text) return '';
+  const words = text.split(/\s+/);
+  if (words.length <= n) return text;
+  return words.slice(0, n).join(' ') + '...';
+}
+
 const Jobs = () => {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
@@ -215,7 +223,9 @@ const Jobs = () => {
                     </div>
                   </div>
 
-                  <p className="text-black mt-2">{job.description}</p>
+                  <p className="text-black mt-2">
+                    {getFirstNWords(job.description, 30)}
+                  </p>
 
                   <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3">
                     <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import SidebarApplyJob from "../../components/Apply";
 
 const iconMap = {
   "location.png": require("../../assets/location.png"),
@@ -46,6 +47,25 @@ const JobPostPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // For sidebar actions (dummy for now)
+  const [isSaved, setIsSaved] = useState(false);
+
+  // Dummy client info for sidebar (replace with real data if available)
+  const clientInfo = {
+    location: job?.location || "Unknown",
+    memberSince: job?.created_at ? new Date(job.created_at).getFullYear() : "N/A",
+    jobsPosted: 12,
+    hireRate: 80,
+  };
+
+  // Dummy handlers for sidebar
+  const handleApplyClick = () => {
+    alert("Apply clicked!");
+  };
+  const handleSaveClick = () => {
+    setIsSaved((prev) => !prev);
+  };
+
   useEffect(() => {
     const fetchJob = async () => {
       setLoading(true);
@@ -74,6 +94,7 @@ const JobPostPage = () => {
     if (id) {
       fetchJob();
     }
+    // eslint-disable-next-line
   }, [id]);
 
   if (loading) return  <div className="p-8 text-center text-gray-600 w-full" ><PrimaryCircleLoader /></div>;
@@ -87,8 +108,9 @@ const JobPostPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-white py-8 w-full">
-      <div className="w-full bg-white shadow-lg rounded-2xl p-6 md:p-10">
+    <div className="flex flex-col lg:flex-row items-start min-h-screen bg-white py-8 w-full">
+      {/* Main Content */}
+      <div className="w-full lg:w-3/4 bg-white shadow-lg rounded-2xl p-6 md:p-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 border-b pb-4">
           <div>
@@ -178,6 +200,17 @@ const JobPostPage = () => {
         <div className="flex justify-end">
           <span className="text-xs text-gray-500">Last updated by: <span className="font-medium text-gray-700">{job.updated_by ? job.updated_by : "N/A"}</span></span>
         </div>
+      </div>
+
+      {/* Right Sidebar */}
+      <div className="w-full lg:w-1/4 px-0 lg:pr-8 mt-8 lg:mt-0 ml-2">
+        <SidebarApplyJob
+          onApplyClick={handleApplyClick}
+          onSaveClick={handleSaveClick}
+          isSaved={isSaved}
+          client={clientInfo}
+          disabled={false}
+        />
       </div>
     </div>
   );

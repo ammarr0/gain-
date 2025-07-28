@@ -48,6 +48,14 @@ const TABS = [
   { label: 'Saved Projects', key: 'saved' }
 ];
 
+// Helper function to truncate description to 30 words
+function truncateWords(text, wordLimit) {
+  if (!text) return '';
+  const words = text.split(/\s+/);
+  if (words.length <= wordLimit) return text;
+  return words.slice(0, wordLimit).join(' ') + '...';
+}
+
 const Projects = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
@@ -213,7 +221,9 @@ const Projects = () => {
                     </div>
                   </div>
 
-                  <p className="text-black mt-2">{project.description}</p>
+                  <p className="text-black mt-2">
+                    {truncateWords(project.description, 30)}
+                  </p>
 
                   <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3">
                     <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />

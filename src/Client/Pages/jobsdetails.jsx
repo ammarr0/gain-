@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import SidebarApplyJob from "../../components/Apply";
 
 const iconMap = {
   "location.png": require("../../assets/location.png"),
@@ -46,6 +47,9 @@ const JobPostPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // For sidebar actions (dummy for now)
+  const [isSaved, setIsSaved] = useState(false);
+
   useEffect(() => {
     const fetchJob = async () => {
       setLoading(true);
@@ -86,98 +90,129 @@ const JobPostPage = () => {
     return d.toLocaleString();
   }
 
+  // Dummy client info for sidebar (replace with real data if available)
+  const clientInfo = {
+    location: job.location || "N/A",
+    memberSince: job.created_at ? new Date(job.created_at).getFullYear() : undefined,
+    jobsPosted: 12, // Placeholder
+    hireRate: 80,   // Placeholder
+    rating: 4.7     // Placeholder
+  };
+
+  // Dummy handlers for sidebar
+  const handleApplyClick = () => {
+    // Implement apply logic here
+    alert("Apply to job (not implemented)");
+  };
+  const handleSaveClick = () => {
+    setIsSaved((prev) => !prev);
+  };
+
   return (
-    <div className="flex flex-col items-center min-h-screen bg-white py-8 w-full">
-      <div className="w-full bg-white shadow-lg rounded-2xl p-6 md:p-10">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 border-b pb-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-1">{job.title}</h1>
-            <div className="flex flex-wrap items-center gap-2 text-gray-500 text-sm">
-              <span className="flex items-center gap-1">
-                <img src={iconMap["location.png"]} alt="Location" className="h-4 w-4" />
-                {job.location}
-              </span>
-              <span className="hidden md:inline">•</span>
-              <span>
-                Posted by: <span className="font-medium text-gray-700">{job.created_by ? job.created_by : "N/A"}</span>
-              </span>
-              <span className="hidden md:inline">•</span>
-              <span>
-                Created: <span className="font-medium">{formatDate(job.created_at)}</span>
-              </span>
-              <span className="hidden md:inline">•</span>
-              <span>
-                Updated: <span className="font-medium">{formatDate(job.updated_at)}</span>
-              </span>
+    <div className="flex flex-col lg:flex-row items-start min-h-screen bg-white py-8 w-full">
+      {/* Main Content */}
+      <div className="w-full lg:w-3/4 px-0 lg:pl-8 lg:pr-4">
+        <div className="w-full bg-white shadow-lg rounded-2xl p-6 md:p-10">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 border-b pb-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-1">{job.title}</h1>
+              <div className="flex flex-wrap items-center gap-2 text-gray-500 text-sm">
+                <span className="flex items-center gap-1">
+                  <img src={iconMap["location.png"]} alt="Location" className="h-4 w-4" />
+                  {job.location}
+                </span>
+                <span className="hidden md:inline">•</span>
+                <span>
+                  Posted by: <span className="font-medium text-gray-700">{job.created_by ? job.created_by : "N/A"}</span>
+                </span>
+                <span className="hidden md:inline">•</span>
+                <span>
+                  Created: <span className="font-medium">{formatDate(job.created_at)}</span>
+                </span>
+                <span className="hidden md:inline">•</span>
+                <span>
+                  Updated: <span className="font-medium">{formatDate(job.updated_at)}</span>
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col items-end gap-2">
+              <span className="text-xl font-semibold text-[#030923]">{job.hourly_rate ? `$${job.hourly_rate}/hr` : ""}</span>
+              <span className="text-xs text-gray-500">Project Type: <span className="font-medium text-gray-700">{job.project_type}</span></span>
             </div>
           </div>
-          <div className="flex flex-col items-end gap-2">
-            <span className="text-xl font-semibold text-[#030923]">{job.hourly_rate ? `$${job.hourly_rate}/hr` : ""}</span>
-            <span className="text-xs text-gray-500">Project Type: <span className="font-medium text-gray-700">{job.project_type}</span></span>
-          </div>
-        </div>
 
-        {/* Info Items */}
-        <div className="flex flex-wrap gap-6 mb-6">
-          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
-            <img src={iconMap["clock.png"]} alt="Hourly Rate" className="h-4 w-4" />
-            <span className="text-gray-700 font-medium">Hourly Rate:</span>
-            <span className="text-gray-900">${job.hourly_rate}</span>
-          </div>
-          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
-            <img src={iconMap["calendar.png"]} alt="Project Type" className="h-4 w-4" />
-            <span className="text-gray-700 font-medium">Project Type:</span>
-            <span className="text-gray-900">{job.project_type}</span>
-          </div>
-          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
-            <span className="text-gray-700 font-medium">Is Deleted:</span>
-            <span className={`font-semibold ${job.is_deleted ? "text-red-500" : "text-green-600"}`}>{job.is_deleted ? "Yes" : "No"}</span>
-          </div>
-          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
-            <span className="text-gray-700 font-medium">Is Disabled:</span>
-            <span className={`font-semibold ${job.is_disabled ? "text-red-500" : "text-green-600"}`}>{job.is_disabled ? "Yes" : "No"}</span>
-          </div>
-        </div>
-
-        {/* Skills */}
-        {job.skills && Array.isArray(job.skills) && job.skills.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-md font-semibold text-gray-800 mb-2">Skills Required:</h3>
-            <div className="flex flex-wrap gap-2">
-              {job.skills.map((tag, idx) => (
-                <span key={idx} className="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">{tag}</span>
-              ))}
+          {/* Info Items */}
+          <div className="flex flex-wrap gap-6 mb-6">
+            <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+              <img src={iconMap["clock.png"]} alt="Hourly Rate" className="h-4 w-4" />
+              <span className="text-gray-700 font-medium">Hourly Rate:</span>
+              <span className="text-gray-900">${job.hourly_rate}</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+              <img src={iconMap["calendar.png"]} alt="Project Type" className="h-4 w-4" />
+              <span className="text-gray-700 font-medium">Project Type:</span>
+              <span className="text-gray-900">{job.project_type}</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+              <span className="text-gray-700 font-medium">Is Deleted:</span>
+              <span className={`font-semibold ${job.is_deleted ? "text-red-500" : "text-green-600"}`}>{job.is_deleted ? "Yes" : "No"}</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+              <span className="text-gray-700 font-medium">Is Disabled:</span>
+              <span className={`font-semibold ${job.is_disabled ? "text-red-500" : "text-green-600"}`}>{job.is_disabled ? "Yes" : "No"}</span>
             </div>
           </div>
-        )}
 
-        {/* Description */}
-        <div className="mb-6">
-          <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">Description</h2>
-          <p className="text-gray-700 leading-relaxed">{job.description}</p>
-        </div>
-
-        {/* Files */}
-        <div className="mb-6">
-          <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">Files</h2>
-          {Array.isArray(job.files) && job.files.length > 0 ? (
-            <ul className="list-disc list-inside space-y-1">
-              {job.files.map((file, idx) => (
-                <li key={idx}>
-                  <a href={file} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline break-all">{file}</a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <span className="text-gray-500">No files attached.</span>
+          {/* Skills */}
+          {job.skills && Array.isArray(job.skills) && job.skills.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-md font-semibold text-gray-800 mb-2">Skills Required:</h3>
+              <div className="flex flex-wrap gap-2">
+                {job.skills.map((tag, idx) => (
+                  <span key={idx} className="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">{tag}</span>
+                ))}
+              </div>
+            </div>
           )}
-        </div>
 
-        {/* Updated By */}
-        <div className="flex justify-end">
-          <span className="text-xs text-gray-500">Last updated by: <span className="font-medium text-gray-700">{job.updated_by ? job.updated_by : "N/A"}</span></span>
+          {/* Description */}
+          <div className="mb-6">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">Description</h2>
+            <p className="text-gray-700 leading-relaxed">{job.description}</p>
+          </div>
+
+          {/* Files */}
+          <div className="mb-6">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">Files</h2>
+            {Array.isArray(job.files) && job.files.length > 0 ? (
+              <ul className="list-disc list-inside space-y-1">
+                {job.files.map((file, idx) => (
+                  <li key={idx}>
+                    <a href={file} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline break-all">{file}</a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <span className="text-gray-500">No files attached.</span>
+            )}
+          </div>
+
+          {/* Updated By */}
+          <div className="flex justify-end">
+            <span className="text-xs text-gray-500">Last updated by: <span className="font-medium text-gray-700">{job.updated_by ? job.updated_by : "N/A"}</span></span>
+          </div>
         </div>
+      </div>
+      {/* Right Sidebar */}
+      <div className="w-full lg:w-1/4 px-0 lg:pr-8 mt-8 lg:mt-0">
+        <SidebarApplyJob
+          onApplyClick={handleApplyClick}
+          onSaveClick={handleSaveClick}
+          isSaved={isSaved}
+          client={clientInfo}
+          disabled={false}
+        />
       </div>
     </div>
   );
