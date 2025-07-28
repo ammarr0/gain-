@@ -1,12 +1,14 @@
 "use client";
 import React from "react";
 import { FaLinkedin, FaBehance, FaDribbble, FaStar, FaCheckCircle } from "react-icons/fa";
+import { User as UserIcon, Edit2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const profile = {
   name: "Ned Stark",
   title: "Project Manager",
   role: "UI/UX Designer",
-  avatar: "/avatar.jpg",
+  avatar: "",
   rating: 5,
   earned: "$5000+",
   about:
@@ -63,20 +65,35 @@ const profile = {
 };
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 px-0 py-0 font-sans">
-      {/* Header */}
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 py-10 px-6">
         <div className="flex items-center gap-6">
           <div className="relative">
-            <img
-              src={profile.avatar}
-              alt={profile.name}
-              className="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-blue-200 shadow-lg"
-            />
+            {profile.avatar ? (
+              <img
+                src={profile.avatar}
+                alt={profile.name}
+                className="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-blue-200 shadow-lg"
+              />
+            ) : (
+              <div className="w-28 h-28 md:w-32 md:h-32 flex items-center justify-center rounded-full border-4 border-blue-200 shadow-lg bg-blue-100">
+                <UserIcon size={64} className="text-blue-400" />
+              </div>
+            )}
             <span className="absolute bottom-2 right-2 bg-green-400 border-2 border-white rounded-full p-1">
               <FaCheckCircle className="text-white w-4 h-4" />
             </span>
+            <button
+              className="absolute top-2 right-2 bg-white border border-blue-200 rounded-full p-1 shadow hover:bg-blue-50 transition"
+              title="Edit Profile"
+              onClick={() => navigate("/talent/editprofile")}
+              style={{ zIndex: 10 }}
+            >
+              <Edit2 size={20} className="text-blue-500" />
+            </button>
           </div>
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
@@ -100,7 +117,16 @@ const ProfilePage = () => {
         </button>
       </div>
 
-      {/* Role & Earnings */}
+      <div className="max-w-5xl mx-auto flex justify-end px-6 mt-2">
+        <button
+          className="flex items-center gap-2 bg-white border border-blue-300 text-blue-700 px-5 py-2 rounded-lg shadow hover:bg-blue-50 transition font-medium"
+          onClick={() => navigate("/talent/edit-profile")}
+        >
+          <Edit2 size={18} className="text-blue-500" />
+          Edit Profile
+        </button>
+      </div>
+
       <div className="max-w-5xl mx-auto mt-2 flex flex-col md:flex-row justify-between items-center px-6">
         <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2">
           <span className="inline-block w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
@@ -111,7 +137,6 @@ const ProfilePage = () => {
         </p>
       </div>
 
-      {/* About */}
       <div className="max-w-5xl mx-auto mt-8 text-gray-700 px-6">
         <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-blue-400">
           <h3 className="text-lg font-semibold mb-2 text-blue-700">About</h3>
@@ -119,7 +144,6 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      {/* Portfolio */}
       <div className="max-w-5xl mx-auto mt-10 px-6">
         <h3 className="text-xl font-bold mb-5 text-gray-800">Portfolio</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -140,7 +164,6 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      {/* Skills */}
       <div className="max-w-5xl mx-auto mt-10 px-6">
         <h3 className="text-xl font-bold mb-5 text-gray-800">Skills</h3>
         <div className="flex flex-wrap gap-3">
@@ -155,7 +178,6 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      {/* Linked Accounts */}
       <div className="max-w-5xl mx-auto mt-10 px-6">
         <h3 className="text-xl font-bold mb-5 text-gray-800">Linked Accounts</h3>
         <div className="flex gap-6">
@@ -174,7 +196,6 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      {/* Completed Jobs */}
       <div className="max-w-5xl mx-auto mt-10 px-6 pb-16">
         <h3 className="text-xl font-bold mb-5 text-gray-800">Completed Jobs</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

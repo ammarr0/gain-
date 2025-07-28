@@ -74,7 +74,7 @@ import CFHeader from "./consultingfirm/components/cfnavbar.jsx";
 import TalentHeader from "./Talent/Components/header.jsx";
 import PostSuccess from "./Client/Pages/success.jsx";
 import CFJobsDetails from "./consultingfirm/jobs/jobdetails.jsx";
-import TalentMakeInvoices from "./Talent/Pages/invoice.jsx" 
+import TalentMakeInvoices from "./Talent/Pages/invoice.jsx"
 import EditProfile from "./Client/Pages/editprofile.jsx"
 
 const App = () => {
@@ -101,8 +101,8 @@ const App = () => {
         <Route path="/apply" element={<><Navbar /><Apply /><Footer /></>} />
         <Route path="/under-processing" element={<><Navbar /><UP /><Footer /></>} />
         <Route path="video" element={<Video />} />
-     
-        
+
+
         <Route path="/consultingfirm/*" element={
           <>
             <CFHeader />
@@ -161,7 +161,7 @@ const App = () => {
           <>
             <TalentHeader />
             <div style={{ display: 'flex' }}>
-           <TalentSidebar /> 
+              <TalentSidebar />
               <Routes>
                 <Route path="home" element={<TalentDashboard />} />
                 <Route path="jobs" element={<TalentJobs />} />
@@ -178,7 +178,7 @@ const App = () => {
                 <Route path="applications" element={<TrackerApplications />} />
                 <Route path="joboffers" element={<TrackerOffers />} />
                 <Route path="projectsoffers" element={<TrackerProject />} />
-                <Route path="editprofile" element={<EditProfile />} />
+                <Route path="edit-profile" element={<EditProfile />} />
                 <Route path="profile" element={<><TalentProfile /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="make-invoices" element={<><TalentMakeInvoices /></>} />
