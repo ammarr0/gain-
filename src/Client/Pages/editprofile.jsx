@@ -343,16 +343,10 @@ const ProfilePage = () => {
                     <span className="inline-block w-2 h-2 bg-white rounded-full mr-1"></span>
                   )}
                   <span className="z-10">{item}</span>
-                  {item === activeTab && (
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs bg-blue-700 text-white px-2 py-0.5 rounded-full shadow">
-                      Editing
-                    </span>
-                  )}
                 </li>
               ))}
             </ul>
           </aside>
-
           <main className="w-full lg:w-3/4 space-y-8">
             {activeTab === "Basic Information" && (
               <div className="flex items-center gap-8 bg-white rounded-2xl p-8 shadow-md w-full relative">
