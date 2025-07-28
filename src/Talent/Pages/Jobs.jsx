@@ -5,7 +5,35 @@ import arrowup from "../../assets/arrow-up-right-white.png";
 import arrowupblack from "../../assets/arrow-up-right-black.png";
 import { useNavigate } from 'react-router-dom';
 
-// Helper to get cookie
+const SaveIcon = ({ saved, ...props }) => (
+  <svg
+    width="24"
+    height="24"
+    fill="none"
+    stroke={saved ? "#007DF0" : "#A0AEC0"}
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+    {...props}
+  >
+    <path
+      d="M6 4a2 2 0 0 0-2 2v14l8-5.333L20 20V6a2 2 0 0 0-2-2H6z"
+      fill={saved ? "#007DF0" : "none"}
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+const BlueCircleLoader = () => (
+  <div className="flex justify-center items-center py-8">
+    <div
+      className="animate-spin rounded-full border-4 border-blue-500 border-t-transparent h-12 w-12"
+      role="status"
+      aria-label="Loading"
+    />
+  </div>
+);
+
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -15,6 +43,12 @@ function getCookie(name) {
 
 const accessToken = getCookie('access_token');
 
+const TABS = [
+  { label: 'Project Management Jobs', key: 'pm' },
+  { label: 'All Jobs', key: 'all' },
+  { label: 'Saved Jobs', key: 'saved' }
+];
+
 const Jobs = () => {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
@@ -23,14 +57,25 @@ const Jobs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 10;
 
+  const [savedJobs, setSavedJobs] = useState(() => {
+    const saved = localStorage.getItem('savedJobs');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [activeTab, setActiveTab] = useState('pm');
+
   useEffect(() => {
     setLoading(true);
+    setError(null);
     fetch('https://gain-b7ea8e7de810.herokuapp.com/jobs/list', {
       headers: {
         'Authorization': accessToken ? `Bearer ${accessToken}` : ''
       }
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
       .then(data => {
         if (data && data.status && Array.isArray(data.data)) {
           setJobs(data.data);
@@ -45,6 +90,20 @@ const Jobs = () => {
       });
   }, []);
 
+  const handleSaveJob = (jobId, e) => {
+    e.stopPropagation();
+    setSavedJobs(prev => {
+      let updated;
+      if (prev.includes(jobId)) {
+        updated = prev.filter(id => id !== jobId);
+      } else {
+        updated = [...prev, jobId];
+      }
+      localStorage.setItem('savedJobs', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   const renderButton = (bgColor, textColor, text, imgSrc, onClick) => (
     <button
       className={`w-[135px] h-[28px] rounded-[16px] ${bgColor} text-sm ${textColor} flex items-center justify-center`}
@@ -52,6 +111,7 @@ const Jobs = () => {
         e.stopPropagation();
         onClick();
       }}
+      type="button"
     >
       {text} <img src={imgSrc} alt="" className="ml-1" />
     </button>
@@ -64,11 +124,20 @@ const Jobs = () => {
     </div>
   );
 
-  // Pagination logic
-  const totalPages = Math.ceil(jobs.length / jobsPerPage);
+  let filteredJobs = jobs;
+  if (activeTab === 'pm') {
+    filteredJobs = jobs.filter(job =>
+      (job.project_type && job.project_type.toLowerCase().includes('project'))
+      || (job.title && job.title.toLowerCase().includes('project'))
+    );
+  } else if (activeTab === 'saved') {
+    filteredJobs = jobs.filter(job => savedJobs.includes(job._id));
+  }
+
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
   const startIdx = (currentPage - 1) * jobsPerPage;
   const endIdx = startIdx + jobsPerPage;
-  const jobsToDisplay = jobs.slice(startIdx, endIdx);
+  const jobsToDisplay = filteredJobs.slice(startIdx, endIdx);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -76,13 +145,15 @@ const Jobs = () => {
     }
   };
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab, jobs.length]);
+
   return (
     <div className="w-full min-h-screen flex flex-col bg-white">
       <div className="flex-1 flex flex-col lg:flex-row">
-        {/* Main Content */}
         <div className="w-full lg:w-3/4 p-4 sm:p-6 md:p-8">
           <div className="mx-auto max-w-6xl">
-            {/* Header Section */}
             <div className="flex flex-col md:flex-row gap-4 mb-8">
               <div className="bg-[#C7E1FF] rounded-2xl p-6 sm:p-8 md:w-1/2 h-48 sm:h-60 md:h-72 flex items-center">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-gray-900 mb-2 leading-tight">
@@ -97,21 +168,25 @@ const Jobs = () => {
                 </p>
               </div>
             </div>
-            {/* Tabs */}
             <div className="flex flex-wrap items-center space-x-0 sm:space-x-6 border-b border-gray-200 mb-8">
-              {['Project Management Jobs', 'All Jobs', 'Saved Jobs'].map((tab, index) => (
+              {TABS.map((tab, index) => (
                 <button
-                  key={index}
-                  className={`pb-2 mr-4 sm:mr-0 mb-2 sm:mb-0 ${index === 0 ? 'text-gray-900 font-semibold border-b-4 border-blue-500' : 'text-gray-500 hover:text-gray-700'}`}
+                  key={tab.key}
+                  className={`pb-2 mr-4 sm:mr-0 mb-2 sm:mb-0 ${
+                    activeTab === tab.key
+                      ? 'text-gray-900 font-semibold border-b-4 border-blue-500'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                  onClick={() => setActiveTab(tab.key)}
+                  type="button"
                 >
-                  {tab}
+                  {tab.label}
                 </button>
               ))}
             </div>
-            {/* Job Cards */}
             <div className="space-y-6">
               {loading && (
-                <div className="text-center py-8">Loading jobs...</div>
+                <BlueCircleLoader />
               )}
               {error && (
                 <div className="text-center text-red-600 py-8">{error}</div>
@@ -122,14 +197,21 @@ const Jobs = () => {
               {!loading && !error && jobsToDisplay.map((job, index) => (
                 <div
                   key={job._id || index}
-                  className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between cursor-pointer"
-                  onClick={() => navigate(`/client/jobs/${job._id}`)}
+                  className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between cursor-pointer relative"
+                  onClick={() => navigate(`/talent/jobs/${job._id}`)}
                 >
+                  <button
+                    className="absolute bottom-4 right-4 z-10 p-1 rounded-full hover:bg-gray-100"
+                    onClick={e => handleSaveJob(job._id, e)}
+                    aria-label={savedJobs.includes(job._id) ? "Unsave Job" : "Save Job"}
+                    type="button"
+                  >
+                    <SaveIcon saved={savedJobs.includes(job._id)} />
+                  </button>
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                     <h2 className="text-xl md:text-2xl font-bold text-black">{job.title}</h2>
                     <div className="flex flex-wrap gap-2 md:gap-4 mt-2 md:mt-0">
-                      {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Job", arrowupblack, () => navigate(`/client/jobs/${job._id}`))}
-                      {renderButton("bg-[#030923]", "text-white", "View Job", arrowup, () => navigate(`/client/jobs/${job._id}`))}
+                      {renderButton("bg-[#030923]", "text-white", "View Job", arrowup, () => navigate(`/talent/jobs/${job._id}`))}
                     </div>
                   </div>
 
@@ -179,13 +261,13 @@ const Jobs = () => {
                 </div>
               ))}
             </div>
-            {/* Pagination Controls */}
             {!loading && !error && totalPages > 1 && (
               <div className="flex justify-center items-center mt-8 gap-2">
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                   className={`px-3 py-1 rounded-md border ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                  type="button"
                 >
                   Prev
                 </button>
@@ -194,6 +276,7 @@ const Jobs = () => {
                     key={idx + 1}
                     onClick={() => handlePageChange(idx + 1)}
                     className={`px-3 py-1 rounded-md border ${currentPage === idx + 1 ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                    type="button"
                   >
                     {idx + 1}
                   </button>
@@ -202,6 +285,7 @@ const Jobs = () => {
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
                   className={`px-3 py-1 rounded-md border ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                  type="button"
                 >
                   Next
                 </button>
@@ -209,7 +293,6 @@ const Jobs = () => {
             )}
           </div>
         </div>
-        {/* Sidebar */}
         <div className="w-full lg:w-1/4 p-4 sm:p-6 md:p-6 lg:p-6 ml-0 lg:ml-auto rounded-lg">
           <div className="bg-white shadow-md rounded-2xl p-4 sm:p-6 flex flex-col gap-4 mb-6">
             <div className="flex items-center gap-4">

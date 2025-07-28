@@ -52,7 +52,6 @@ import ClientExploreTalents from "./Client/Pages/ExploreTalent.jsx";
 import ClientExploreCourse from "./Client/Pages/Course.jsx";
 import PostJobs from "./Client/Pages/post-jobs.jsx";
 import PostProject from "./Client/Pages/post-projects.jsx";
-// Remove duplicate import of PostSuccess
 import MainCourse from "./Client/Pages/main-course.jsx";
 import PostCourse from "./Client/Pages/new-course.jsx";
 import ClientsProfile from "./Client/Pages/profile.jsx";

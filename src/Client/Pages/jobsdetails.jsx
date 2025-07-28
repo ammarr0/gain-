@@ -1,12 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import SingleJobHero from "../Components/singlejob_hero";
+import { useParams } from "react-router-dom";
 
 const iconMap = {
   "location.png": require("../../assets/location.png"),
   "calendar.png": require("../../assets/calendar.png"),
   "clock.png": require("../../assets/clock.png"),
 };
+
+// Loader styled like in newmatches.jsx
+const PrimaryCircleLoader = () => (
+  <>
+    <style>
+      {`
+        .loader-blue-circle {
+          display: inline-block;
+          width: 48px;
+          height: 48px;
+          border: 5px solid #3B82F6;
+          border-radius: 50%;
+          border-top-color: transparent;
+          animation: spin-blue 1s linear infinite;
+        }
+        @keyframes spin-blue {
+          to { transform: rotate(360deg); }
+        }
+      `}
+    </style>
+    <div className="flex justify-center items-center py-16">
+      <span className="loader-blue-circle" aria-label="Loading"></span>
+    </div>
+  </>
+);
 
 // Helper to get cookie value by name
 function getCookie(name) {
@@ -18,13 +42,11 @@ function getCookie(name) {
 
 const JobPostPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch job details from API with access_token from cookies
     const fetchJob = async () => {
       setLoading(true);
       setError(null);
@@ -41,7 +63,6 @@ const JobPostPage = () => {
         const data = await response.json();
         const jobData = data.data || data;
         setJob(jobData);
-        console.log("Fetched job data:", jobData);
       } catch (err) {
         setError(err.message || "Error fetching job details");
         setJob(null);
@@ -55,99 +76,108 @@ const JobPostPage = () => {
     }
   }, [id]);
 
-  if (loading) return <div className="p-8 text-center text-gray-600">Loading...</div>;
+  if (loading) return  <div className="p-8 text-center text-gray-600 w-full" ><PrimaryCircleLoader /></div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
   if (!job) return <div className="p-8 text-center text-gray-600">Job not found</div>;
 
+  function formatDate(dateStr) {
+    if (!dateStr) return "";
+    const d = new Date(dateStr);
+    return d.toLocaleString();
+  }
+
   return (
-    <div className="flex flex-col gap-4">
-      <SingleJobHero job={job} />
-      <div className="p-4 md:p-6">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 text-gray-700 mb-4">
-          <h1 className="text-2xl font-bold">{job.title}</h1>
-          <span className="hidden md:inline">•</span>
-          <p>{job.userName || job.clientName || job.companyName || ""}</p>
-          <span className="hidden md:inline">•</span>
-          <p>{job.location}</p>
-        </div>
-        <div className="flex items-center gap-4 mb-4">
-          <span>⭐ {job.rating || job.stars || ""}</span>
-          <span>Jobs: {job.jobs || job.totalJobs || ""}</span>
-        </div>
-        {/* Info Items */}
-        <div className="flex gap-4 mb-4">
-          {job.infoItems && Array.isArray(job.infoItems) && job.infoItems.map((item, idx) => (
-            <div className="flex items-center gap-1" key={idx}>
-              <img src={iconMap[item.imgSrc]} alt={item.altText} className="h-4 w-4" />
-              <span>{item.text}</span>
+    <div className="flex flex-col items-center min-h-screen bg-white py-8 w-full">
+      <div className="w-full bg-white shadow-lg rounded-2xl p-6 md:p-10">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 border-b pb-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">{job.title}</h1>
+            <div className="flex flex-wrap items-center gap-2 text-gray-500 text-sm">
+              <span className="flex items-center gap-1">
+                <img src={iconMap["location.png"]} alt="Location" className="h-4 w-4" />
+                {job.location}
+              </span>
+              <span className="hidden md:inline">•</span>
+              <span>
+                Posted by: <span className="font-medium text-gray-700">{job.created_by ? job.created_by : "N/A"}</span>
+              </span>
+              <span className="hidden md:inline">•</span>
+              <span>
+                Created: <span className="font-medium">{formatDate(job.created_at)}</span>
+              </span>
+              <span className="hidden md:inline">•</span>
+              <span>
+                Updated: <span className="font-medium">{formatDate(job.updated_at)}</span>
+              </span>
             </div>
-          ))}
-        </div>
-        {/* Tags and Due Date */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {job.tags && Array.isArray(job.tags) && job.tags.map((tag, idx) => (
-            <span key={idx} className="bg-gray-200 px-3 py-1 rounded-full text-sm">{tag}</span>
-          ))}
-          {job.dueDate && (
-            <span className="ml-auto text-red-800">Due on: {job.dueDate}</span>
-          )}
-        </div>
-        {/* Extended Details */}
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 text-gray-700 mb-4">
-          <p className="text-xl md:text-2xl">{job.rate || job.salary || ""}</p>
-          <span className="hidden md:inline">•</span>
-          <p>{job.level || job.seniority || ""}</p>
-          <span className="hidden md:inline">•</span>
-          <p>{job.experience || ""}</p>
-        </div>
-        <div className="mb-4">
-          <p className="text-gray-600">{job.status || ""}</p>
-          <p className="text-gray-600">{job.timeZone || job.timezone || ""}</p>
-        </div>
-        <div className="mb-6">
-          {Array.isArray(job.description)
-            ? job.description.map((desc, index) => <p key={index}>{desc}</p>)
-            : <p>{job.description}</p>
-          }
-        </div>
-        <div className="mb-6">
-          <h2 className="text-lg md:text-xl font-semibold mb-2">Responsibilities:</h2>
-          <ul className="list-disc list-inside space-y-1">
-            {job.responsibilities && job.responsibilities.length > 0
-              ? job.responsibilities.map((responsibility, index) => (
-                  <li key={index}>{responsibility}</li>
-                ))
-              : <li>No responsibilities listed.</li>
-            }
-          </ul>
-        </div>
-        <div className="mb-6">
-          <h2 className="text-lg md:text-xl font-semibold mb-2">Requirements:</h2>
-          <ul className="list-disc list-inside space-y-1">
-            {job.requirements && job.requirements.length > 0
-              ? job.requirements.map((requirement, index) => (
-                  <li key={index}>{requirement}</li>
-                ))
-              : <li>No requirements listed.</li>
-            }
-          </ul>
-        </div>
-        <div className="mb-6">
-          <p>{job.applicationInstructions || job.instructions || ""}</p>
-        </div>
-        <div className="mb-4 text-sm text-gray-600">Project Type: {job.projectType || job.type || ""}</div>
-        <div className="mb-6">
-          <h2 className="text-lg md:text-xl font-semibold mb-2">Skills and Expertise</h2>
-          <div className="flex flex-wrap gap-2">
-            {job.skills && job.skills.length > 0
-              ? job.skills.map(skill => (
-                  <span key={skill} className="bg-gray-200 px-3 py-1 rounded-full text-sm">{skill}</span>
-                ))
-              : <span>No skills listed.</span>
-            }
+          </div>
+          <div className="flex flex-col items-end gap-2">
+            <span className="text-xl font-semibold text-[#030923]">{job.hourly_rate ? `$${job.hourly_rate}/hr` : ""}</span>
+            <span className="text-xs text-gray-500">Project Type: <span className="font-medium text-gray-700">{job.project_type}</span></span>
           </div>
         </div>
-        <div className="text-green-600 font-semibold">Status: {job.applicationStatus || job.status || ""}</div>
+
+        {/* Info Items */}
+        <div className="flex flex-wrap gap-6 mb-6">
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+            <img src={iconMap["clock.png"]} alt="Hourly Rate" className="h-4 w-4" />
+            <span className="text-gray-700 font-medium">Hourly Rate:</span>
+            <span className="text-gray-900">${job.hourly_rate}</span>
+          </div>
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+            <img src={iconMap["calendar.png"]} alt="Project Type" className="h-4 w-4" />
+            <span className="text-gray-700 font-medium">Project Type:</span>
+            <span className="text-gray-900">{job.project_type}</span>
+          </div>
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+            <span className="text-gray-700 font-medium">Is Deleted:</span>
+            <span className={`font-semibold ${job.is_deleted ? "text-red-500" : "text-green-600"}`}>{job.is_deleted ? "Yes" : "No"}</span>
+          </div>
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+            <span className="text-gray-700 font-medium">Is Disabled:</span>
+            <span className={`font-semibold ${job.is_disabled ? "text-red-500" : "text-green-600"}`}>{job.is_disabled ? "Yes" : "No"}</span>
+          </div>
+        </div>
+
+        {/* Skills */}
+        {job.skills && Array.isArray(job.skills) && job.skills.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">Skills Required:</h3>
+            <div className="flex flex-wrap gap-2">
+              {job.skills.map((tag, idx) => (
+                <span key={idx} className="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">{tag}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Description */}
+        <div className="mb-6">
+          <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">Description</h2>
+          <p className="text-gray-700 leading-relaxed">{job.description}</p>
+        </div>
+
+        {/* Files */}
+        <div className="mb-6">
+          <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">Files</h2>
+          {Array.isArray(job.files) && job.files.length > 0 ? (
+            <ul className="list-disc list-inside space-y-1">
+              {job.files.map((file, idx) => (
+                <li key={idx}>
+                  <a href={file} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline break-all">{file}</a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <span className="text-gray-500">No files attached.</span>
+          )}
+        </div>
+
+        {/* Updated By */}
+        <div className="flex justify-end">
+          <span className="text-xs text-gray-500">Last updated by: <span className="font-medium text-gray-700">{job.updated_by ? job.updated_by : "N/A"}</span></span>
+        </div>
       </div>
     </div>
   );

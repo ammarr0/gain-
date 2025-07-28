@@ -254,8 +254,9 @@ const NewestMatches = () => {
             {matches.map((job, idx) => (
               <div
                 key={job._id || idx}
-                className="rounded-xl border-2 border-[#34A853] p-4 shadow-sm hover:shadow-lg transition bg-white w-full max-w-xs sm:max-w-sm md:max-w-md flex flex-col mx-auto h-full"
+                className="rounded-xl border-2 border-[#34A853] p-4 shadow-sm hover:shadow-lg transition bg-white w-full max-w-xs sm:max-w-sm md:max-w-md flex flex-col mx-auto h-full cursor-pointer"
                 style={{ minHeight: 0 }}
+                onClick={() => navigate(`/talent/jobs/${job._id}`)}
               >
                 <div className="flex justify-between items-start">
                   <Avactor
