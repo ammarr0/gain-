@@ -3,27 +3,47 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
+const initialFormData = {
+  title: '',
+  description: '',
+  project_type: '',
+  skills: '',
+  files: [],
+  location: '',
+  hourly_rate: '',
+  category: '',
+  payment_type: '',
+  budget_range: '',
+  experience_level: '',
+  number_of_applicants: 0,
+  questions_for_candidates: '',
+  is_disabled: false,
+  is_deleted: false,
+};
+
 const PostJobs = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    project_type: '',
-    skills: '',
-    location: '',
-    hourly_rate: '',
-  });
+  const [formData, setFormData] = useState(initialFormData);
   const navigate = useNavigate();
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    setFormData({ ...formData, project_type: category });
+    setFormData({ ...formData, category, project_type: category });
   };
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
+    const { id, value, type } = e.target;
+    if (id === 'number_of_applicants') {
+      setFormData({ ...formData, [id]: Number(value) });
+    } else {
+      setFormData({ ...formData, [id]: value });
+    }
   };
+
+  // For file uploads (if needed in future)
+  // const handleFileChange = (e) => {
+  //   setFormData({ ...formData, files: Array.from(e.target.files) });
+  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,12 +57,16 @@ const PostJobs = () => {
         },
         body: JSON.stringify({
           ...formData,
-          skills: formData.skills.split(',').map(skill => skill.trim()),
-          files: [],
+          skills: formData.skills
+            ? formData.skills.split(',').map(skill => skill.trim()).filter(Boolean)
+            : [],
+          files: formData.files || [],
+          number_of_applicants: Number(formData.number_of_applicants) || 0,
+          questions_for_candidates: formData.questions_for_candidates
+            ? formData.questions_for_candidates.split('\n').map(q => q.trim()).filter(Boolean)
+            : [],
           is_disabled: false,
           is_deleted: false,
-          created_by: '',
-          updated_by: '',
         }),
       });
 
@@ -112,6 +136,18 @@ const PostJobs = () => {
               placeholder="Enter key skills (comma-separated)"
             />
           </div>
+          {/* <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="files">
+              Attach Files
+            </label>
+            <input
+              type="file"
+              id="files"
+              multiple
+              onChange={handleFileChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div> */}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="hourly_rate">
               Hourly Rate
@@ -136,6 +172,76 @@ const PostJobs = () => {
               onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter location"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="payment_type">
+              Payment Type
+            </label>
+            <select
+              id="payment_type"
+              value={formData.payment_type}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="">Select payment type</option>
+              <option value="Hourly">Hourly</option>
+              <option value="Fixed">Fixed</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="budget_range">
+              Budget Range
+            </label>
+            <input
+              type="text"
+              id="budget_range"
+              value={formData.budget_range}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Enter budget range (e.g. $500 - $1000)"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="experience_level">
+              Experience Level
+            </label>
+            <select
+              id="experience_level"
+              value={formData.experience_level}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="">Select experience level</option>
+              <option value="Entry">Entry</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Expert">Expert</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="number_of_applicants">
+              Number of Applicants
+            </label>
+            <input
+              type="number"
+              id="number_of_applicants"
+              value={formData.number_of_applicants}
+              onChange={handleChange}
+              min={0}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Enter number of applicants"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="questions_for_candidates">
+              Questions for Candidates
+            </label>
+            <textarea
+              id="questions_for_candidates"
+              value={formData.questions_for_candidates}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Enter questions (one per line)"
             />
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">

@@ -32,7 +32,6 @@ const PrimaryCircleLoader = () => (
   </>
 );
 
-// Helper to get cookie value by name
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -46,10 +45,8 @@ const JobPostPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // For sidebar actions (dummy for now)
   const [isSaved, setIsSaved] = useState(false);
 
-  // Dummy client info for sidebar (replace with real data if available)
   const clientInfo = {
     location: job?.location || "Unknown",
     memberSince: job?.created_at ? new Date(job.created_at).getFullYear() : "N/A",
@@ -57,7 +54,6 @@ const JobPostPage = () => {
     hireRate: 80,
   };
 
-  // Dummy handlers for sidebar
   const handleApplyClick = () => {
     alert("Apply clicked!");
   };
@@ -80,7 +76,7 @@ const JobPostPage = () => {
           throw new Error("Failed to fetch job details");
         }
         const data = await response.json();
-        console.log("Fetched job data:", data); // console coming data
+        console.log("Fetched job data:", data);
         const jobData = data.data || data;
         setJob(jobData);
       } catch (err) {
@@ -94,7 +90,6 @@ const JobPostPage = () => {
     if (id) {
       fetchJob();
     }
-    // eslint-disable-next-line
   }, [id]);
 
   function formatDate(dateStr) {
@@ -109,9 +104,7 @@ const JobPostPage = () => {
 
   return (
     <div className="flex flex-col lg:flex-row items-start min-h-screen bg-white py-8 w-full">
-      {/* Main Content */}
       <div className="w-full lg:w-3/4 bg-white shadow-lg rounded-2xl p-6 md:p-10" >
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 border-b pb-4" >
           <div>
             <h1 className="text-4xl font-extrabold text-gray-900 mb-2 tracking-tight leading-tight">
@@ -134,7 +127,6 @@ const JobPostPage = () => {
           </div>
         </div>
 
-        {/* Info Items */}
         <div className="flex flex-wrap gap-6 mb-6">
           <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
             <img src={iconMap["clock.png"]} alt="Hourly Rate" className="h-4 w-4" />
@@ -153,7 +145,6 @@ const JobPostPage = () => {
           </div>
         </div>
 
-        {/* Skills */}
         {(job.skills && Array.isArray(job.skills) && job.skills.length > 0) ||
          (job.key_skills && Array.isArray(job.key_skills) && job.key_skills.length > 0) ? (
           <div className="mb-6">
@@ -169,7 +160,6 @@ const JobPostPage = () => {
           </div>
         ) : null}
 
-        {/* Open Roles */}
         {job.open_roles && Array.isArray(job.open_roles) && job.open_roles.length > 0 && (
           <div className="mb-6">
             <h3 className="text-md font-semibold text-gray-800 mb-2">Open Roles:</h3>
@@ -181,7 +171,6 @@ const JobPostPage = () => {
           </div>
         )}
 
-        {/* Role Descriptions */}
         {job.role_descriptions && Array.isArray(job.role_descriptions) && job.role_descriptions.length > 0 && (
           <div className="mb-6">
             <h3 className="text-md font-semibold text-gray-800 mb-2">Role Descriptions:</h3>
@@ -193,7 +182,6 @@ const JobPostPage = () => {
           </div>
         )}
 
-        {/* Project Details */}
         <div className="mb-6">
           <h3 className="text-md font-semibold text-gray-800 mb-2">Project Details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -220,7 +208,6 @@ const JobPostPage = () => {
           </div>
         </div>
 
-        {/* Questions for Candidates */}
         {job.questions_for_candidates && Array.isArray(job.questions_for_candidates) && job.questions_for_candidates.length > 0 && (
           <div className="mb-6">
             <h3 className="text-md font-semibold text-gray-800 mb-2">Questions for Candidates:</h3>
@@ -232,7 +219,6 @@ const JobPostPage = () => {
           </div>
         )}
 
-        {/* Additional Questions */}
         {job.additional_questions && Array.isArray(job.additional_questions) && job.additional_questions.filter(q => q && q.trim()).length > 0 && (
           <div className="mb-6">
             <h3 className="text-md font-semibold text-gray-800 mb-2">Additional Questions:</h3>
@@ -244,14 +230,12 @@ const JobPostPage = () => {
           </div>
         )}
 
-        {/* Description */}
         <div className="mb-6">
           <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">Description</h2>
           <p className="text-gray-700 leading-relaxed">{job.description}</p>
         </div>
       </div>
 
-      {/* Right Sidebar */}
       <div className="w-full lg:w-1/4 px-0 lg:pr-8 mt-8 lg:mt-0 ml-2">
         <SidebarApplyJob
           onApplyClick={handleApplyClick}

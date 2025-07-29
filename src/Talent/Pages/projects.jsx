@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import User from "../../assets/user.png";
 import location from "../../assets/location.png";
 import arrowup from "../../assets/arrow-up-right-white.png";
-import { useNavigate } from 'react-router-dom';
 
 const SaveIcon = ({ saved, ...props }) => (
   <svg
@@ -48,12 +48,10 @@ const TABS = [
   { label: 'Saved Projects', key: 'saved' }
 ];
 
-// Helper function to truncate description to 30 words
 function truncateWords(text, wordLimit) {
   if (!text) return '';
   const words = text.split(/\s+/);
-  if (words.length <= wordLimit) return text;
-  return words.slice(0, wordLimit).join(' ') + '...';
+  return words.length <= wordLimit ? text : words.slice(0, wordLimit).join(' ') + '...';
 }
 
 const Projects = () => {
@@ -62,14 +60,12 @@ const Projects = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const projectsPerPage = 10;
-
   const [savedProjects, setSavedProjects] = useState(() => {
     const saved = localStorage.getItem('savedProjects');
     return saved ? JSON.parse(saved) : [];
   });
-
   const [activeTab, setActiveTab] = useState('pm');
+  const projectsPerPage = 10;
 
   useEffect(() => {
     setLoading(true);
@@ -79,19 +75,15 @@ const Projects = () => {
         'Authorization': accessToken ? `Bearer ${accessToken}` : ''
       }
     })
-      .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.json();
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
       })
       .then(data => {
-        if (data && data.status && Array.isArray(data.data)) {
-          setProjects(data.data);
-        } else {
-          setProjects([]);
-        }
+        setProjects(data && data.status && Array.isArray(data.data) ? data.data : []);
         setLoading(false);
       })
-      .catch(error => {
+      .catch(() => {
         setError('Error fetching projects');
         setLoading(false);
       });
@@ -100,12 +92,9 @@ const Projects = () => {
   const handleSaveProject = (projectId, e) => {
     e.stopPropagation();
     setSavedProjects(prev => {
-      let updated;
-      if (prev.includes(projectId)) {
-        updated = prev.filter(id => id !== projectId);
-      } else {
-        updated = [...prev, projectId];
-      }
+      const updated = prev.includes(projectId)
+        ? prev.filter(id => id !== projectId)
+        : [...prev, projectId];
       localStorage.setItem('savedProjects', JSON.stringify(updated));
       return updated;
     });
@@ -133,23 +122,21 @@ const Projects = () => {
 
   let filteredProjects = projects;
   if (activeTab === 'pm') {
-    filteredProjects = projects.filter(project =>
-      (project.project_type && project.project_type.toLowerCase().includes('project'))
-      || (project.title && project.title.toLowerCase().includes('project'))
+    filteredProjects = projects.filter(
+      p =>
+        (p.project_type && p.project_type.toLowerCase().includes('project')) ||
+        (p.title && p.title.toLowerCase().includes('project'))
     );
   } else if (activeTab === 'saved') {
-    filteredProjects = projects.filter(project => savedProjects.includes(project._id));
+    filteredProjects = projects.filter(p => savedProjects.includes(p._id));
   }
 
   const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
   const startIdx = (currentPage - 1) * projectsPerPage;
-  const endIdx = startIdx + projectsPerPage;
-  const projectsToDisplay = filteredProjects.slice(startIdx, endIdx);
+  const projectsToDisplay = filteredProjects.slice(startIdx, startIdx + projectsPerPage);
 
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+  const handlePageChange = page => {
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
   useEffect(() => {
@@ -175,7 +162,7 @@ const Projects = () => {
               </div>
             </div>
             <div className="flex flex-wrap items-center space-x-0 sm:space-x-6 border-b border-gray-200 mb-8">
-              {TABS.map((tab, index) => (
+              {TABS.map(tab => (
                 <button
                   key={tab.key}
                   className={`pb-2 mr-4 sm:mr-0 mb-2 sm:mb-0 ${
@@ -191,18 +178,14 @@ const Projects = () => {
               ))}
             </div>
             <div className="space-y-6">
-              {loading && (
-                <BlueCircleLoader />
-              )}
-              {error && (
-                <div className="text-center text-red-600 py-8">{error}</div>
-              )}
+              {loading && <BlueCircleLoader />}
+              {error && <div className="text-center text-red-600 py-8">{error}</div>}
               {!loading && !error && projectsToDisplay.length === 0 && (
                 <div className="text-center py-8 text-gray-500">No projects found.</div>
               )}
-              {!loading && !error && projectsToDisplay.map((project, index) => (
+              {!loading && !error && projectsToDisplay.map((project, idx) => (
                 <div
-                  key={project._id || index}
+                  key={project._id || idx}
                   className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between cursor-pointer relative"
                   onClick={() => navigate(`/talent/projects/${project._id}`)}
                 >
@@ -217,20 +200,24 @@ const Projects = () => {
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                     <h2 className="text-xl md:text-2xl font-bold text-black">{project.title}</h2>
                     <div className="flex flex-wrap gap-2 md:gap-4 mt-2 md:mt-0">
-                      {renderButton("bg-[#030923]", "text-white", "View Project", arrowup, () => navigate(`/talent/projects/${project._id}`))}
+                      {renderButton(
+                        "bg-[#030923]",
+                        "text-white",
+                        "View Project",
+                        arrowup,
+                        () => navigate(`/talent/projects/${project._id}`)
+                      )}
                     </div>
                   </div>
-
-                  <p className="text-black mt-2">
-                    {truncateWords(project.description, 30)}
-                  </p>
-
+                  <p className="text-black mt-2">{truncateWords(project.description, 30)}</p>
                   <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3">
                     <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />
                     <div>
-                      <h3 className="font-semibold text-black">{project.project_type || "N/A"}</h3>
-                      <hr className="border-black" />
-                      <p className="text-xs text-black">{project.location}</p>
+                   
+                    <p className="text-xs text-black">{project.category}</p>
+                    <hr className="border-black" />
+                      <h3 className="font-semibold text-black">{project.preferred_location || "N/A"}</h3>
+                    
                     </div>
                     <div className="flex items-center gap-2">
                       {renderInfoItem(location, "Location", project.location)}
@@ -240,16 +227,13 @@ const Projects = () => {
                       <span className="text-lg text-gray-700">{project.budget || project.hourly_rate || "N/A"}</span>
                     </div>
                   </div>
-                  <div className='flex flex-col md:flex-row gap-4 mt-2'>
-                    {project.skills && project.skills.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {project.skills.map((skill, idx) => (
-                          <span key={idx} className="bg-white border border-gray-200 text-sm text-black rounded px-3 py-1">{skill}</span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
+                  {project.skills && project.skills.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {project.skills.map((skill, idx) => (
+                        <span key={idx} className="bg-white border border-gray-200 text-sm text-black rounded px-3 py-1">{skill}</span>
+                      ))}
+                    </div>
+                  )}
                   {project.files && project.files.length > 0 && (
                     <div className="mt-2 flex flex-col gap-1">
                       <span className="text-xs font-semibold text-gray-700">Files:</span>
@@ -323,7 +307,7 @@ const Projects = () => {
                   <span className="text-[10px] w-1/3">{item}</span>
                   <div className="flex items-center gap-2 w-2/3">
                     <div className="w-full bg-gray-200 h-2 rounded-full">
-                      <div className="h-2 rounded-full " style={{ width: '50%', backgroundColor: '#030923' }}></div>
+                      <div className="h-2 rounded-full" style={{ width: '50%', backgroundColor: '#030923' }}></div>
                     </div>
                     <span className="text-[10px]">50%</span>
                   </div>

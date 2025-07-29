@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import User from "../../assets/user.png";
 import location from "../../assets/location.png";
 import arrowup from "../../assets/arrow-up-right-white.png";
-import arrowupblack from "../../assets/arrow-up-right-black.png";
-import { useNavigate } from 'react-router-dom';
 
 const SaveIcon = ({ saved, ...props }) => (
   <svg
@@ -34,12 +33,11 @@ const BlueCircleLoader = () => (
   </div>
 );
 
-function getCookie(name) {
+const getCookie = (name) => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return null;
-}
+  return parts.length === 2 ? parts.pop().split(';').shift() : null;
+};
 
 const accessToken = getCookie('access_token');
 
@@ -49,13 +47,23 @@ const TABS = [
   { label: 'Saved Jobs', key: 'saved' }
 ];
 
-// Helper function to get first 30 words of a string
-function getFirstNWords(text, n) {
+const getFirstNWords = (text, n) => {
   if (!text) return '';
   const words = text.split(/\s+/);
-  if (words.length <= n) return text;
-  return words.slice(0, n).join(' ') + '...';
-}
+  return words.length <= n ? text : words.slice(0, n).join(' ') + '...';
+};
+
+const jobHasProjectManagementSkills = (job) => {
+  if (!job) return false;
+  const checkSkill = (skill) => {
+    if (typeof skill !== 'string') return false;
+    const s = skill.toLowerCase();
+    return s.includes('manager') || s.includes('management') || s.includes('project management');
+  };
+  if (typeof job.skills === 'string') return checkSkill(job.skills);
+  if (Array.isArray(job.skills)) return job.skills.some(checkSkill);
+  return false;
+};
 
 const Jobs = () => {
   const navigate = useNavigate();
@@ -64,12 +72,14 @@ const Jobs = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 10;
-
   const [savedJobs, setSavedJobs] = useState(() => {
-    const saved = localStorage.getItem('savedJobs');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('savedJobs');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
   });
-
   const [activeTab, setActiveTab] = useState('pm');
 
   useEffect(() => {
@@ -80,19 +90,15 @@ const Jobs = () => {
         'Authorization': accessToken ? `Bearer ${accessToken}` : ''
       }
     })
-      .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.json();
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
       })
       .then(data => {
-        if (data && data.status && Array.isArray(data.data)) {
-          setJobs(data.data);
-        } else {
-          setJobs([]);
-        }
+        setJobs(data && data.status && Array.isArray(data.data) ? data.data : []);
         setLoading(false);
       })
-      .catch(error => {
+      .catch(() => {
         setError('Error fetching jobs');
         setLoading(false);
       });
@@ -101,12 +107,9 @@ const Jobs = () => {
   const handleSaveJob = (jobId, e) => {
     e.stopPropagation();
     setSavedJobs(prev => {
-      let updated;
-      if (prev.includes(jobId)) {
-        updated = prev.filter(id => id !== jobId);
-      } else {
-        updated = [...prev, jobId];
-      }
+      const updated = prev.includes(jobId)
+        ? prev.filter(id => id !== jobId)
+        : [...prev, jobId];
       localStorage.setItem('savedJobs', JSON.stringify(updated));
       return updated;
     });
@@ -134,23 +137,17 @@ const Jobs = () => {
 
   let filteredJobs = jobs;
   if (activeTab === 'pm') {
-    filteredJobs = jobs.filter(job =>
-      (job.project_type && job.project_type.toLowerCase().includes('project'))
-      || (job.title && job.title.toLowerCase().includes('project'))
-    );
+    filteredJobs = jobs.filter(jobHasProjectManagementSkills);
   } else if (activeTab === 'saved') {
     filteredJobs = jobs.filter(job => savedJobs.includes(job._id));
   }
 
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
   const startIdx = (currentPage - 1) * jobsPerPage;
-  const endIdx = startIdx + jobsPerPage;
-  const jobsToDisplay = filteredJobs.slice(startIdx, endIdx);
+  const jobsToDisplay = filteredJobs.slice(startIdx, startIdx + jobsPerPage);
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
   useEffect(() => {
@@ -177,7 +174,7 @@ const Jobs = () => {
               </div>
             </div>
             <div className="flex flex-wrap items-center space-x-0 sm:space-x-6 border-b border-gray-200 mb-8">
-              {TABS.map((tab, index) => (
+              {TABS.map(tab => (
                 <button
                   key={tab.key}
                   className={`pb-2 mr-4 sm:mr-0 mb-2 sm:mb-0 ${
@@ -193,12 +190,8 @@ const Jobs = () => {
               ))}
             </div>
             <div className="space-y-6">
-              {loading && (
-                <BlueCircleLoader />
-              )}
-              {error && (
-                <div className="text-center text-red-600 py-8">{error}</div>
-              )}
+              {loading && <BlueCircleLoader />}
+              {error && <div className="text-center text-red-600 py-8">{error}</div>}
               {!loading && !error && jobsToDisplay.length === 0 && (
                 <div className="text-center py-8 text-gray-500">No jobs found.</div>
               )}
@@ -222,17 +215,12 @@ const Jobs = () => {
                       {renderButton("bg-[#030923]", "text-white", "View Job", arrowup, () => navigate(`/talent/jobs/${job._id}`))}
                     </div>
                   </div>
-
-                  <p className="text-black mt-2">
-                    {getFirstNWords(job.description, 30)}
-                  </p>
-
+                  <p className="text-black mt-2">{getFirstNWords(job.description, 30)}</p>
                   <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3">
                     <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />
                     <div>
                       <h3 className="font-semibold text-black">{job.project_type || "N/A"}</h3>
                       <hr className="border-black" />
-                      <p className="text-xs text-black">{job.location}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       {renderInfoItem(location, "Location", job.location)}
@@ -242,17 +230,14 @@ const Jobs = () => {
                       <span className="text-lg text-gray-700">{job.hourly_rate}</span>
                     </div>
                   </div>
-                  <div className='flex flex-col md:flex-row gap-4 mt-2'>
-                    {job.skills && job.skills.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {job.skills.map((skill, idx) => (
-                          <span key={idx} className="bg-white border border-gray-200 text-sm text-black rounded px-3 py-1">{skill}</span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {job.files && job.files.length > 0 && (
+                  {Array.isArray(job.skills) && job.skills.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {job.skills.map((skill, idx) => (
+                        <span key={idx} className="bg-white border border-gray-200 text-sm text-black rounded px-3 py-1">{skill}</span>
+                      ))}
+                    </div>
+                  )}
+                  {Array.isArray(job.files) && job.files.length > 0 && (
                     <div className="mt-2 flex flex-col gap-1">
                       <span className="text-xs font-semibold text-gray-700">Files:</span>
                       {job.files.map((file, idx) => (
@@ -276,7 +261,11 @@ const Jobs = () => {
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className={`px-3 py-1 rounded-md border ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                  className={`px-3 py-1 rounded-md border ${
+                    currentPage === 1
+                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      : 'bg-white text-black border-black hover:bg-gray-100'
+                  }`}
                   type="button"
                 >
                   Prev
@@ -285,7 +274,11 @@ const Jobs = () => {
                   <button
                     key={idx + 1}
                     onClick={() => handlePageChange(idx + 1)}
-                    className={`px-3 py-1 rounded-md border ${currentPage === idx + 1 ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                    className={`px-3 py-1 rounded-md border ${
+                      currentPage === idx + 1
+                        ? 'bg-black text-white border-black'
+                        : 'bg-white text-black border-black hover:bg-gray-100'
+                    }`}
                     type="button"
                   >
                     {idx + 1}
@@ -294,7 +287,11 @@ const Jobs = () => {
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className={`px-3 py-1 rounded-md border ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                  className={`px-3 py-1 rounded-md border ${
+                    currentPage === totalPages
+                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      : 'bg-white text-black border-black hover:bg-gray-100'
+                  }`}
                   type="button"
                 >
                   Next
@@ -325,7 +322,7 @@ const Jobs = () => {
                   <span className="text-[10px] w-1/3">{item}</span>
                   <div className="flex items-center gap-2 w-2/3">
                     <div className="w-full bg-gray-200 h-2 rounded-full">
-                      <div className="h-2 rounded-full " style={{ width: '50%', backgroundColor: '#030923' }}></div>
+                      <div className="h-2 rounded-full" style={{ width: '50%', backgroundColor: '#030923' }}></div>
                     </div>
                     <span className="text-[10px]">50%</span>
                   </div>
