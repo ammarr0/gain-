@@ -89,7 +89,7 @@ const ProfilePage = () => {
             },
           }
         );
-        if (response.status === 401 || response.status === 400) {
+        if (response.status === 401) {
           setTokenError(true);
           setFetching(false);
           return;
