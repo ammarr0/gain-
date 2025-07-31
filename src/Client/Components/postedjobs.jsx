@@ -40,6 +40,14 @@ function getCookie(name) {
     return null;
 }
 
+// Helper to truncate description to 30 words
+function truncateWords(text, maxWords) {
+    if (!text) return '';
+    const words = text.split(/\s+/);
+    if (words.length <= maxWords) return text;
+    return words.slice(0, maxWords).join(' ') + '...';
+}
+
 function PostedJobs() {
     const navigate = useNavigate();
     const [jobCardsData, setJobCardsData] = useState([]);
@@ -126,7 +134,9 @@ function PostedJobs() {
                                 )}
                             </div>
                             
-                            <p className="text-black text-sm md:text-base mb-2">{job.description}</p>
+                            <p className="text-black text-sm md:text-base mb-2">
+                                {truncateWords(job.description, 30)}
+                            </p>
 
                             <div className="flex flex-wrap gap-4 mb-2">
                                 {/* Location */}
@@ -176,7 +186,14 @@ function PostedJobs() {
                                 <div className="mb-2">
                                     <span className="font-semibold text-sm text-gray-800">Role Descriptions:</span>
                                     <ul className="list-disc list-inside text-sm text-gray-700">
-                                        {job.role_descriptions.map((desc, idx) => desc && <li key={idx}>{desc}</li>)}
+                                        {job.role_descriptions.map(
+                                            (desc, idx) =>
+                                                desc && (
+                                                    <li key={idx}>
+                                                        {truncateWords(desc, 30)}
+                                                    </li>
+                                                )
+                                        )}
                                     </ul>
                                 </div>
                             )}

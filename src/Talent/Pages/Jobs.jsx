@@ -189,16 +189,16 @@ const Jobs = () => {
                 </button>
               ))}
             </div>
-            <div className="space-y-6">
+            <div className="space-y-6  ">
               {loading && <BlueCircleLoader />}
               {error && <div className="text-center text-red-600 py-8">{error}</div>}
               {!loading && !error && jobsToDisplay.length === 0 && (
-                <div className="text-center py-8 text-gray-500">No jobs found.</div>
+                <div className="text-center py-8 text-gray-500 ">No jobs found.</div>
               )}
               {!loading && !error && jobsToDisplay.map((job, index) => (
                 <div
                   key={job._id || index}
-                  className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between cursor-pointer relative"
+                  className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between cursor-pointer relative "
                   onClick={() => navigate(`/talent/jobs/${job._id}`)}
                 >
                   <button
@@ -209,14 +209,14 @@ const Jobs = () => {
                   >
                     <SaveIcon saved={savedJobs.includes(job._id)} />
                   </button>
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
                     <h2 className="text-xl md:text-2xl font-bold text-black">{job.title}</h2>
                     <div className="flex flex-wrap gap-2 md:gap-4 mt-2 md:mt-0">
                       {renderButton("bg-[#030923]", "text-white", "View Job", arrowup, () => navigate(`/talent/jobs/${job._id}`))}
                     </div>
-                  </div>
+                  </div >
                   <p className="text-black mt-2">{getFirstNWords(job.description, 30)}</p>
-                  <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3">
+                  <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3 ">
                     <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />
                     <div>
                       <h3 className="font-semibold text-black">{job.project_type || "N/A"}</h3>

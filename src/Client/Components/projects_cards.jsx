@@ -37,7 +37,7 @@ function JobCard() {
 
                     <p className="text-black mt-2">{job.description}</p>
 
-                    <div className="mt-4 flex flex-col gap-3" style={{border:"4px solid black"}}>
+                    <div className="mt-4 flex flex-col gap-3 " style={{border:"4px solid black"}}>
                         {job.userNames.map((userName, i) => (
                             <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                                 <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />

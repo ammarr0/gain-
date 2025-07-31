@@ -14,6 +14,14 @@ function getCookie(name) {
 
 const accessToken = getCookie('access_token');
 
+// Helper to truncate description to 35 words
+function truncateWords(text, maxWords) {
+  if (!text) return '';
+  const words = text.split(/\s+/);
+  if (words.length <= maxWords) return text;
+  return words.slice(0, maxWords).join(' ') + '...';
+}
+
 function JobCard() {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
@@ -100,7 +108,7 @@ function JobCard() {
               </div>
             </div>
 
-            <p className="text-black mt-2">{job.description}</p>
+            <p className="text-black mt-2">{truncateWords(job.description, 35)}</p>
 
             <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3">
               <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />

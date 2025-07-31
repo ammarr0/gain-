@@ -258,6 +258,7 @@ const NewestMatches = () => {
                 style={{ minHeight: 0 }}
                 onClick={() => navigate(`/talent/jobs/${job._id}`)}
               >
+                
                 <div className="flex justify-between items-start">
                   <Avactor
                     name={job.title}
@@ -309,13 +310,14 @@ const NewestMatches = () => {
                     </button>
                   </div>
                 </div>
-
+                
                 <h3 className="text-lg sm:text-xl font-semibold text-[#030923]">
                   {job.title}
                 </h3>
                 <p className="text-gray-600 text-xl sm:text-2xl mt-2">
                   {job.project_type || "Role"}
                 </p>
+                <hr className="my-3 border-black" />
                 <p className="text-sm font-md mt-2">Skills</p>
                 <ul className="mt-3 list-disc list-inside">
                   {getPositions(job).map((position, posIdx) => (
@@ -327,7 +329,7 @@ const NewestMatches = () => {
                   ))}
                 </ul>
 
-                <hr className="my-3 border-black" />
+               
 
                 <div className="text-sm text-gray-600 space-y-4 mt-4 sm:mt-8">
                   <p className="flex flex-wrap items-center gap-x-4 gap-y-2">
