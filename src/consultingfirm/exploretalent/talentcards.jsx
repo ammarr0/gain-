@@ -6,6 +6,7 @@ import linkedinIcon from "../../assets/linkedin.png";
 import calendarIcon from "../../assets/calender.png";
 import websiteIcon from "../../assets/website.png";
 import msg from "../../assets/msg.png";
+import { useNavigate } from 'react-router-dom';
 
 // Helper function to truncate description to 30 words
 function truncateWords(text, wordLimit) {
@@ -29,6 +30,7 @@ const TalentProfileCard = () => {
   const [talentData, setTalentData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTalentData = async () => {
@@ -182,7 +184,10 @@ const TalentProfileCard = () => {
               </p>
               <hr className="my-4" />
               <div className="flex justify-between items-center mt-4">
-                <button className="border border-blue-600 text-blue-600 p-2 rounded-lg text-sm md:text-base font-semibold hover:bg-blue-50 transition px-5">
+                <button
+                  className="border border-blue-600 text-blue-600 p-2 rounded-lg text-sm md:text-base font-semibold hover:bg-blue-50 transition px-5"
+                  onClick={() => navigate('/client/visit-profile')}
+                >
                   View Profile
                 </button>
                 <div className="flex items-center gap-2">

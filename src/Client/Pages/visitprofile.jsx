@@ -1,104 +1,80 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaLinkedin, FaStar } from "react-icons/fa";
-import { User as UserIcon, Edit2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-
-function getCookie(name) {
-  if (typeof document === "undefined") return null;
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-  return null;
-}
+import { User as UserIcon } from "lucide-react";
 
 const ProfilePage = () => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const user = {
+    first_name: "Areeba",
+    last_name: "Malik",
+    image: "/avatar-demo.jpg",
+    role: "UI/UX Designer",
+    email: "areeba.malik@example.com",
+    country: "Pakistan",
+    city: "Lahore",
+    website: "https://areebadesigns.com",
+    linkedin: "https://linkedin.com/in/areebamalik",
+  };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = getCookie("access_token");
-        if (!token) {
-          setLoading(false);
-          return;
-        }
-        const res = await fetch("https://gain-b7ea8e7de810.herokuapp.com/users", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = await res.json();
-        setUser(Array.isArray(data) ? data[0] : data);
-      } catch (err) {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUser();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-white text-black">
-        <span className="text-xl font-semibold">Loading...</span>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-white text-black">
-        <span className="text-xl font-semibold">User not found or not logged in.</span>
-      </div>
-    );
-  }
-
-  const fullName = `${user.first_name || ""} ${user.last_name || ""}`.trim() || user.email;
+  const fullName = `${user.first_name} ${user.last_name}`;
   const avatar = user.image || "";
-  const role = user.role || "";
-  const email = user.email || "";
-  const country = user.country || "";
-  const city = user.city || "";
-  const website = user.website || "";
-  const linkedin = user.linkedin || "";
+  const role = user.role;
+  const email = user.email;
+  const country = user.country;
+  const city = user.city;
+  const website = user.website;
+  const linkedin = user.linkedin;
   const rating = 5;
-  const earned = "$0";
-  const about = `Email: ${email}\nCountry: ${country}\nCity: ${city}`;
+  const earned = "$4,250";
+  const about = `Hi, I’m Areeba — a passionate UI/UX designer focused on creating intuitive and user-centered interfaces.\n\nEmail: ${email}\nLocation: ${city}, ${country}`;
   const portfolio = [
     {
-      title: "Portfolio Website",
-      desc: "Personal website/portfolio",
+      title: "Mobile App Redesign",
+      desc: "Redesigned an eCommerce app for improved UX",
       img: "/portfolio1.jpg",
+    },
+    {
+      title: "Landing Page",
+      desc: "A modern landing page for a SaaS startup",
+      img: "/portfolio2.jpg",
+    },
+    {
+      title: "Design System",
+      desc: "Built a scalable Figma design system for a large brand",
+      img: "/portfolio3.jpg",
     },
   ];
   const locations = [country, city].filter(Boolean);
-  const skills = [];
+  const skills = ["Figma", "Adobe XD", "User Research", "Prototyping", "Responsive Design"];
   const links = [
     {
       name: "LinkedIn",
-      url: linkedin || "#",
+      url: linkedin,
       icon: <FaLinkedin className="text-gray-700" />,
     },
-    ...(website
-      ? [
-          {
-            name: "Website",
-            url: website,
-            icon: (
-              <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
-                <circle cx="10" cy="10" r="9" stroke="#555" strokeWidth="2" />
-                <path d="M5 10h10M10 5v10" stroke="#555" strokeWidth="2" />
-              </svg>
-            ),
-          },
-        ]
-      : []),
+    {
+      name: "Website",
+      url: website,
+      icon: (
+        <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
+          <circle cx="10" cy="10" r="9" stroke="#555" strokeWidth="2" />
+          <path d="M5 10h10M10 5v10" stroke="#555" strokeWidth="2" />
+        </svg>
+      ),
+    },
   ];
-  const completedJobs = [];
+  const completedJobs = [
+    {
+      title: "Health App UI Design",
+      rating: 5,
+      reviews: 3,
+    },
+    {
+      title: "Web Dashboard Revamp",
+      rating: 4,
+      reviews: 2,
+    },
+  ];
 
   return (
     <div className="min-h-screen w-full bg-white px-0 py-0 font-sans text-black">
@@ -116,16 +92,6 @@ const ProfilePage = () => {
                 <UserIcon size={72} className="text-gray-400" />
               </div>
             )}
-            <button
-              type="button"
-              className="absolute top-2 right-2 bg-white border border-gray-300 rounded-full p-1.5 shadow hover:bg-gray-100 transition z-20"
-              title="Edit Profile"
-              onClick={() => navigate("/talent/edit-profile")}
-              tabIndex={0}
-              aria-label="Edit Profile"
-            >
-              <Edit2 size={22} className="text-gray-700" />
-            </button>
           </div>
           <div>
             <h1 className="text-4xl font-extrabold text-black flex items-center gap-3">
@@ -153,16 +119,6 @@ const ProfilePage = () => {
           >
             <span className="w-3 h-3 bg-blue-400 rounded-full animate-pulse shadow"></span>
             Available Now
-          </button>
-          <button
-            type="button"
-            className="flex items-centeer gap-2 bg-white border border-gray-400 text-black px-6 py-2.5 rounded-xl shadow hover:bg-gray-100 transition font-semibold mt-2 z-10"
-            onClick={() => navigate("/talent/edit-profile")}
-            tabIndex={0}
-            aria-label="Edit Profile"
-          >
-            <Edit2 size={20} className="text-gray-700" />
-            Edit Profile
           </button>
         </div>
       </div>
@@ -220,7 +176,8 @@ const ProfilePage = () => {
               key={index}
               className="relative group h-56 bg-gray-100 rounded-2xl shadow overflow-hidden flex flex-col justify-end p-6 hover:scale-105 hover:shadow-lg transition border border-gray-200"
             >
-              <div className="absolute inset-0 bg-cover bg-center opacity-25 group-hover:opacity-35 transition"
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-25 group-hover:opacity-35 transition"
                 style={{ backgroundImage: `url(${item.img})` }}
               ></div>
               <div className="relative z-10">
@@ -280,26 +237,22 @@ const ProfilePage = () => {
           Completed Jobs
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {completedJobs.length > 0 ? (
-            completedJobs.map((job, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl shadow p-6 flex flex-col gap-3 border border-gray-200 hover:scale-[1.02] hover:shadow-lg transition"
-              >
-                <p className="font-semibold text-black text-lg">{job.title}</p>
-                <div className="flex items-center gap-1 text-yellow-500 text-xl">
-                  {[...Array(job.rating)].map((_, i) => (
-                    <FaStar key={i} />
-                  ))}
-                  <span className="text-gray-600 text-base ml-2">
-                    - {job.reviews} review{job.reviews > 1 ? "s" : ""}
-                  </span>
-                </div>
+          {completedJobs.map((job, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-2xl shadow p-6 flex flex-col gap-3 border border-gray-200 hover:scale-[1.02] hover:shadow-lg transition"
+            >
+              <p className="font-semibold text-black text-lg">{job.title}</p>
+              <div className="flex items-center gap-1 text-yellow-500 text-xl">
+                {[...Array(job.rating)].map((_, i) => (
+                  <FaStar key={i} />
+                ))}
+                <span className="text-gray-600 text-base ml-2">
+                  - {job.reviews} review{job.reviews > 1 ? "s" : ""}
+                </span>
               </div>
-            ))
-          ) : (
-            <span className="text-gray-500">No completed jobs.</span>
-          )}
+            </div>
+          ))}
         </div>
       </div>
     </div>
