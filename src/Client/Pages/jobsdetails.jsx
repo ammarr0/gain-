@@ -92,8 +92,9 @@ const JobPostPage = () => {
     rating: job?.rating || 4.7
   };
 
+
   const handleApplyClick = () => {
-    alert("Apply clicked!");
+    window.location.href = "/talent/apply";
   };
   const handleSaveClick = () => {
     setIsSaved((prev) => !prev);
