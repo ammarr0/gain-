@@ -3,6 +3,58 @@ import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const requiredFields = [
+  'first_name',
+  'last_name',
+  'role',
+  'email',
+  'dob',
+  'country_code',
+  'phone_no',
+  'password',
+  'country',
+  'city',
+  'street',
+  'website',
+  'linkedin',
+];
+
+const validateField = (name, value) => {
+  if (requiredFields.includes(name) && !value.trim()) {
+    return 'This field is required';
+  }
+  if (name === 'email' && value) {
+    // Simple email regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) return 'Invalid email address';
+  }
+  if (name === 'website' && value) {
+    try {
+      new URL(value);
+    } catch {
+      return 'Invalid URL';
+    }
+  }
+  if (name === 'linkedin' && value) {
+    try {
+      new URL(value);
+    } catch {
+      return 'Invalid URL';
+    }
+  }
+  if (name === 'image' && value) {
+    try {
+      new URL(value);
+    } catch {
+      return 'Invalid URL';
+    }
+  }
+  if (name === 'password' && value && value.length < 6) {
+    return 'Password must be at least 6 characters';
+  }
+  return '';
+};
+
 const FirmSignUpModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     image: '',
@@ -21,6 +73,8 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
     linkedin: '',
   });
 
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
 
@@ -35,10 +89,43 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+    // Validate on change
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: validateField(name, value),
+    }));
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: validateField(name, value),
+    }));
+  };
+
+  const validateAll = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach((key) => {
+      const error = validateField(key, formData[key]);
+      if (error) newErrors[key] = error;
+    });
+    return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newErrors = validateAll();
+    setErrors(newErrors);
+    setTouched(
+      Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {})
+    );
+    if (Object.keys(newErrors).length > 0) {
+      toast.error('Please fix the errors in the form.', { autoClose: 2000 });
+      return;
+    }
     try {
       const response = await fetch(`https://gain-b7ea8e7de810.herokuapp.com/auth/sign-up`, {
         method: 'POST',
@@ -139,8 +226,11 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
                     name={name}
                     value={formData[name]}
                     onChange={handleChange}
-                    required
-                    className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    onBlur={handleBlur}
+                    required={requiredFields.includes(name)}
+                    className={`w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none ${
+                      errors[name] && touched[name] ? 'border-red-500' : ''
+                    }`}
                   >
                     <option value="" disabled>Select a role</option>
                     {options.map((option) => (
@@ -155,10 +245,16 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
                     name={name}
                     value={formData[name]}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder={placeholder}
-                    required
-                    className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    required={requiredFields.includes(name)}
+                    className={`w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none ${
+                      errors[name] && touched[name] ? 'border-red-500' : ''
+                    }`}
                   />
+                )}
+                {errors[name] && touched[name] && (
+                  <span className="text-xs text-red-500">{errors[name]}</span>
                 )}
               </div>
             ))}

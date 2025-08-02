@@ -3,6 +3,55 @@ import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const validateField = (name, value) => {
+  switch (name) {
+    case 'first_name':
+    case 'last_name':
+    case 'country':
+    case 'city':
+    case 'street':
+      if (!value.trim()) return 'This field is required';
+      break;
+    case 'role':
+      if (!value) return 'Please select a role';
+      break;
+    case 'email':
+      if (!value.trim()) return 'Email is required';
+      // Simple email regex
+      if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/.test(value)) return 'Invalid email address';
+      break;
+    case 'dob':
+      if (!value) return 'Date of Birth is required';
+      break;
+    case 'country_code':
+      if (!value.trim()) return 'Country code is required';
+      if (!/^\+?\d{1,4}$/.test(value)) return 'Invalid country code';
+      break;
+    case 'phone_no':
+      if (!value.trim()) return 'Phone number is required';
+      if (!/^\d{7,15}$/.test(value.replace(/\D/g, ''))) return 'Invalid phone number';
+      break;
+    case 'password':
+      if (!value) return 'Password is required';
+      if (value.length < 6) return 'Password must be at least 6 characters';
+      break;
+    case 'website':
+      if (!value.trim()) return 'Website is required';
+      if (!/^https?:\/\/.+\..+/.test(value)) return 'Invalid URL';
+      break;
+    case 'linkedin':
+      if (!value.trim()) return 'LinkedIn is required';
+      if (!/^https?:\/\/(www\.)?linkedin\.com\/.+/.test(value)) return 'Invalid LinkedIn URL';
+      break;
+    case 'image':
+      if (value && !/^https?:\/\/.+\..+/.test(value)) return 'Invalid image URL';
+      break;
+    default:
+      break;
+  }
+  return '';
+};
+
 const FirmSignUpModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     image: '',
@@ -21,7 +70,9 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
     linkedin: '',
   });
 
+  const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [touched, setTouched] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,10 +86,43 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+    // Validate on change
+    setErrors((prev) => ({
+      ...prev,
+      [name]: validateField(name, value),
+    }));
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setErrors((prev) => ({
+      ...prev,
+      [name]: validateField(name, value),
+    }));
+  };
+
+  const validateAll = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach((key) => {
+      const err = validateField(key, formData[key]);
+      if (err) newErrors[key] = err;
+    });
+    setErrors(newErrors);
+    return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const validationErrors = validateAll();
+    setTouched(
+      Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {})
+    );
+    if (Object.values(validationErrors).some(Boolean)) {
+      toast.error('Please fix the errors in the form.', { autoClose: 2000 });
+      return;
+    }
     try {
       const response = await fetch(`https://gain-b7ea8e7de810.herokuapp.com/auth/sign-up`, {
         method: 'POST',
@@ -102,13 +186,13 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
 
         <div className="custom-scrollbar">
           <h1 className="text-3xl font-bold text-gray-900 text-left ml-2">
-          Sign Up As Client
+            Sign Up As Client
           </h1>
           <p className="text-left text-gray-600 mb-6 ml-2">
             You are in good company.
           </p>
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6" noValidate>
             {[
               { label: 'Image URL', name: 'image', type: 'url', placeholder: 'http://example.com/image.jpg' },
               { label: 'First Name*', name: 'first_name', type: 'text', placeholder: 'First Name' },
@@ -139,8 +223,11 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
                     name={name}
                     value={formData[name]}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     required
-                    className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    className={`w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none ${
+                      errors[name] && touched[name] ? 'border-red-500' : ''
+                    }`}
                   >
                     <option value="" disabled>Select a role</option>
                     {options.map((option) => (
@@ -155,10 +242,16 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
                     name={name}
                     value={formData[name]}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder={placeholder}
-                    required
-                    className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    required={label.includes('*')}
+                    className={`w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none ${
+                      errors[name] && touched[name] ? 'border-red-500' : ''
+                    }`}
                   />
+                )}
+                {errors[name] && touched[name] && (
+                  <span className="text-xs text-red-600 mt-1 block">{errors[name]}</span>
                 )}
               </div>
             ))}

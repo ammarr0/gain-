@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 const ProjectAvatar = ({ name = "", image, size = 64 }) => {
   const initials = name
     ? name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .slice(0, 2)
-        .toUpperCase()
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase()
     : "PR";
 
   const gradient =
@@ -179,7 +179,7 @@ const ProjectsList = () => {
           text: `Check out this project: ${project.title}`,
           url: projectUrl,
         })
-        .catch(() => {});
+        .catch(() => { });
     } else if (navigator.clipboard) {
       navigator.clipboard.writeText(projectUrl).then(
         () => {
@@ -286,7 +286,7 @@ const ProjectsList = () => {
                   title={project.project_type ? project.project_type : "Project Type"}
                   style={{ maxWidth: "100%" }}
                 >
-                  {project.project_type ? project.project_type : "Project Type"}
+                  {project.category ? project.category : "Other"}
                 </p>
                 <p
                   className="text-2xl font-semibold mt-4 truncate"
@@ -296,10 +296,10 @@ const ProjectsList = () => {
                   {project.budget_range
                     ? project.budget_range
                     : project.hourly_rate
-                    ? `$${project.hourly_rate}/hr`
-                    : project.budget
-                    ? `$${project.budget}`
-                    : "N/A"}
+                      ? `$${project.hourly_rate}/hr`
+                      : project.budget
+                        ? `$${project.budget}`
+                        : "N/A"}
                 </p>
 
                 <hr className="my-3 border-black" />

@@ -3,6 +3,40 @@ import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const fieldValidators = {
+  image: (v) => !v || /^https?:\/\/.+\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(v),
+  first_name: (v) => !!v.trim(),
+  last_name: (v) => !!v.trim(),
+  role: (v) => !!v,
+  email: (v) => !!v && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+  dob: (v) => !!v,
+  country_code: (v) => !!v.trim(),
+  phone_no: (v) => !!v.trim(),
+  password: (v) => !!v,
+  country: (v) => !!v.trim(),
+  city: (v) => !!v.trim(),
+  street: (v) => !!v.trim(),
+  website: (v) => !!v || /^https?:\/\/.+/i.test(v),
+  linkedin: (v) => !!v || /^https?:\/\/(www\.)?linkedin\.com\/.+/i.test(v),
+};
+
+const fieldErrorMessages = {
+  image: 'Please enter a valid image URL (jpg, png, etc.) or leave blank.',
+  first_name: 'First name is required.',
+  last_name: 'Last name is required.',
+  role: 'Role is required.',
+  email: 'Please enter a valid email address.',
+  dob: 'Date of birth is required.',
+  country_code: 'Country code is required.',
+  phone_no: 'Phone number is required.',
+  password: 'Password is required.',
+  country: 'Country is required.',
+  city: 'City is required.',
+  street: 'Street is required.',
+  website: 'Please enter a valid website URL or leave blank.',
+  linkedin: 'Please enter a valid LinkedIn URL or leave blank.',
+};
+
 const FirmSignUpModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     image: '',
@@ -21,6 +55,8 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
     linkedin: '',
   });
 
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
 
@@ -32,13 +68,53 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
+  const validateField = (name, value) => {
+    if (fieldValidators[name]) {
+      return fieldValidators[name](value);
+    }
+    return true;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+    // Validate on change
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: !validateField(name, value),
+    }));
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: !validateField(name, value),
+    }));
+  };
+
+  const validateAll = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach((key) => {
+      if (!validateField(key, formData[key])) {
+        newErrors[key] = true;
+      }
+    });
+    setErrors(newErrors);
+    setTouched(
+      Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {})
+    );
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateAll()) {
+      toast.error('Please fix the errors in the form.', { autoClose: 2000 });
+      return;
+    }
     try {
       const response = await fetch(`https://gain-b7ea8e7de810.herokuapp.com/auth/sign-up`, {
         method: 'POST',
@@ -102,7 +178,7 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
 
         <div className="custom-scrollbar">
           <h1 className="text-3xl font-bold text-gray-900 text-left ml-2">
-          Sign Up As Consulting Firm
+            Sign Up As Consulting Firm
           </h1>
           <p className="text-left text-gray-600 mb-6 ml-2">
             You are in good company.
@@ -119,7 +195,6 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
                 type: 'select',
                 options: [
                   'COMPANY',
-
                   'USER',
                 ],
               },
@@ -141,8 +216,11 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
                     name={name}
                     value={formData[name]}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     required
-                    className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    className={`w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none ${
+                      errors[name] && touched[name] ? 'border-red-500' : ''
+                    }`}
                   >
                     <option value="" disabled>Select a role</option>
                     {options.map((option) => (
@@ -157,10 +235,16 @@ const FirmSignUpModal = ({ isOpen, onClose }) => {
                     name={name}
                     value={formData[name]}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder={placeholder}
                     required
-                    className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    className={`w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none ${
+                      errors[name] && touched[name] ? 'border-red-500' : ''
+                    }`}
                   />
+                )}
+                {errors[name] && touched[name] && (
+                  <span className="text-xs text-red-500">{fieldErrorMessages[name]}</span>
                 )}
               </div>
             ))}
