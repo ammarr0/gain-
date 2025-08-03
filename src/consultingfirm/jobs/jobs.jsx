@@ -1,19 +1,67 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import User from "../../assets/user.png";
 import location from "../../assets/location.png";
 import arrowup from "../../assets/arrow-up-right-white.png";
-import arrowupblack from "../../assets/arrow-up-right-black.png";
-import { useNavigate } from 'react-router-dom';
 
-// Helper to get cookie
-function getCookie(name) {
+const SaveIcon = ({ saved, ...props }) => (
+  <svg
+    width="24"
+    height="24"
+    fill="none"
+    stroke={saved ? "#007DF0" : "#A0AEC0"}
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+    {...props}
+  >
+    <path
+      d="M6 4a2 2 0 0 0-2 2v14l8-5.333L20 20V6a2 2 0 0 0-2-2H6z"
+      fill={saved ? "#007DF0" : "none"}
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+const BlueCircleLoader = () => (
+  <div className="flex justify-center items-center py-8">
+    <div
+      className="animate-spin rounded-full border-4 border-blue-500 border-t-transparent h-12 w-12"
+      role="status"
+      aria-label="Loading"
+    />
+  </div>
+);
+
+const getCookie = (name) => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return null;
-}
+  return parts.length === 2 ? parts.pop().split(';').shift() : null;
+};
 
-const accessToken = getCookie('access_token');
+const TABS = [
+  { label: 'Project Management Jobs', key: 'pm' },
+  { label: 'All Jobs', key: 'all' },
+  { label: 'Saved Jobs', key: 'saved' }
+];
+
+const getFirstNWords = (text, n) => {
+  if (!text) return '';
+  const words = text.split(/\s+/);
+  return words.length <= n ? text : words.slice(0, n).join(' ') + '...';
+};
+
+const jobHasProjectManagementSkills = (job) => {
+  if (!job) return false;
+  const checkSkill = (skill) => {
+    if (typeof skill !== 'string') return false;
+    const s = skill.toLowerCase();
+    return s.includes('manager') || s.includes('management') || s.includes('project management');
+  };
+  if (typeof job.skills === 'string') return checkSkill(job.skills);
+  if (Array.isArray(job.skills)) return job.skills.some(checkSkill);
+  return false;
+};
 
 const Jobs = () => {
   const navigate = useNavigate();
@@ -22,28 +70,52 @@ const Jobs = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 10;
+  const [savedJobs, setSavedJobs] = useState(() => {
+    try {
+      const saved = localStorage.getItem('savedJobs');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [activeTab, setActiveTab] = useState('pm');
 
   useEffect(() => {
     setLoading(true);
+    setError(null);
+
+    // Get access_token from cookies just before fetch
+    const accessToken = getCookie('access_token');
+
     fetch('https://gain-b7ea8e7de810.herokuapp.com/jobs/list', {
       headers: {
         'Authorization': accessToken ? `Bearer ${accessToken}` : ''
       }
     })
-      .then(response => response.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
       .then(data => {
-        if (data && data.status && Array.isArray(data.data)) {
-          setJobs(data.data);
-        } else {
-          setJobs([]);
-        }
+        setJobs(data && data.status && Array.isArray(data.data) ? data.data : []);
         setLoading(false);
       })
-      .catch(error => {
+      .catch(() => {
         setError('Error fetching jobs');
         setLoading(false);
       });
   }, []);
+
+  const handleSaveJob = (jobId, e) => {
+    e.stopPropagation();
+    setSavedJobs(prev => {
+      const updated = prev.includes(jobId)
+        ? prev.filter(id => id !== jobId)
+        : [...prev, jobId];
+      localStorage.setItem('savedJobs', JSON.stringify(updated));
+      return updated;
+    });
+  };
 
   const renderButton = (bgColor, textColor, text, imgSrc, onClick) => (
     <button
@@ -52,6 +124,7 @@ const Jobs = () => {
         e.stopPropagation();
         onClick();
       }}
+      type="button"
     >
       {text} <img src={imgSrc} alt="" className="ml-1" />
     </button>
@@ -64,25 +137,30 @@ const Jobs = () => {
     </div>
   );
 
-  // Pagination logic
-  const totalPages = Math.ceil(jobs.length / jobsPerPage);
+  let filteredJobs = jobs;
+  if (activeTab === 'pm') {
+    filteredJobs = jobs.filter(jobHasProjectManagementSkills);
+  } else if (activeTab === 'saved') {
+    filteredJobs = jobs.filter(job => savedJobs.includes(job._id));
+  }
+
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
   const startIdx = (currentPage - 1) * jobsPerPage;
-  const endIdx = startIdx + jobsPerPage;
-  const jobsToDisplay = jobs.slice(startIdx, endIdx);
+  const jobsToDisplay = filteredJobs.slice(startIdx, startIdx + jobsPerPage);
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab, jobs.length]);
 
   return (
     <div className="w-full min-h-screen flex flex-col bg-white">
       <div className="flex-1 flex flex-col lg:flex-row">
-        {/* Main Content */}
         <div className="w-full lg:w-3/4 p-4 sm:p-6 md:p-8">
           <div className="mx-auto max-w-6xl">
-            {/* Header Section */}
             <div className="flex flex-col md:flex-row gap-4 mb-8">
               <div className="bg-[#C7E1FF] rounded-2xl p-6 sm:p-8 md:w-1/2 h-48 sm:h-60 md:h-72 flex items-center">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-gray-900 mb-2 leading-tight">
@@ -97,50 +175,54 @@ const Jobs = () => {
                 </p>
               </div>
             </div>
-            {/* Tabs */}
             <div className="flex flex-wrap items-center space-x-0 sm:space-x-6 border-b border-gray-200 mb-8">
-              {['Project Management Jobs', 'All Jobs', 'Saved Jobs'].map((tab, index) => (
+              {TABS.map(tab => (
                 <button
-                  key={index}
-                  className={`pb-2 mr-4 sm:mr-0 mb-2 sm:mb-0 ${index === 0 ? 'text-gray-900 font-semibold border-b-4 border-blue-500' : 'text-gray-500 hover:text-gray-700'}`}
+                  key={tab.key}
+                  className={`pb-2 mr-4 sm:mr-0 mb-2 sm:mb-0 ${
+                    activeTab === tab.key
+                      ? 'text-gray-900 font-semibold border-b-4 border-blue-500'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                  onClick={() => setActiveTab(tab.key)}
+                  type="button"
                 >
-                  {tab}
+                  {tab.label}
                 </button>
               ))}
             </div>
-            {/* Job Cards */}
-            <div className="space-y-6">
-              {loading && (
-                <div className="text-center py-8">Loading jobs...</div>
-              )}
-              {error && (
-                <div className="text-center text-red-600 py-8">{error}</div>
-              )}
+            <div className="space-y-6  ">
+              {loading && <BlueCircleLoader />}
+              {error && <div className="text-center text-red-600 py-8">{error}</div>}
               {!loading && !error && jobsToDisplay.length === 0 && (
-                <div className="text-center py-8 text-gray-500">No jobs found.</div>
+                <div className="text-center py-8 text-gray-500 ">No jobs found.</div>
               )}
               {!loading && !error && jobsToDisplay.map((job, index) => (
                 <div
                   key={job._id || index}
-                  className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between cursor-pointer"
+                  className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between cursor-pointer relative "
                   onClick={() => navigate(`/consultingfirm/jobs/${job._id}`)}
                 >
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                  <button
+                    className="absolute bottom-4 right-4 z-10 p-1 rounded-full hover:bg-gray-100"
+                    onClick={e => handleSaveJob(job._id, e)}
+                    aria-label={savedJobs.includes(job._id) ? "Unsave Job" : "Save Job"}
+                    type="button"
+                  >
+                    <SaveIcon saved={savedJobs.includes(job._id)} />
+                  </button>
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
                     <h2 className="text-xl md:text-2xl font-bold text-black">{job.title}</h2>
                     <div className="flex flex-wrap gap-2 md:gap-4 mt-2 md:mt-0">
-                      {renderButton("bg-white border border-[#030923]", "text-[#030923]", "Manage Job", arrowupblack, () => navigate(`/consultingfirm/jobs/${job._id}`))}
                       {renderButton("bg-[#030923]", "text-white", "View Job", arrowup, () => navigate(`/consultingfirm/jobs/${job._id}`))}
                     </div>
-                  </div>
-
-                  <p className="text-black mt-2">{job.description}</p>
-
-                  <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3">
+                  </div >
+                  <p className="text-black mt-2">{getFirstNWords(job.description, 30)}</p>
+                  <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3 ">
                     <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />
                     <div>
                       <h3 className="font-semibold text-black">{job.project_type || "N/A"}</h3>
                       <hr className="border-black" />
-                      <p className="text-xs text-black">{job.location}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       {renderInfoItem(location, "Location", job.location)}
@@ -150,17 +232,14 @@ const Jobs = () => {
                       <span className="text-lg text-gray-700">{job.hourly_rate}</span>
                     </div>
                   </div>
-                  <div className='flex flex-col md:flex-row gap-4 mt-2'>
-                    {job.skills && job.skills.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {job.skills.map((skill, idx) => (
-                          <span key={idx} className="bg-white border border-gray-200 text-sm text-black rounded px-3 py-1">{skill}</span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {job.files && job.files.length > 0 && (
+                  {Array.isArray(job.skills) && job.skills.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {job.skills.map((skill, idx) => (
+                        <span key={idx} className="bg-white border border-gray-200 text-sm text-black rounded px-3 py-1">{skill}</span>
+                      ))}
+                    </div>
+                  )}
+                  {Array.isArray(job.files) && job.files.length > 0 && (
                     <div className="mt-2 flex flex-col gap-1">
                       <span className="text-xs font-semibold text-gray-700">Files:</span>
                       {job.files.map((file, idx) => (
@@ -179,13 +258,17 @@ const Jobs = () => {
                 </div>
               ))}
             </div>
-            {/* Pagination Controls */}
             {!loading && !error && totalPages > 1 && (
               <div className="flex justify-center items-center mt-8 gap-2">
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className={`px-3 py-1 rounded-md border ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                  className={`px-3 py-1 rounded-md border ${
+                    currentPage === 1
+                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      : 'bg-white text-black border-black hover:bg-gray-100'
+                  }`}
+                  type="button"
                 >
                   Prev
                 </button>
@@ -193,7 +276,12 @@ const Jobs = () => {
                   <button
                     key={idx + 1}
                     onClick={() => handlePageChange(idx + 1)}
-                    className={`px-3 py-1 rounded-md border ${currentPage === idx + 1 ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                    className={`px-3 py-1 rounded-md border ${
+                      currentPage === idx + 1
+                        ? 'bg-black text-white border-black'
+                        : 'bg-white text-black border-black hover:bg-gray-100'
+                    }`}
+                    type="button"
                   >
                     {idx + 1}
                   </button>
@@ -201,7 +289,12 @@ const Jobs = () => {
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className={`px-3 py-1 rounded-md border ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-black border-black hover:bg-gray-100'}`}
+                  className={`px-3 py-1 rounded-md border ${
+                    currentPage === totalPages
+                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      : 'bg-white text-black border-black hover:bg-gray-100'
+                  }`}
+                  type="button"
                 >
                   Next
                 </button>
@@ -209,7 +302,6 @@ const Jobs = () => {
             )}
           </div>
         </div>
-        {/* Sidebar */}
         <div className="w-full lg:w-1/4 p-4 sm:p-6 md:p-6 lg:p-6 ml-0 lg:ml-auto rounded-lg">
           <div className="bg-white shadow-md rounded-2xl p-4 sm:p-6 flex flex-col gap-4 mb-6">
             <div className="flex items-center gap-4">
@@ -232,7 +324,7 @@ const Jobs = () => {
                   <span className="text-[10px] w-1/3">{item}</span>
                   <div className="flex items-center gap-2 w-2/3">
                     <div className="w-full bg-gray-200 h-2 rounded-full">
-                      <div className="h-2 rounded-full " style={{ width: '50%', backgroundColor: '#030923' }}></div>
+                      <div className="h-2 rounded-full" style={{ width: '50%', backgroundColor: '#030923' }}></div>
                     </div>
                     <span className="text-[10px]">50%</span>
                   </div>

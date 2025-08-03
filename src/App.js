@@ -115,6 +115,7 @@ const App = () => {
                 <Route path="jobs" element={<Jobs />} />
                 <Route path="jobs/:id" element={<CFJobsDetails />} />
                 <Route path="projects" element={<Projects />} />
+                <Route path="projects/:id" element={<ProjectDetails />} />
                 <Route path="tracker" element={<Invites />} />
                 <Route path="applications" element={<Applications />} />
                 <Route path="joboffers" element={<Offers />} />
@@ -127,6 +128,7 @@ const App = () => {
                 <Route path="explore-talent" element={<ExploreTalentsSection />} />
                 <Route path="profile" element={<><Profile /></>} />
                 <Route path="post-success" element={<><PostSuccess /></>} />
+
               </Routes>
             </div>
           </>
@@ -199,3 +201,4 @@ const App = () => {
 };
 
 export default App;
+

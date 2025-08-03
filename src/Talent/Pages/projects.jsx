@@ -40,8 +40,6 @@ function getCookie(name) {
   return null;
 }
 
-const accessToken = getCookie('access_token');
-
 const TABS = [
   { label: 'Project Management Projects', key: 'pm' },
   { label: 'All Projects', key: 'all' },
@@ -54,7 +52,7 @@ function truncateWords(text, wordLimit) {
   return words.length <= wordLimit ? text : words.slice(0, wordLimit).join(' ') + '...';
 }
 
-const Projects = () => {
+const  Projects = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -70,6 +68,10 @@ const Projects = () => {
   useEffect(() => {
     setLoading(true);
     setError(null);
+
+    // Always get the latest access_token from cookies before making the request
+    const accessToken = getCookie('access_token');
+
     fetch('https://gain-b7ea8e7de810.herokuapp.com/projects/list', {
       headers: {
         'Authorization': accessToken ? `Bearer ${accessToken}` : ''

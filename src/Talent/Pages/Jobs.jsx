@@ -39,8 +39,6 @@ const getCookie = (name) => {
   return parts.length === 2 ? parts.pop().split(';').shift() : null;
 };
 
-const accessToken = getCookie('access_token');
-
 const TABS = [
   { label: 'Project Management Jobs', key: 'pm' },
   { label: 'All Jobs', key: 'all' },
@@ -85,6 +83,10 @@ const Jobs = () => {
   useEffect(() => {
     setLoading(true);
     setError(null);
+
+    // Get access_token from cookies just before fetch
+    const accessToken = getCookie('access_token');
+
     fetch('https://gain-b7ea8e7de810.herokuapp.com/jobs/list', {
       headers: {
         'Authorization': accessToken ? `Bearer ${accessToken}` : ''
