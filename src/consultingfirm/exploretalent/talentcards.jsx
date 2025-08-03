@@ -186,7 +186,7 @@ const TalentProfileCard = () => {
               <div className="flex justify-between items-center mt-4">
                 <button
                   className="border border-blue-600 text-blue-600 p-2 rounded-lg text-sm md:text-base font-semibold hover:bg-blue-50 transition px-5"
-                  onClick={() => navigate('/client/visit-profile')}
+                  onClick={() => navigate(`/client/profile/${talent._id}`)}
                 >
                   View Profile
                 </button>

@@ -1,65 +1,54 @@
-import React, { useRef } from 'react';
-import { CheckCircleIcon, StarIcon, MessageSquareIcon } from 'lucide-react';
+import React, { useRef, useEffect, useState } from 'react';
+import { CheckCircleIcon, MessageSquareIcon } from 'lucide-react';
 
-const candidates = [
-  {
-    name: 'Abdullah Ahmad',
-    country: 'Pakistan',
-    title: 'Senior Product Designer',
-    rate: '$100.00/hr',
-    rating: '4.9',
-    reviews: '32',
-    available: true
-  },
-  {
-    name: 'John Doe',
-    country: 'USA',
-    title: 'Software Engineer',
-    rate: '$120.00/hr',
-    rating: '4.8',
-    reviews: '45',
-    available: true
-  },
-  {
-    name: 'Jane Smith',
-    country: 'UK',
-    title: 'Data Scientist',
-    rate: '$110.00/hr',
-    rating: '4.7',
-    reviews: '38',
-    available: true
-  },
-  {
-    name: 'Carlos Rodriguez',
-    country: 'Spain',
-    title: 'UI/UX Designer',
-    rate: '$105.00/hr',
-    rating: '4.6',
-    reviews: '41',
-    available: true
-  },
-  {
-    name: 'Li Mei',
-    country: 'China',
-    title: 'Backend Developer',
-    rate: '$115.00/hr',
-    rating: '4.9',
-    reviews: '50',
-    available: true
-  },
-  {
-    name: 'Sophie Martin',
-    country: 'France',
-    title: 'Frontend Developer',
-    rate: '$100.00/hr',
-    rating: '4.8',
-    reviews: '35',
-    available: true
-  },
-];
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
 
 const PersonalisedTalent = () => {
   const scrollRef = useRef(null);
+  const [talentData, setTalentData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchTalentData = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const accessToken = getCookie('access_token');
+        if (!accessToken) {
+          setError('No access token found.');
+          setLoading(false);
+          return;
+        }
+        const response = await fetch('https://gain-b7ea8e7de810.herokuapp.com/users/list', {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Failed to load talent data.');
+        }
+        const data = await response.json();
+        if (data && data.status && Array.isArray(data.data)) {
+          setTalentData(data.data);
+        } else {
+          setError('Failed to load talent data.');
+        }
+      } catch (err) {
+        setError('Failed to load talent data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTalentData();
+  }, []);
 
   const scrollLeft = () => {
     if (scrollRef.current) {
@@ -72,6 +61,9 @@ const PersonalisedTalent = () => {
       scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
     }
   };
+
+  // Only show INDIVIDUAL_TALENT
+  const candidates = talentData.filter(t => t.role === 'INDIVIDUAL_TALENT');
 
   return (
     <section className="p-1 bg-white rounded-2xl max-w-7xl mx-auto w-full">
@@ -118,62 +110,80 @@ const PersonalisedTalent = () => {
           WebkitOverflowScrolling: 'touch',
         }}
       >
-        {candidates.map((candidate, idx) => (
-          <div
-            key={idx}
-            className="
-              border 
-              rounded-3xl 
-              p-5 
-              sm:p-8 
-              min-w-[85vw] 
-              max-w-[95vw]
-              sm:min-w-[330px] 
-              sm:max-w-[340px]
-              min-h-[340px] 
-              flex 
-              flex-col 
-              items-start 
-              relative
-              bg-white
-              snap-start
-              "
-            style={{
-              flex: '0 0 auto',
-            }}
-          >
-            <div className="w-16 h-16 rounded-full overflow-hidden mb-3 mx-auto">
-              <img src="/assets/user.png" alt="Profile" className="w-full h-full object-cover" />
-            </div>
+        {loading ? (
+          <div className="text-center w-full py-10 text-lg text-gray-600">Loading talent data...</div>
+        ) : error ? (
+          <div className="text-center w-full py-10 text-lg text-red-600">{error}</div>
+        ) : candidates.length === 0 ? (
+          <div className="text-center w-full py-10 text-lg text-gray-600">No talent found.</div>
+        ) : (
+          candidates.map((candidate, idx) => (
+            <div
+              key={candidate._id || idx}
+              className="
+                border 
+                rounded-3xl 
+                p-5 
+                sm:p-8 
+                min-w-[85vw] 
+                max-w-[95vw]
+                sm:min-w-[330px] 
+                sm:max-w-[340px]
+                min-h-[340px] 
+                flex 
+                flex-col 
+                items-start 
+                relative
+                bg-white
+                snap-start
+                "
+              style={{
+                flex: '0 0 auto',
+              }}
+            >
+              <div className="w-16 h-16 rounded-full overflow-hidden mb-3 mx-auto">
+                <img
+                  src={
+                    candidate.image && candidate.image.startsWith('http')
+                      ? candidate.image
+                      : "/assets/user.png"
+                  }
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                  onError={e => { e.target.onerror = null; e.target.src = "/assets/user.png"; }}
+                />
+              </div>
 
-            <h3 className="text-lg sm:text-xl font-bold">{candidate.name}</h3>
-            <p className="text-black text-sm sm:text-base">{candidate.country}</p>
-            <p className="text-[#007DF0] font-medium mt-1 text-sm sm:text-base">{candidate.title}</p>
+              <h3 className="text-lg sm:text-xl font-bold">
+                {candidate.first_name} {candidate.last_name}
+              </h3>
+              <p className="text-black text-sm sm:text-base">{candidate.country || candidate.city || 'Unknown'}</p>
+              {/* Email removed */}
+              {/* Static data removed: rate, rating, reviews */}
+              {/* <p className="text-[#007DF0] font-medium mt-1 text-sm sm:text-base">{candidate.email}</p> */}
+              {/* <div className="flex items-center flex-wrap gap-x-2 text-gray-600 mt-3 text-sm">
+                <img src="/assets/dollar.png" alt="Dollar" className="w-4 h-4 mr-1" />
+                <span>{"$100.00/hr"}</span>
+                <StarIcon className="w-4 h-4 text-black-500" />
+                <span>{"4.9"}</span>
+                <span>{"(32)"}</span>
+              </div> */}
 
-            <div className="flex items-center flex-wrap gap-x-2 text-gray-600 mt-3 text-sm">
-              <img src="/assets/dollar.png" alt="Dollar" className="w-4 h-4 mr-1" />
-              <span>{candidate.rate}</span>
-              <StarIcon className="w-4 h-4 text-black-500" />
-              <span>{candidate.rating}</span>
-              <span>({candidate.reviews})</span>
-            </div>
-
-            {candidate.available && (
               <div className="flex items-center mt-2 text-black text-sm">
                 <CheckCircleIcon className="w-4 h-4 mr-1" /> <span>Available Now</span>
               </div>
-            )}
 
-            <div className="w-full flex justify-between items-center mt-auto pt-4 gap-2">
-              <button className="w-[70%] sm:w-[75%] bg-white text-gray-900 border border-gray-900 py-2 rounded-2xl hover:bg-gray-100 transition-all text-sm sm:text-base">
-                View Profile
-              </button>
-              <button className="p-2 border border-black rounded-xl hover:bg-gray-100">
-                <MessageSquareIcon className="w-5 h-5" />
-              </button>
+              <div className="w-full flex justify-between items-center mt-auto pt-4 gap-2">
+                <button className="w-[70%] sm:w-[75%] bg-white text-gray-900 border border-gray-900 py-2 rounded-2xl hover:bg-gray-100 transition-all text-sm sm:text-base">
+                  View Profile
+                </button>
+                <button className="p-2 border border-black rounded-xl hover:bg-gray-100">
+                  <MessageSquareIcon className="w-5 h-5" />
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </section>
   );

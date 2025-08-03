@@ -153,7 +153,7 @@ const App = () => {
                 <Route path="post-projects" element={<PostProject />} />
                 <Route path="post-course" element={<PostCourse />} />
                 <Route path="profile" element={<><Profile /></>} />
-                <Route path="visit-profile" element={<><Visit /></>} />
+                <Route path="profile/:id" element={<><Visit /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="make-invoices" element={<><MakeInvoices /></>} />
                 <Route path="post-success" element={<><PostSuccess /></>} />
