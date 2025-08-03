@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import SidebarApplyJob from "../../components/Apply";
 
 const iconMap = {
   "location.png": require("../../assets/location.png"),
@@ -107,7 +106,7 @@ const JobPostPage = () => {
   return (
     <div className="flex flex-col lg:flex-row items-start min-h-screen bg-white py-8 w-full">
       {/* Main Content */}
-      <div className="w-full lg:w-3/4 bg-white shadow-lg rounded-2xl p-6 md:p-10">
+      <div className="w-full bg-white shadow-lg rounded-2xl p-6 md:p-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 border-b pb-4">
           <div>
@@ -284,16 +283,6 @@ const JobPostPage = () => {
             </ul>
           </div>
         )}
-      </div>
-      {/* Right Sidebar */}
-      <div className="w-full lg:w-1/4 px-0 lg:pr-8 mt-8 lg:mt-0 ml-2">
-        <SidebarApplyJob
-          onApplyClick={handleApplyClick}
-          onSaveClick={handleSaveClick}
-          isSaved={isSaved}
-          client={clientInfo}
-          disabled={!!job.is_disabled}
-        />
       </div>
     </div>
   );

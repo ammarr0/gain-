@@ -8,11 +8,38 @@ const LoginModal = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
+
+  const validateInputs = () => {
+    let valid = true;
+    setEmailError('');
+    setPasswordError('');
+    setLoginError('');
+
+    if (!email) {
+      setEmailError('Email is required.');
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError('Please enter a valid email address.');
+      valid = false;
+    }
+
+    if (!password) {
+      setPasswordError('Password is required.');
+      valid = false;
+    }
+
+    return valid;
+  };
 
   const handleLogin = async () => {
     if (isSubmitting) return;
+    if (!validateInputs()) return;
     setIsSubmitting(true);
+    setLoginError('');
     try {
       const response = await fetch('https://gain-b7ea8e7de810.herokuapp.com/auth/log-in', {
         method: 'POST',
@@ -22,7 +49,8 @@ const LoginModal = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || response.statusText);
+        setLoginError(errorData.message || response.statusText);
+        return;
       }
 
       const data = await response.json();
@@ -39,12 +67,7 @@ const LoginModal = () => {
         navigate('/talent/home');
       }
     } catch (error) {
-      const msg = error.message?.toLowerCase() || '';
-      if (msg.includes('invalid credentials')) {
-        toast.error('Invalid credentials! Please check your email and password.');
-      } else {
-        toast.error(error.message || 'Login failed! Please check your email and password.');
-      }
+      setLoginError('Login failed! Please check your email and password.');
     } finally {
       setIsSubmitting(false);
     }
@@ -78,22 +101,35 @@ const LoginModal = () => {
               handleLogin();
             }}
           >
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border-2 border-blue-500 rounded-lg focus:outline-none focus:border-blue-700"
-              autoComplete="username"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border-2 border-blue-500 rounded-lg focus:outline-none focus:border-blue-700"
-              autoComplete="current-password"
-            />
+            <div>
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border-2 border-blue-500 rounded-lg focus:outline-none focus:border-blue-700"
+                autoComplete="username"
+              />
+              {emailError && (
+                <div className="text-red-500 text-xs text-left mt-1">{emailError}</div>
+              )}
+            </div>
+            <div>
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full px-4 py-2 border-2 border-blue-500 rounded-lg focus:outline-none focus:border-blue-700"
+                autoComplete="current-password"
+              />
+              {passwordError && (
+                <div className="text-red-500 text-xs text-left mt-1">{passwordError}</div>
+              )}
+            </div>
+            {loginError && (
+              <div className="text-red-500 text-xs text-left mt-1">{loginError}</div>
+            )}
             <button
               type="submit"
               className="w-full px-4 py-2 border rounded-lg bg-blue-600 text-white hover:bg-blue-700"

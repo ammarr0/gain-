@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import SidebarApplyJob from "../../components/Apply";
 
 const iconMap = {
   "location.png": require("../../assets/location.png"),
@@ -103,8 +102,8 @@ const JobPostPage = () => {
   if (!job) return <div className="p-8 text-center text-gray-600">Job not found</div>;
 
   return (
-    <div className="flex flex-col lg:flex-row items-start min-h-screen bg-white py-8 w-full">
-      <div className="w-full lg:w-3/4 bg-white shadow-lg rounded-2xl p-6 md:p-10" >
+    <div className="flex flex-col items-start min-h-screen bg-white py-8 w-full">
+      <div className="w-full bg-white shadow-lg rounded-2xl p-6 md:p-10">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 border-b pb-4" >
           <div>
             <h1 className="text-4xl font-extrabold text-gray-900 mb-2 tracking-tight leading-tight">
@@ -234,16 +233,6 @@ const JobPostPage = () => {
           <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">Description</h2>
           <p className="text-gray-700 leading-relaxed">{job.description}</p>
         </div>
-      </div>
-
-      <div className="w-full lg:w-1/4 px-0 lg:pr-8 mt-8 lg:mt-0 ml-2">
-        <SidebarApplyJob
-          onApplyClick={handleApplyClick}
-          onSaveClick={handleSaveClick}
-          isSaved={isSaved}
-          client={clientInfo}
-          disabled={false}
-        />
       </div>
     </div>
   );
