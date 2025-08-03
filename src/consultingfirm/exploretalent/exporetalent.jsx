@@ -5,8 +5,8 @@ import TalentProfileCard from './talentcards';
 const ExporeTalent = () => {
     return (
         <>
-            <div className='flex'>
-                <div className='w-[90%]'>
+            <div className='flex w-full '>
+                <div className='w-full'>
                     <Hero />
                     <TalentProfileCard />
                 </div>
