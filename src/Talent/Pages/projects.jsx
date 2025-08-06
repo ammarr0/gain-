@@ -33,12 +33,11 @@ const BlueCircleLoader = () => (
   </div>
 );
 
-function getCookie(name) {
+const getCookie = name => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return null;
-}
+  return parts.length === 2 ? parts.pop().split(';').shift() : null;
+};
 
 const TABS = [
   { label: 'Project Management Projects', key: 'pm' },
@@ -46,13 +45,13 @@ const TABS = [
   { label: 'Saved Projects', key: 'saved' }
 ];
 
-function truncateWords(text, wordLimit) {
+const truncateWords = (text, wordLimit) => {
   if (!text) return '';
   const words = text.split(/\s+/);
   return words.length <= wordLimit ? text : words.slice(0, wordLimit).join(' ') + '...';
-}
+};
 
-const  Projects = () => {
+const Projects = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -69,7 +68,6 @@ const  Projects = () => {
     setLoading(true);
     setError(null);
 
-    // Always get the latest access_token from cookies before making the request
     const accessToken = getCookie('access_token');
 
     fetch('https://gain-b7ea8e7de810.herokuapp.com/projects/list', {
@@ -91,15 +89,39 @@ const  Projects = () => {
       });
   }, []);
 
-  const handleSaveProject = (projectId, e) => {
+  const handleSaveProject = async (projectId, e) => {
     e.stopPropagation();
+    const accessToken = getCookie('access_token');
+    const isSaved = savedProjects.includes(projectId);
+
     setSavedProjects(prev => {
-      const updated = prev.includes(projectId)
+      const updated = isSaved
         ? prev.filter(id => id !== projectId)
         : [...prev, projectId];
       localStorage.setItem('savedProjects', JSON.stringify(updated));
       return updated;
     });
+
+    try {
+      const response = await fetch('https://gain-b7ea8e7de810.herokuapp.com/saved-jobs/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(accessToken ? { 'Authorization': `Bearer ${accessToken}` } : {})
+        },
+        body: JSON.stringify({ job_id: projectId })
+      });
+
+      if (!response.ok) throw new Error('Failed to save project');
+    } catch {
+      setSavedProjects(prev => {
+        const reverted = isSaved
+          ? [...prev, projectId]
+          : prev.filter(id => id !== projectId);
+        localStorage.setItem('savedProjects', JSON.stringify(reverted));
+        return reverted;
+      });
+    }
   };
 
   const renderButton = (bgColor, textColor, text, imgSrc, onClick) => (
@@ -215,11 +237,9 @@ const  Projects = () => {
                   <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3">
                     <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />
                     <div>
-                   
-                    <p className="text-xs text-black">{project.category}</p>
-                    <hr className="border-black" />
+                      <p className="text-xs text-black">{project.category}</p>
+                      <hr className="border-black" />
                       <h3 className="font-semibold text-black">{project.preferred_location || "N/A"}</h3>
-                    
                     </div>
                     <div className="flex items-center gap-2">
                       {renderInfoItem(location, "Location", project.location)}

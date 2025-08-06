@@ -79,12 +79,13 @@ const Jobs = () => {
     }
   });
   const [activeTab, setActiveTab] = useState('pm');
+  const [saveJobLoading, setSaveJobLoading] = useState({});
+  const [saveJobError, setSaveJobError] = useState({});
 
   useEffect(() => {
     setLoading(true);
     setError(null);
 
-    // Get access_token from cookies just before fetch
     const accessToken = getCookie('access_token');
 
     fetch('https://gain-b7ea8e7de810.herokuapp.com/jobs/list', {
@@ -106,15 +107,45 @@ const Jobs = () => {
       });
   }, []);
 
-  const handleSaveJob = (jobId, e) => {
+  const handleSaveJob = async (jobId, e) => {
     e.stopPropagation();
-    setSavedJobs(prev => {
-      const updated = prev.includes(jobId)
-        ? prev.filter(id => id !== jobId)
-        : [...prev, jobId];
-      localStorage.setItem('savedJobs', JSON.stringify(updated));
-      return updated;
-    });
+    if (saveJobLoading[jobId]) return;
+
+    if (savedJobs.includes(jobId)) {
+      setSavedJobs(prev => {
+        const updated = prev.filter(id => id !== jobId);
+        localStorage.setItem('savedJobs', JSON.stringify(updated));
+        return updated;
+      });
+      return;
+    }
+
+    setSaveJobLoading(prev => ({ ...prev, [jobId]: true }));
+    setSaveJobError(prev => ({ ...prev, [jobId]: null }));
+
+    const accessToken = getCookie('access_token');
+    try {
+      const response = await fetch('https://gain-b7ea8e7de810.herokuapp.com/saved-jobs/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(accessToken ? { 'Authorization': `Bearer ${accessToken}` } : {})
+        },
+        body: JSON.stringify({ job_id: jobId })
+      });
+
+      if (!response.ok) throw new Error('Failed to save job');
+
+      setSavedJobs(prev => {
+        const updated = [...prev, jobId];
+        localStorage.setItem('savedJobs', JSON.stringify(updated));
+        return updated;
+      });
+    } catch {
+      setSaveJobError(prev => ({ ...prev, [jobId]: 'Failed to save job' }));
+    } finally {
+      setSaveJobLoading(prev => ({ ...prev, [jobId]: false }));
+    }
   };
 
   const renderButton = (bgColor, textColor, text, imgSrc, onClick) => (
@@ -191,16 +222,16 @@ const Jobs = () => {
                 </button>
               ))}
             </div>
-            <div className="space-y-6  ">
+            <div className="space-y-6">
               {loading && <BlueCircleLoader />}
               {error && <div className="text-center text-red-600 py-8">{error}</div>}
               {!loading && !error && jobsToDisplay.length === 0 && (
-                <div className="text-center py-8 text-gray-500 ">No jobs found.</div>
+                <div className="text-center py-8 text-gray-500">No jobs found.</div>
               )}
               {!loading && !error && jobsToDisplay.map((job, index) => (
                 <div
                   key={job._id || index}
-                  className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between cursor-pointer relative "
+                  className="bg-white border border-gray-300 rounded-xl w-full mx-auto p-6 flex flex-col min-h-[200px] justify-between cursor-pointer relative"
                   onClick={() => navigate(`/talent/jobs/${job._id}`)}
                 >
                   <button
@@ -208,17 +239,44 @@ const Jobs = () => {
                     onClick={e => handleSaveJob(job._id, e)}
                     aria-label={savedJobs.includes(job._id) ? "Unsave Job" : "Save Job"}
                     type="button"
+                    disabled={saveJobLoading[job._id]}
                   >
-                    <SaveIcon saved={savedJobs.includes(job._id)} />
+                    {saveJobLoading[job._id] ? (
+                      <span className="w-6 h-6 flex items-center justify-center">
+                        <svg className="animate-spin" width="20" height="20" viewBox="0 0 24 24">
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="#007DF0"
+                            strokeWidth="4"
+                            fill="none"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="#007DF0"
+                            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                          />
+                        </svg>
+                      </span>
+                    ) : (
+                      <SaveIcon saved={savedJobs.includes(job._id)} />
+                    )}
                   </button>
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
+                  {saveJobError[job._id] && (
+                    <div className="absolute bottom-12 right-4 text-xs text-red-500 bg-white px-2 py-1 rounded shadow">
+                      {saveJobError[job._id]}
+                    </div>
+                  )}
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                     <h2 className="text-xl md:text-2xl font-bold text-black">{job.title}</h2>
                     <div className="flex flex-wrap gap-2 md:gap-4 mt-2 md:mt-0">
                       {renderButton("bg-[#030923]", "text-white", "View Job", arrowup, () => navigate(`/talent/jobs/${job._id}`))}
                     </div>
-                  </div >
+                  </div>
                   <p className="text-black mt-2">{getFirstNWords(job.description, 30)}</p>
-                  <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3 ">
+                  <div className="mt-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-3">
                     <img src={User} alt="User" className="h-8 w-8 rounded-full object-cover cursor-pointer" />
                     <div>
                       <h3 className="font-semibold text-black">{job.project_type || "N/A"}</h3>
