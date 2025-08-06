@@ -55,6 +55,17 @@ const LoginModal = () => {
 
       const data = await response.json();
       Cookies.set('access_token', data.access_token, { expires: 7 });
+
+      // Save logged in email and role in localStorage
+      if (data?.user) {
+        try {
+          localStorage.setItem('email', data.user.email || email);
+          localStorage.setItem('role', data.user.role || '');
+        } catch (e) {
+          // Ignore localStorage errors
+        }
+      }
+
       setIsModalVisible(false);
       toast.success(data.message || 'Login successful!');
 

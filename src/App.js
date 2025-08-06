@@ -78,6 +78,8 @@ import TalentMakeInvoices from "./Talent/Pages/invoice.jsx"
 import EditProfile from "./Client/Pages/editprofile.jsx"
 import Applyjobs from "./components/Apply.jsx"
 import Visit from "./Client/Pages/visitprofile.jsx"
+import ClientJobDetails from "./Client/Pages/clientsjobdetails.jsx";
+import ClientProjectDetails from "./Client/Pages/projectdetailsclient.jsx"
 
 const App = () => {
   return (
@@ -142,9 +144,9 @@ const App = () => {
               <Routes>
                 <Route path="dashboard" element={<ClientDashboard />} />
                 <Route path="jobs" element={<ClientJobs />} />
-                <Route path="jobs/:id" element={<JobsDetails />} />
+                <Route path="jobs/:id" element={<ClientJobDetails />} />
                 <Route path="my-projects" element={<ClientProjects />} />
-                <Route path="projects/:id" element={<ProjectDetails />} />
+                <Route path="projects/:id" element={<ClientProjectDetails />} />
                 <Route path="explore-talent" element={<><ClientExploreTalents /></>} />
                 <Route path="explore-course" element={<><ClientExploreCourse /></>} />
                 <Route path="main-course/:id" element={<ClientMain />} />

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // --- SidebarApplyJob and icons (from prompt) ---
+// (SidebarApplyJob and related icons/components are now unused, but left for possible future use)
+
 const ArrowRightIcon = ({ className = "" }) => (
   <svg className={className} width="18" height="18" fill="none" stroke="#000" strokeWidth="2" viewBox="0 0 24 24">
     <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
@@ -60,110 +62,7 @@ const JobDetailItem = ({ label, value, children }) =>
     </li>
   ) : null;
 
-const SidebarApplyJob = ({
-  onApplyClick,
-  onSaveClick,
-  isSaved,
-  client = {},
-  project = {},
-  disabled = false,
-}) => (
-  <aside className="w-full max-w-xs bg-white shadow-lg rounded-2xl p-6 sm:p-8 flex flex-col gap-8">
-    <div className="flex flex-col gap-3">
-      <button
-        onClick={onApplyClick}
-        disabled={disabled}
-        className={`w-full px-6 py-2 rounded-lg font-semibold text-white bg-black hover:bg-gray-900 transition flex items-center justify-center gap-2 ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}
-      >
-        <ArrowRightIcon className="inline-block" />
-        Apply to Job
-      </button>
-      <button
-        onClick={onSaveClick}
-        disabled={disabled}
-        className={`w-full px-6 py-2 rounded-lg font-semibold border border-black text-black bg-white hover:bg-black hover:text-white transition flex items-center justify-center gap-2 ${isSaved ? "bg-gray-200" : ""} ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}
-      >
-        <BookmarkIcon filled={isSaved} className="inline-block" />
-        {isSaved ? "Saved" : "Save Job"}
-      </button>
-    </div>
-    <div className="border-t border-black pt-6">
-      <h3 className="font-semibold text-base text-black mb-2 flex items-center gap-2">
-        <BriefcaseIcon /> Job Details
-      </h3>
-      <ul className="text-xs text-black space-y-2">
-        <JobDetailItem label="Hourly Rate" value={project.hourly_rate && `$${project.hourly_rate}`} />
-        <JobDetailItem label="Budget" value={project.budget && `$${project.budget}`} />
-        <JobDetailItem label="Project Type" value={project.project_type} />
-        <JobDetailItem label="Duration" value={project.duration} />
-        <JobDetailItem label="Category" value={project.category} />
-        {project.proposals !== undefined && (
-          <JobDetailItem label="Proposals" value={project.proposals} />
-        )}
-        {project.description && (
-          <JobDetailItem label="Description">
-            <span className="text-black">
-              {project.description.length > 80
-                ? project.description.slice(0, 80) + "..."
-                : project.description}
-            </span>
-          </JobDetailItem>
-        )}
-        <JobDetailItem label="Posted by" value={project.created_by} />
-        <JobDetailItem label="Status" value={project.status} />
-        <JobDetailItem label="Location" value={project.location} />
-        {project.skills && Array.isArray(project.skills) && project.skills.length > 0 && (
-          <li>
-            <span className="font-semibold">Skills:</span>{" "}
-            <span className="flex flex-wrap gap-1">
-              {project.skills.map((skill, idx) => (
-                <span
-                  key={idx}
-                  className="bg-black text-white px-2 py-0.5 rounded text-[11px]"
-                >
-                  {skill}
-                </span>
-              ))}
-            </span>
-          </li>
-        )}
-      </ul>
-    </div>
-    <div className="border-t border-black pt-6">
-      <h3 className="font-semibold text-base text-black mb-2 flex items-center gap-2">
-        About the Client
-      </h3>
-      <ul className="text-xs text-black space-y-2">
-        {client.location && (
-          <li className="flex items-center gap-1">
-            <LocationIcon />
-            <span className="font-semibold">Location:</span> {client.location}
-          </li>
-        )}
-        {client.memberSince && (
-          <li className="flex items-center gap-1">
-            <CalendarIcon />
-            <span className="font-semibold">Member since:</span> {client.memberSince}
-          </li>
-        )}
-        {client.jobsPosted !== undefined && (
-          <li>
-            <span className="font-semibold">Jobs posted:</span> {client.jobsPosted}
-          </li>
-        )}
-        {client.hireRate !== undefined && (
-          <li>
-            <span className="font-semibold">Hire rate:</span> {client.hireRate}%
-          </li>
-        )}
-        <li className="flex items-center gap-1">
-          <span className="font-semibold">Review:</span>
-          <FiveStars />
-        </li>
-      </ul>
-    </div>
-  </aside>
-);
+// SidebarApplyJob is now unused and can be removed if desired
 
 // --- Loader ---
 const PrimaryCircleLoader = () => (
@@ -304,9 +203,9 @@ const JobPostPage = () => {
   if (!job) return <div className="p-8 text-center text-gray-600">Job not found</div>;
 
   return (
-    <div className="flex flex-col lg:flex-row items-start min-h-screen bg-white py-8 w-full">
+    <div className="flex flex-col items-start min-h-screen bg-white py-8 w-full">
       {/* Main Content */}
-      <div className="w-full lg:w-3/4 bg-white shadow-lg rounded-2xl p-6 md:p-10">
+      <div className="w-full bg-white shadow-lg rounded-2xl p-6 md:p-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 border-b pb-4">
           <div>
@@ -481,21 +380,7 @@ const JobPostPage = () => {
           </div>
         )}
       </div>
-      {/* Right Sidebar */}
-      {(userRole !== "CUSTOMER_SUPPORT" && userRole !== "CUSTOMER_SUPPORT") && (
-        <div className="w-full lg:w-1/4 mt-8 lg:mt-0 lg:ml-8 flex-shrink-0">
-          <div className="sticky top-24">
-            <SidebarApplyJob
-              onApplyClick={handleApplyClick}
-              onSaveClick={handleSaveClick}
-              isSaved={isSaved}
-              client={clientInfo}
-              project={projectInfo}
-              disabled={job.is_disabled}
-            />
-          </div>
-        </div>
-      )}
+      {/* Right Sidebar removed */}
     </div>
   );
 };
