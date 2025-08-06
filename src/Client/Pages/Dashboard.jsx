@@ -11,11 +11,8 @@ const Dashboard = () => {
     return (
         <div className="px-10 w-[80%]" >
             <HeroSection />
-            <ActiveJobs/>
             <Cards/>
-            <ActiveProject/>
             <Projects/>
-            <JobTabs/>
             <Posted/>
         </div>
     );

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
-// --- SidebarApplyJob and icons (from prompt) ---
+ 
 const ArrowRightIcon = ({ className = "" }) => (
   <svg className={className} width="18" height="18" fill="none" stroke="#000" strokeWidth="2" viewBox="0 0 24 24">
     <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />

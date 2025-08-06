@@ -5,6 +5,50 @@ import arrowup from "../../assets/arrow-up-right-white.png";
 import arrowupblack from "../../assets/arrow-up-right-black.png";
 import { useNavigate } from 'react-router-dom';
 
+// Tabs component with working tab switching
+function DashboardTabs({ activeTab, setActiveTab }) {
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
+  return (
+    <div className="w-full pb-5">
+      <div className="mb-4">
+        <h2 className="text-xl md:text-2xl font-semibold text-black">Active Jobs</h2>
+        <p className="text-black mt-1 text-sm md:text-base">Track progress, deadlines, and deliverables for all ongoing projects.</p>
+      </div>
+      <div className="flex flex-wrap gap-2 md:gap-4 mb-6">
+        <button
+          onClick={() => handleTabClick('in-progress')}
+          className={`px-3 py-1 md:px-4 md:py-2 rounded-md text-xs md:text-sm font-medium ${activeTab === 'in-progress' ? 'bg-black text-white' : 'bg-white text-black border border-black'}`}
+        >
+          In Progress
+        </button>
+        <button
+          onClick={() => handleTabClick('on-hold')}
+          className={`px-3 py-1 md:px-4 md:py-2 rounded-md text-xs md:text-sm font-medium ${
+            activeTab === 'on-hold'
+              ? 'bg-black text-white'
+              : 'bg-white text-black border border-black'
+          }`}
+        >
+          On Hold
+        </button>
+        <button
+          onClick={() => handleTabClick('completed')}
+          className={`px-3 py-1 md:px-4 md:py-2 rounded-md text-xs md:text-sm font-medium ${
+            activeTab === 'completed'
+              ? 'bg-black text-white'
+              : 'bg-white text-black border border-black'
+          }`}
+        >
+          Completed
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -29,6 +73,8 @@ function JobCard() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 10;
+  // Tabs state
+  const [activeTab, setActiveTab] = useState('in-progress');
 
   useEffect(() => {
     setLoading(true);
@@ -71,17 +117,38 @@ function JobCard() {
     </div>
   );
 
+  // Filtering jobs based on activeTab
+  const filteredJobs = jobs.filter(job => {
+    // You may need to adjust these conditions based on your job data structure
+    // For demonstration, let's assume job.status is one of: 'in-progress', 'on-hold', 'completed'
+    if (activeTab === 'in-progress') {
+      return job.status === 'in-progress' || !job.status || job.status === 'open';
+    }
+    if (activeTab === 'on-hold') {
+      return job.status === 'on-hold';
+    }
+    if (activeTab === 'completed') {
+      return job.status === 'completed';
+    }
+    return true;
+  });
+
   // Pagination logic
-  const totalPages = Math.ceil(jobs.length / jobsPerPage);
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
   const startIdx = (currentPage - 1) * jobsPerPage;
   const endIdx = startIdx + jobsPerPage;
-  const jobsToDisplay = jobs.slice(startIdx, endIdx);
+  const jobsToDisplay = filteredJobs.slice(startIdx, endIdx);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
   };
+
+  // Reset to page 1 when tab changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab]);
 
   if (loading) {
     return <div className="text-center py-8">Loading jobs...</div>;
@@ -93,7 +160,12 @@ function JobCard() {
 
   return (
     <div>
+      {/* Tabs on top */}
+      <DashboardTabs activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="space-y-6">
+        {jobsToDisplay.length === 0 && (
+          <div className="text-center text-gray-500 py-8">No jobs found for this tab.</div>
+        )}
         {jobsToDisplay.map((job, index) => (
           <div
             key={job._id || index}
