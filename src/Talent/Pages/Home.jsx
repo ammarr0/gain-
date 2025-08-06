@@ -7,10 +7,10 @@ import Posts from "../Components/posts"
 const Home = () => {
   return (
     <div>
-     <Hero/>
-     <NewMatches/>
-     <NewestMatches/>
-     <Posts/>
+      <Hero />
+      <NewMatches />
+      <NewestMatches />
+      <Posts />
     </div>
   );
 };
