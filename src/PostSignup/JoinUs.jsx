@@ -66,7 +66,6 @@ const JoinUs = () => {
             style={{ height: 'auto' }}
           >
             <div>
-              {/* Increased height placeholder image with fully rounded corners */}
               <div className="w-full h-60 bg-gray-300 rounded-3xl mb-4"></div>
 
               <h3 className="text-lg font-semibold text-gray-900">
