@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Avatar component for job/company initials or image
 const Avactor = ({ name = "", image, size = 64 }) => {
   const initials = name
     ? name
@@ -12,7 +13,7 @@ const Avactor = ({ name = "", image, size = 64 }) => {
     : "AV";
   const gradient =
     "linear-gradient(135deg, #3B82F6 0%, #60A5FA 50%, #2563EB 100%)";
-  return image ? (
+  return (
     <div
       className="relative flex items-center justify-center"
       style={{
@@ -20,38 +21,33 @@ const Avactor = ({ name = "", image, size = 64 }) => {
         height: size,
       }}
     >
-      <img
-        src={image}
-        alt={name}
-        className="rounded-full object-cover border-2 border-blue-300 shadow-md"
-        style={{
-          width: size,
-          height: size,
-          background: "#f3f4f6",
-        }}
-      />
-      <span
-        className="absolute bottom-0 right-0 block w-4 h-4 rounded-full border-2 border-white bg-green-400 shadow"
-        title="Verified"
-        style={{
-          boxShadow: "0 0 0 2px #fff",
-        }}
-      ></span>
-    </div>
-  ) : (
-    <div
-      className="rounded-full flex items-center justify-center font-bold text-white shadow-md border-2 border-blue-200"
-      style={{
-        width: size,
-        height: size,
-        fontSize: size / 2.2,
-        background: gradient,
-        userSelect: "none",
-        letterSpacing: "1px",
-        position: "relative",
-      }}
-    >
-      {initials}
+      {image ? (
+        <img
+          src={image}
+          alt={name}
+          className="rounded-full object-cover border-2 border-blue-300 shadow-md"
+          style={{
+            width: size,
+            height: size,
+            background: "#f3f4f6",
+          }}
+        />
+      ) : (
+        <div
+          className="rounded-full flex items-center justify-center font-bold text-white shadow-md border-2 border-blue-200"
+          style={{
+            width: size,
+            height: size,
+            fontSize: size / 2.2,
+            background: gradient,
+            userSelect: "none",
+            letterSpacing: "1px",
+            position: "relative",
+          }}
+        >
+          {initials}
+        </div>
+      )}
       <span
         className="absolute bottom-0 right-0 block w-4 h-4 rounded-full border-2 border-white bg-green-400 shadow"
         title="Verified"
@@ -63,6 +59,7 @@ const Avactor = ({ name = "", image, size = 64 }) => {
   );
 };
 
+// Helper to get cookie by name
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -70,6 +67,7 @@ function getCookie(name) {
   return null;
 }
 
+// Loader component
 const BlueCircleLoader = () => (
   <div className="flex justify-center items-center py-8">
     <span className="loader-blue-circle" />
@@ -92,6 +90,7 @@ const BlueCircleLoader = () => (
   </div>
 );
 
+// Bookmark icon for save/unsave
 const BookmarkIcon = ({
   filled,
   borderColor = "#B9DAFF",
@@ -156,7 +155,7 @@ const NewestMatches = () => {
         }
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setError("Error fetching jobs");
         setLoading(false);
       });
@@ -166,21 +165,8 @@ const NewestMatches = () => {
     localStorage.setItem("savedTalentJobs", JSON.stringify(savedJobs));
   }, [savedJobs]);
 
-  // For demo, show only the first 3 jobs as "newest matches"
+  // Show only the first 3 jobs as "newest matches"
   const matches = jobs.slice(0, 3);
-
-  // Fallback for logo (since API doesn't provide one)
-  const getLogo = (idx) => {
-    const logos = [
-      "/assets/juxtapose.png",
-      "/assets/reddit.png",
-      "/assets/bankofamerica.png",
-    ];
-    return logos[idx % logos.length];
-  };
-
-  // Fallback for logo size
-  const logoSize = "w-16 h-16";
 
   // Fallback for "hours" and "time" (not in API)
   const getHours = (job) =>
@@ -232,7 +218,7 @@ const NewestMatches = () => {
   const darkYellowBg = "#FFF9E3";
 
   return (
-    <div className=" w-full">
+    <div className="w-full">
       <div className="p-4 max-w-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
           <h2 className="text-xl sm:text-2xl font-medium text-[#34A853]">
@@ -250,21 +236,16 @@ const NewestMatches = () => {
         ) : error ? (
           <div className="text-center text-red-500 py-8">{error}</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 items-stretch justify-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 items-stretch justify-items-center">
             {matches.map((job, idx) => (
               <div
                 key={job._id || idx}
-                className="rounded-xl border-2 border-[#34A853] p-4 shadow-sm hover:shadow-lg transition bg-white w-full max-w-xs sm:max-w-sm md:max-w-md flex flex-col mx-auto h-full cursor-pointer"
+                className="rounded-xl border-2 border-[#34A853] p-6 shadow-sm hover:shadow-lg transition bg-white w-full max-w-lg flex flex-col mx-auto h-full cursor-pointer"
                 style={{ minHeight: 0 }}
                 onClick={() => navigate(`/talent/jobs/${job._id}`)}
               >
-                
                 <div className="flex justify-between items-start">
-                  <Avactor
-                    name={job.title}
-                    image={null}
-                    size={64}
-                  />
+                  <Avactor name={job.title} image={null} size={64} />
                   <div
                     className="flex gap-2 flex-shrink-0"
                     onClick={(e) => e.stopPropagation()}
@@ -282,9 +263,7 @@ const NewestMatches = () => {
                     </button>
                     <button
                       onClick={() => handleSave(job)}
-                      title={
-                        savedJobs.includes(job._id) ? "Unsave" : "Save"
-                      }
+                      title={savedJobs.includes(job._id) ? "Unsave" : "Save"}
                       type="button"
                       style={{
                         display: "flex",
@@ -310,27 +289,22 @@ const NewestMatches = () => {
                     </button>
                   </div>
                 </div>
-                
-                <h3 className="text-lg sm:text-xl font-semibold text-[#030923]">
+
+                <h3 className="text-lg sm:text-xl font-semibold text-[#030923] mt-2">
                   {job.title}
                 </h3>
                 <p className="text-gray-600 text-xl sm:text-2xl mt-2">
                   {job.project_type || "Role"}
                 </p>
                 <hr className="my-3 border-black" />
-                <p className="text-sm font-md mt-2">Skills</p>
+                <p className="text-sm font-medium mt-2">Skills</p>
                 <ul className="mt-3 list-disc list-inside">
                   {getPositions(job).map((position, posIdx) => (
-                    <ul key={posIdx} className="list-disc list-inside mb-1">
-                      <li className="text-base sm:text-lg ml-2">
-                        {position}
-                      </li>
-                    </ul>
+                    <li key={posIdx} className="text-base sm:text-lg ml-2 mb-1">
+                      {position}
+                    </li>
                   ))}
                 </ul>
-
-               
-
                 <div className="text-sm text-gray-600 space-y-4 mt-4 sm:mt-8">
                   <p className="flex flex-wrap items-center gap-x-4 gap-y-2">
                     <span className="flex items-center">
