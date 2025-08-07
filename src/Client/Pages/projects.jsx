@@ -8,7 +8,6 @@ import Posted from "../Components/postedjobs";
 const Projects = () => (
     <div className="px-10 w-full">
         <Hero />
-        <ActiveJobs />
         <Cards />
         <JobTabs />
         <Posted />

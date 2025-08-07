@@ -79,7 +79,8 @@ import EditProfile from "./Client/Pages/editprofile.jsx"
 import Applyjobs from "./components/Apply.jsx"
 import Visit from "./Client/Pages/visitprofile.jsx"
 import ClientJobDetails from "./Client/Pages/clientsjobdetails.jsx";
-import ClientProjectDetails from "./Client/Pages/projectdetailsclient.jsx"
+import ClientProjectDetails from "./Client/Pages/projectdetailsclient.jsx";
+import FirmProfile from "./profile/firm.jsx";
 
 const App = () => {
   return (
@@ -106,7 +107,6 @@ const App = () => {
         <Route path="/under-processing" element={<><Navbar /><UP /><Footer /></>} />
         <Route path="video" element={<Video />} />
 
-
         <Route path="/consultingfirm/*" element={
           <>
             <CFHeader />
@@ -128,9 +128,8 @@ const App = () => {
                 <Route path="explore-course" element={<ExploreCourse />} />
                 <Route path="main-course" element={<Main />} />
                 <Route path="explore-talent" element={<ExploreTalentsSection />} />
-                <Route path="profile" element={<><Profile /></>} />
+                <Route path="profile" element={<><FirmProfile /></>} />
                 <Route path="post-success" element={<><PostSuccess /></>} />
-
               </Routes>
             </div>
           </>
@@ -189,7 +188,7 @@ const App = () => {
                 <Route path="projectsoffers" element={<TrackerProject />} />
                 <Route path="edit-profile" element={<EditProfile />} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
-                <Route path="make-invoices" element={<><TalentMakeInvoices /></>} />
+                <Route path="make-invoices" element={<><MakeInvoices /></>} />
                 <Route path="community" element={<Community />} />
                 <Route path="post-success" element={<><PostSuccess /></>} />
               </Routes>

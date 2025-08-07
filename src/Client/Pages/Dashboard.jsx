@@ -13,7 +13,6 @@ const Dashboard = () => {
             <HeroSection />
             <Cards/>
             <Projects/>
-            <Posted/>
         </div>
     );
 };

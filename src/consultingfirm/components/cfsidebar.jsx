@@ -23,7 +23,7 @@ const Sidebar = () => {
 
   return (
     // Hide sidebar on small screens, show on md and up
-    <div className="hidden md:block w-[25%] h-full bg-white">
+    <div className="hidden md:block w-[20%] h-full bg-white">
       <ul className="space-y-2 p-6 mt-4">
         {menuItems.map(({ name, icon, route, extra }, index) => (
           <li
