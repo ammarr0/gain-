@@ -3,7 +3,7 @@ import React from 'react';
 const AiCardsSection = () => {
   return (
     <div className="bg-[#4E96F733] py-12 px-4 -mt-24">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+      <div className="section-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
         {/* Card 1 */}
         <div className="bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center text-center max-w-full sm:max-w-[300px] lg:max-w-[350px] h-auto sm:h-[400px] lg:h-[430px] mx-auto">
           <h2 className="text-xl sm:text-2xl font-semibold mb-4">

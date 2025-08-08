@@ -53,7 +53,7 @@ const AITrainings = () => {
           about cutting-edge technology.
         </p>
       </div>
-      <main className="max-w-7xl mx-auto px-2 sm:px-4 md:px-8 lg:px-12 xl:px-0">
+      <main className="main-container">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 mb-6 mx-auto text-center onest-bold">
           Featured AI Courses
         </h2>

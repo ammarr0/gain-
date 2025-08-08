@@ -4,7 +4,7 @@ import React from "react";
 const services = () => {
   return (
     <div className="min-h-screen bg-white">
-      <main className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+      <main className="main-container">
 
         {/* Top Intro Section */}
         <section className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12 w-full">

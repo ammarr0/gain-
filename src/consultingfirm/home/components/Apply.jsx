@@ -112,7 +112,7 @@ const Apply = () => {
   // Make the white
   return (
     <div className="min-h-screen pt-12 bg-white">
-      <div className="mx-auto w-full max-w-7xl px-4">
+      <div className="main-container">
         {/* Header Card */}
         <div className="rounded-2xl px-12 w-full py-6 mb-8 bg-white shadow-2xl border border-[#EDEEFF]">
           <div className="flex justify-between items-center mb-4">

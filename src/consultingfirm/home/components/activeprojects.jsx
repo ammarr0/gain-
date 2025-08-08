@@ -12,7 +12,7 @@ const ActiveProjects = () => {
   const tags = ["Project Management Tools", "Jira", "Hubspot", "Project Management Tools", "Hubspot"];
 
   return (
-    <div className="p-6 bg-white rounded-xl  w-full max-w-7xl">
+    <div className="p-6 bg-white rounded-xl main-container">
         <div className="flex justify-between items-center mb-4">
         <div>
           <h2 className="text-3xl font-lg ">Active Projects</h2>

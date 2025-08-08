@@ -32,7 +32,7 @@ const ConsultingSection = () => {
     <section className="w-full">
       {/* Top Heading (white background) */}
       <div className="bg-white w-full flex flex-col items-center py-10 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
-        <div className="w-full max-w-6xl flex flex-col items-center">
+        <div className="section-container flex flex-col items-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 text-center">
             Connect With Top Talent Across The Consulting <br className="hidden sm:block" /> Value Chain
           </h1>
@@ -46,7 +46,7 @@ const ConsultingSection = () => {
       {/* Dark Container + Cards */}
       <div className="bg-[#030923] w-full py-10 px-4 flex flex-col items-center">
         {/* Section heading */}
-        <div className="w-full max-w-6xl text-center mb-8 flex flex-col items-center">
+        <div className="section-container text-center mb-8 flex flex-col items-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">
             GAIN's Comprehensive 360° Solutions for <br className="hidden sm:block" />Consulting
           </h2>
@@ -56,7 +56,7 @@ const ConsultingSection = () => {
         </div>
 
         {/* Cards Grid: Responsive */}
-        <div className="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-6">
+        <div className="section-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-6">
           {cardData.map((card, idx) => (
             <div
               key={idx}

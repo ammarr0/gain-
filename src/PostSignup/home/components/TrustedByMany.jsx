@@ -43,7 +43,7 @@ export default function TrustedByMany() {
 
   return (
     <section className="py-12 bg-white">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="section-container">
         {/* Section title */}
         <h2 className="text-2xl md:text-3xl font-2xl text-center mb-8">
           Trusted by Many

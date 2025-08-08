@@ -4,7 +4,7 @@ import TalentProfileCard from '../../consultingfirm/exploretalent/talentcards';
 const ExporeTalent = () => {
     return (
         <>
-            <div className='w-[90%]'>
+            <div className='page-content'>
                 <TalentProfileCard />
             </div>
 

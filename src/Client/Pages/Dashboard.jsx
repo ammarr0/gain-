@@ -9,7 +9,7 @@ import JobTabs from "../Components/job_tabs";
 
 const Dashboard = () => {
     return (
-        <div className="px-10 w-[80%]" >
+        <div className="page-content">
             <HeroSection />
             <Cards/>
             <Projects/>

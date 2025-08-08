@@ -232,7 +232,7 @@ const NewestMatches = () => {
   const darkYellowBg = "#FFF9E3";
 
   return (
-    <div className="max-w-7xl mx-auto w-full">
+            <div className="main-container">
       <div className="p-4 max-w-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
           <h2 className="text-xl sm:text-2xl font-medium text-[#34A853]">

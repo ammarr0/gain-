@@ -57,7 +57,7 @@ export default function Pricing() {
 
   return (
     <section className="py-12 w-full flex flex-col items-center justify-center">
-      <div className="w-full max-w-6xl mx-auto px-2 sm:px-4 md:px-8 flex flex-col items-center">
+      <div className="section-container flex flex-col items-center">
         {/* Pricing Heading */}
         <h3 className="text-3xl font-sm mb-8 text-black text-center w-full">Pricing</h3>
 

@@ -141,7 +141,7 @@ const Navbar = () => {
         <img src="/assets/logo.png" alt="Logo" className="h-12" />
       </Link>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="main-container">
         <div className="flex justify-end h-16 items-center">
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6 text-sm font-medium">

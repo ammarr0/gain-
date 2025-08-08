@@ -510,7 +510,7 @@ const ProfilePage = () => {
 
   return (
     <div className="min-h-screen bg-white px-0 py-10 text-gray-900 font-sans w-full">
-      <div className="w-full max-w-6xl mx-auto">
+      <div className="section-container">
         <header className="mb-10 w-full">
           <h1 className="text-4xl font-extrabold text-black tracking-tight w-full bg-white">
             Your Profile

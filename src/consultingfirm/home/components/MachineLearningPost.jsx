@@ -24,13 +24,13 @@ const MachineLearningPost = () => {
   };
 
   return (
-    <div className="space-y-6 w-full max-w-7xl mx-auto">
+          <div className="space-y-6 main-container">
       {/* ====== Top Heading Like Job Posting ====== */}
       <h1 className="text-2xl sm:text-3xl font-lg ml-2 sm:ml-5 mt-4 sm:mt-6 text-center sm:text-left">
         Get career help from the community
       </h1>
 
-      <div className="bg-white rounded-2xl p-3 sm:p-6 max-w-7xl mx-auto my-2 sm:my-4 shadow-sm">
+              <div className="bg-white rounded-2xl p-3 sm:p-6 main-container my-2 sm:my-4 shadow-sm">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mb-4 space-y-2 sm:space-y-0">
           <div className="flex items-center space-x-3">

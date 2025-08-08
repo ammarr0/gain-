@@ -8,7 +8,7 @@ const Invites = () => {
   return (
     <div className="flex flex-col md:flex-row w-full min-h-screen bg-white">
       {/* <Sidebar /> */}
-      <div className="w-full md:w-[80%] mt-6 mx-auto px-4 sm:px-6 md:px-8 flex flex-col">
+              <div className="page-content flex flex-col">
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="w-full bg-gray-100 rounded-lg border border-gray-300 p-6 sm:p-10 md:p-16 text-center shadow-sm min-h-[300px] sm:min-h-[350px] md:h-96 flex items-center justify-center mt-4">
           <div>

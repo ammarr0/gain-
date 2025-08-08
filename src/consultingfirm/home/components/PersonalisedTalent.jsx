@@ -66,7 +66,7 @@ const PersonalisedTalent = () => {
   const candidates = talentData.filter(t => t.role === 'INDIVIDUAL_TALENT');
 
   return (
-    <section className="p-1 bg-white rounded-2xl max-w-7xl mx-auto w-full">
+    <section className="p-1 bg-white rounded-2xl main-container">
       {/* Header + Arrows */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
         <div>

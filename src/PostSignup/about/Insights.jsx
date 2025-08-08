@@ -15,7 +15,7 @@ const insightsData = [
 const InsightsPage = () => {
   return (
     <div className="bg-white py-10 w-full overflow-x-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full"  >
+      <div className="section-container"  >
         {/* Top Section */}
         <section className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12 w-full">
           <div className="w-full md:w-1/2 max-w-md">
@@ -60,7 +60,7 @@ const InsightsPage = () => {
       </div>
 
       {/* Insights Cards Grid */}
-      <div className="max-w-6xl mx-auto px-2 sm:px-4 lg:px-8 w-full">
+              <div className="section-container">
         <div
           className="
             grid

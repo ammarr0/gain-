@@ -22,7 +22,7 @@ const CoursePreviewCard = ({ course }) => {
 
     return (
         <div className="flex justify-center items-start w-full min-h-screen bg-white px-4 sm:px-8 py-8" style={{border:"4px solid black"}}>
-            <div className="w-full max-w-6xl mx-auto p-6 sm:p-8 md:p-10 bg-white rounded-lg shadow-lg">
+            <div className="section-container p-6 sm:p-8 md:p-10 bg-white rounded-lg shadow-lg">
                 <div className="w-full h-60 sm:h-80 bg-gray-100 rounded-lg mb-6"></div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-4 text-left">
                     {displayCourse.title}

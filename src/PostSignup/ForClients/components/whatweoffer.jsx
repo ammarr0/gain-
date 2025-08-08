@@ -129,7 +129,7 @@ const WhatWeOffer = () => {
         })}
       </div>
       <section className="bg-white py-10 flex justify-center">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8 w-full">
+        <div className="section-container flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="w-full md:max-w-md flex flex-col items-start">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium text-[#007DF0] leading-snug mt-8 sm:mt-12">
               Start Your AI Project Today

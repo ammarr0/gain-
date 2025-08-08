@@ -36,7 +36,7 @@ const NewestMatches = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto">
+            <div className="main-container">
       <div className="p-4 max-w-full">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-medium text-black">Your Top Projects</h2>

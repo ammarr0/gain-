@@ -76,7 +76,7 @@ const Careers = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-4 bg-white">
+    <div className="main-container py-4 bg-white">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mb-8">
         <div className="md:w-1/3">

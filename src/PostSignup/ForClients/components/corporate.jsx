@@ -63,7 +63,7 @@ const Corporate = () => {
 
       {/* Section heading */}
       <div className="bg-white py-8 px-4">
-        <div className="w-full max-w-6xl mx-auto text-center mb-8 flex flex-col items-center">
+        <div className="section-container text-center mb-8 flex flex-col items-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#007DF0] mb-2">
             GAIN’s Comprehensive 360° Solutions for <br className="hidden sm:block" />Corporations
           </h2>
@@ -73,7 +73,7 @@ const Corporate = () => {
         </div>
 
         {/* Cards Grid: Responsive */}
-        <div className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-6">
+        <div className="section-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-6">
           {cardData.map((card, idx) => (
             <div key={idx} style={outerStyle}>
               <div style={innerStyle}>

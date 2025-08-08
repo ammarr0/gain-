@@ -26,7 +26,7 @@ const Explore = () => {
       <div className="flex flex-col lg:flex-row w-full">
         {/* Main Content */}
         <div className="w-full lg:w-3/4 p-4 sm:p-6 md:p-8">
-          <div className="mx-auto max-w-6xl">
+          <div className="section-container">
             <div className="flex flex-col md:flex-row gap-4 mb-8">
               <div className="bg-[#C7E1FF] rounded-2xl p-6 sm:p-8 md:w-1/2 h-56 sm:h-72 flex items-center">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-gray-900 mb-2 leading-tight break-words">

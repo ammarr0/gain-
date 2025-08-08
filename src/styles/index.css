@@ -2,3 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global Layout Utilities for Consistent Width Alignment */
+@layer components {
+  .main-container {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .page-content {
+    @apply w-full lg:w-[80%] px-6 lg:px-8 py-6;
+  }
+  
+  .sidebar-layout {
+    @apply w-[20%] h-full bg-white;
+  }
+  
+  .content-wrapper {
+    @apply w-full min-h-screen bg-white flex flex-col lg:flex-row;
+  }
+  
+  .section-container {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+

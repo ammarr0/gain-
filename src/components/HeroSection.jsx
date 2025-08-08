@@ -3,7 +3,7 @@ import React from 'react';
 const HeroSection = () => {
   return (
     <section className="bg-white py-10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+      <div className="section-container flex flex-col md:flex-row items-center justify-between gap-8">
         {}
         <div className="max-w-md">
           <p className="text-gray-700 text-sm font-medium mb-2">Tagline</p>

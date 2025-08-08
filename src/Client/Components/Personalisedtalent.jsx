@@ -74,7 +74,7 @@ const PersonalisedTalent = () => {
   };
 
   return (
-    <section className="bg-white rounded-2xl max-w-7xl mt-5" >
+    <section className="bg-white rounded-2xl main-container mt-5" >
       <div className="flex items-center justify-between mb-4">
         <div>
         <h2 className="text-3xl font-lg">Personalised Talent</h2>

@@ -171,7 +171,7 @@ const Projects = () => {
     <div className="w-full min-h-screen flex flex-col bg-white">
       <div className="flex-1 flex flex-col lg:flex-row">
         <div className="w-full lg:w-3/4 p-4 sm:p-6 md:p-8">
-          <div className="mx-auto max-w-6xl">
+          <div className="section-container">
             <div className="flex flex-col md:flex-row gap-4 mb-8">
               <div className="bg-[#D8FBAB] rounded-2xl p-5 pl-4 sm:pl-9 md:w-1/2 h-48 sm:h-60 md:h-72 flex items-center">
                 <span className="text-3xl sm:text-4xl md:text-6xl text-gray-900 mb-2 leading-tight">

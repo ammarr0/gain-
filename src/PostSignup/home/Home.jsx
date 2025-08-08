@@ -33,7 +33,7 @@ const Home = () => {
       
       {/* Trusted By Section */}
       <div className="bg-white py-8 px-4">
-        <div className="max-w-6xl mx-auto text-center">
+        <div className="section-container text-center">
           <h2 className=" font-normal text-[25px] leading-[25.5px] tracking-normal text-[#007DF0] mb-6">Trusted By</h2>
           <div className="flex flex-wrap justify-center items-center gap-12 space-x-4">
 

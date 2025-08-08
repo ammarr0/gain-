@@ -6,7 +6,7 @@ const MyJobs = () => {
 
   return (
     <div className="flex">
-      <div className="w-[80%] mt-6 mx-auto">
+              <div className="page-content">
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="w-full bg-gray-100 rounded-lg border border-gray-300 p-16 text-center shadow-sm h-96 flex items-center justify-center">
           <div>

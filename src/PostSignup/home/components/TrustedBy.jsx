@@ -4,7 +4,7 @@ import React from 'react';
 export default function TrustedBy() {
   return (
     <section className="py-12 bg-white">
-      <div className="max-w-6xl mx-auto text-center">
+              <div className="section-container text-center">
         <h2 className="text-lg font-semibold text-[gray-800] mb-6">
           Trusted By
         </h2>

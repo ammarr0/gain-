@@ -6,7 +6,7 @@ import Posts from "../Components/posts"
 
 const Home = () => {
   return (
-    <div>
+    <div className="page-content">
       <Hero />
       <NewMatches />
       <NewestMatches />

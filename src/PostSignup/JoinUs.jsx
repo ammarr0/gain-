@@ -51,7 +51,7 @@ const JoinUs = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-white">
+    <div className="main-container py-12 bg-white">
       <Breadcrumb />
 
       <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">

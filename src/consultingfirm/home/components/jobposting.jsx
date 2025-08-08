@@ -6,7 +6,7 @@ const JobPosting = () => {
   const skills = ['Project Management Tools', 'Jira', 'Hubspot'];
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-2 sm:px-4">
+    <div className="main-container">
       {/* ====== Card-like Container for Everything ====== */}
       <div className="p-4 sm:p-6 bg-white rounded-xl w-full">
 
