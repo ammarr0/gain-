@@ -153,7 +153,7 @@ const App = () => {
                 <Route path="post-job" element={<PostJobs />} />
                 <Route path="post-projects" element={<PostProject />} />
                 <Route path="post-course" element={<PostCourse />} />
-                <Route path="profile" element={<><Profile /></>} />
+                <Route path="profile" element={<><ClientsProfile /></>} />
                 <Route path="profile/:id" element={<><Visit /></>} />
                 <Route path="my-invoices" element={<><Invoice /></>} />
                 <Route path="make-invoices" element={<><MakeInvoices /></>} />
@@ -182,7 +182,7 @@ const App = () => {
                 <Route path="main-course/:id" element={<ClientMain />} />
                 <Route path="post-success" element={<PostSuccess />} />
                 <Route path="main-course" element={<MainCourse />} />
-                <Route path="profile" element={<ClientsProfile />} />
+                <Route path="profile" element={<Profile />} />
                 <Route path="applications" element={<TrackerApplications />} />
                 <Route path="joboffers" element={<TrackerOffers />} />
                 <Route path="projectsoffers" element={<TrackerProject />} />

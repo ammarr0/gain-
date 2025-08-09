@@ -273,7 +273,6 @@ const ProfilePage = () => {
           ))}
         </div>
       </div>
-
       <div className="w-full mt-12 px-6 pb-20">
         <h3 className="text-2xl font-bold mb-7 text-black flex items-center gap-2">
           <span className="w-2 h-2 bg-gray-400 rounded-full"></span>

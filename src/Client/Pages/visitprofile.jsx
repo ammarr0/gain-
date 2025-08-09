@@ -1,8 +1,7 @@
-// src/pages/ProfilePage.jsx
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-// Simple circle loader centered on the page
+// Loader
 const PrimaryCircleLoader = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-70 z-50">
     <span
@@ -20,11 +19,41 @@ function getCookie(name) {
   return null
 }
 
+// Helper to pretty print JSON (for fallback)
+const PrettyJSON = ({ data }) => (
+  <pre className="bg-gray-100 rounded p-4 text-xs overflow-x-auto">{JSON.stringify(data, null, 2)}</pre>
+)
+
+const ProfileField = ({ label, value }) => (
+  <div className="py-2 flex flex-wrap items-baseline gap-2">
+    <span className="w-44 text-gray-500">{label}</span>
+    <span className="font-medium text-gray-900 break-all">{value || <span className="text-gray-400">—</span>}</span>
+  </div>
+)
+
+const ProfileSection = ({ title, children }) => (
+  <section className="mb-8">
+    <h2 className="text-lg font-semibold text-gray-900 mb-2">{title}</h2>
+    {children}
+  </section>
+)
+
+const ListSection = ({ title, items, renderItem, emptyText }) => (
+  <ProfileSection title={title}>
+    {items && items.length > 0 ? (
+      <ul className="space-y-2">{items.map(renderItem)}</ul>
+    ) : (
+      <div className="text-gray-400 text-sm">{emptyText || 'None'}</div>
+    )}
+  </ProfileSection>
+)
+
 const ProfilePage = () => {
-  const { id } = useParams()             // grab the user ID from URL
+  const { id } = useParams()
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [rawJson, setRawJson] = useState(null)
 
   useEffect(() => {
     async function fetchUser() {
@@ -43,6 +72,7 @@ const ProfilePage = () => {
         )
         if (!res.ok) throw new Error('Failed to load profile')
         const json = await res.json()
+        setRawJson(json)
         setUser(json.data || json)
       } catch (e) {
         setError(e.message)
@@ -67,131 +97,178 @@ const ProfilePage = () => {
       </div>
     )
 
-  const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim()
-  const role = user.role || '—'
-  const experience = user.experience ?? 'N/A'
-  const rate =
-    user.rate !== undefined && user.rate !== null
-      ? `₹${user.rate}/hr`
-      : 'N/A'
-  const location = user.city || user.country || 'Unknown'
-  const availability = user.availability || 'N/A'
-  const about = user.description || user.email || 'No description.'
+  // Destructure all fields from the data structure
+  const {
+    _id,
+    image,
+    apple_id,
+    last_name,
+    role,
+    first_name,
+    fcm_token,
+    email,
+    email_verified,
+    email_verified_at,
+    password,
+    country_code,
+    phone_no,
+    gender,
+    biography,
+    emergency_contact,
+    country,
+    street,
+    suite,
+    city,
+    post_code,
+    dob,
+    uuid,
+    website,
+    linkedin,
+    is_disabled,
+    is_deleted,
+    created_at,
+    updated_at,
+    __v,
+    portfolio = {},
+  } = user
+
+  // Portfolio fields
+  const {
+    skills = [],
+    projects = [],
+    education = [],
+    certifications = [],
+  } = portfolio || {}
+
+  // Compose full name
+  const fullName = `${first_name || ''} ${last_name || ''}`.trim() || email
+
+  // Avatar fallback
+  const avatarSrc =
+    image && image.startsWith('http') && image.length > 8
+      ? image
+      : 'https://via.placeholder.com/200'
 
   return (
     <div className="w-full">
-      <div className="mx-auto max-w-5xl p-6">
+      <div className="w-full p-0">
         <div className="w-full p-6 sm:p-8 bg-white rounded-2xl shadow">
           {/* Header */}
           <div className="flex items-center gap-6 mb-6 sm:mb-8">
             <img
-              src={
-                user.image?.startsWith('http')
-                  ? user.image
-                  : 'https://via.placeholder.com/200'
-              }
-              alt={`${user.first_name || 'User'} avatar`}
+              src={avatarSrc}
+              alt={`${first_name || 'User'} avatar`}
               className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-2 border-gray-200"
-              onError={(e) => {
-                e.currentTarget.src = 'https://via.placeholder.com/200'
-              }}
+              onError={e => { e.currentTarget.src = 'https://via.placeholder.com/200' }}
             />
             <div className="min-w-0">
               <h1 className="text-3xl font-bold tracking-tight text-gray-900 truncate">
-                {fullName || 'Unnamed Talent'}
+                {fullName}
               </h1>
               <div className="mt-2 flex flex-wrap items-center gap-3 text-gray-600">
                 <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 ring-1 ring-blue-200">
                   {role}
                 </span>
                 <span className="hidden sm:inline">•</span>
-                <span className="truncate">{location}</span>
+                <span className="truncate">{city || country || '—'}</span>
               </div>
             </div>
           </div>
 
-          {/* Subtle divider */}
+          {/* Divider */}
           <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent mb-6 sm:mb-8" />
 
-          {/* Inline stats (no cards) */}
-          <ul className="mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-3 text-sm">
-            <li className="flex items-baseline gap-2">
-              <span className="text-gray-500">Experience:</span>
-              <span className="font-semibold text-gray-900">{experience} yrs</span>
-            </li>
-            <li className="flex items-baseline gap-2">
-              <span className="text-gray-500">Rate:</span>
-              <span className="font-semibold text-gray-900">{rate}</span>
-            </li>
-            <li className="flex items-baseline gap-2">
-              <span className="text-gray-500">Availability:</span>
-              <span className="font-semibold text-gray-900">{availability}</span>
-            </li>
-            <li className="flex items-baseline gap-2">
-              <span className="text-gray-500">Location:</span>
-              <span className="font-semibold text-gray-900">{location}</span>
-            </li>
-          </ul>
+          {/* Main Profile Fields */}
+          <ProfileSection title="Basic Information">
+            <ProfileField label="User ID" value={_id} />
+            <ProfileField label="First Name" value={first_name} />
+            <ProfileField label="Last Name" value={last_name} />
+            <ProfileField label="Role" value={role} />
+            <ProfileField label="Email" value={email} />
+            <ProfileField label="Email Verified" value={email_verified ? 'Yes' : 'No'} />
+            <ProfileField label="Email Verified At" value={email_verified_at} />
+            <ProfileField label="Phone" value={`${country_code || ''} ${phone_no || ''}`} />
+            <ProfileField label="Gender" value={gender} />
+            <ProfileField label="Biography" value={biography} />
+            <ProfileField label="Emergency Contact" value={emergency_contact} />
+            <ProfileField label="Country" value={country} />
+            <ProfileField label="City" value={city} />
+            <ProfileField label="Street" value={street} />
+            <ProfileField label="Suite" value={suite} />
+            <ProfileField label="Post Code" value={post_code} />
+            <ProfileField label="Date of Birth" value={dob} />
+            <ProfileField label="UUID" value={uuid} />
+            <ProfileField label="Website" value={
+              website ? (
+                <a href={website} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline break-all">{website}</a>
+              ) : null
+            } />
+            <ProfileField label="LinkedIn" value={
+              linkedin ? (
+                <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline break-all">{linkedin}</a>
+              ) : null
+            } />
+            <ProfileField label="Apple ID" value={apple_id} />
+            <ProfileField label="FCM Token" value={fcm_token} />
+            <ProfileField label="Is Disabled" value={is_disabled ? 'Yes' : 'No'} />
+            <ProfileField label="Is Deleted" value={is_deleted ? 'Yes' : 'No'} />
+            <ProfileField label="Created At" value={created_at && new Date(created_at).toLocaleString()} />
+            <ProfileField label="Updated At" value={updated_at && new Date(updated_at).toLocaleString()} />
+            <ProfileField label="Version" value={__v} />
+            {/* Password is not shown for security */}
+          </ProfileSection>
 
-          {/* About */}
-          <section className="mb-8">
-            <h2 className="text-lg font-semibold text-gray-900">About</h2>
-            <p className="mt-2 leading-7 text-gray-700">
-              {about}
-            </p>
-          </section>
-
-          {/* Details (simple list, no cards) */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-semibold text-gray-900">Details</h2>
-            <div className="mt-2 divide-y divide-gray-100">
-              <div className="py-3 flex flex-wrap items-baseline gap-2">
-                <span className="w-40 text-gray-500">Experience</span>
-                <span className="font-medium text-gray-900">{experience} yrs</span>
-              </div>
-              <div className="py-3 flex flex-wrap items-baseline gap-2">
-                <span className="w-40 text-gray-500">Rate</span>
-                <span className="font-medium text-gray-900">{rate}</span>
-              </div>
-              <div className="py-3 flex flex-wrap items-baseline gap-2">
-                <span className="w-40 text-gray-500">Location</span>
-                <span className="font-medium text-gray-900">{location}</span>
-              </div>
-              <div className="py-3 flex flex-wrap items-baseline gap-2">
-                <span className="w-40 text-gray-500">Availability</span>
-                <span className="font-medium text-gray-900">{availability}</span>
-              </div>
-
-              {/* Preserve original optional fields */}
-              {user.linkedin && (
-                <div className="py-3 flex flex-wrap items-baseline gap-2">
-                  <span className="w-40 text-gray-500">LinkedIn</span>
-                  <a
-                    href={user.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-blue-700 underline break-all hover:no-underline"
-                  >
-                    {user.linkedin}
-                  </a>
-                </div>
+          {/* Portfolio Section */}
+          <ProfileSection title="Portfolio">
+            <ProfileField label="Portfolio ID" value={portfolio._id} />
+            <ListSection
+              title="Skills"
+              items={skills}
+              renderItem={(skill, i) => <li key={i} className="ml-4 list-disc">{skill}</li>}
+              emptyText="No skills listed."
+            />
+            <ListSection
+              title="Projects"
+              items={projects}
+              renderItem={(project, i) => (
+                <li key={i} className="ml-4 list-disc">
+                  <div className="font-semibold">{project.title || 'Untitled Project'}</div>
+                  {project.description && <div className="text-gray-600">{project.description}</div>}
+                </li>
               )}
-
-              {user.website && (
-                <div className="py-3 flex flex-wrap items-baseline gap-2">
-                  <span className="w-40 text-gray-500">Website</span>
-                  <a
-                    href={user.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-blue-700 underline break-all hover:no-underline"
-                  >
-                    {user.website}
-                  </a>
-                </div>
+              emptyText="No projects listed."
+            />
+            <ListSection
+              title="Education"
+              items={education}
+              renderItem={(edu, i) => (
+                <li key={i} className="ml-4 list-disc">
+                  <div className="font-semibold">{edu.degree || 'Degree'}</div>
+                  <div>{edu.institution || ''} {edu.year ? `(${edu.year})` : ''}</div>
+                  {edu.description && <div className="text-gray-600">{edu.description}</div>}
+                </li>
               )}
-            </div>
-          </section>
+              emptyText="No education listed."
+            />
+            <ListSection
+              title="Certifications"
+              items={certifications}
+              renderItem={(cert, i) => (
+                <li key={i} className="ml-4 list-disc">
+                  <div className="font-semibold">{cert.name || 'Certification'}</div>
+                  <div>{cert.issuer || ''} {cert.year ? `(${cert.year})` : ''}</div>
+                  {cert.credential_id && <div className="text-gray-600">ID: {cert.credential_id}</div>}
+                </li>
+              )}
+              emptyText="No certifications listed."
+            />
+          </ProfileSection>
+
+          {/* Raw JSON for debugging */}
+          <details className="mt-8">
+            <summary className="cursor-pointer text-blue-700 underline">Show Raw JSON</summary>
+            <PrettyJSON data={rawJson} />
+          </details>
         </div>
       </div>
     </div>

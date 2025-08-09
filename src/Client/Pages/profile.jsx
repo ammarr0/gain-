@@ -76,7 +76,7 @@ const ProfilePage = () => {
     },
   ];
   const locations = [country, city].filter(Boolean);
-  const skills = [];
+  // Removed skills
   const links = [
     {
       name: "LinkedIn",
@@ -232,26 +232,7 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className="w-full mt-12 px-6">
-        <h3 className="text-2xl font-bold mb-7 text-black flex items-center gap-2">
-          <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
-          Skills
-        </h3>
-        <div className="flex flex-wrap gap-4">
-          {skills.length > 0 ? (
-            skills.map((skill) => (
-              <span
-                key={skill}
-                className="bg-gray-100 text-black px-5 py-2 rounded-full text-base font-semibold shadow hover:bg-gray-200 transition border border-gray-300"
-              >
-                {skill}
-              </span>
-            ))
-          ) : (
-            <span className="text-gray-500">No skills listed.</span>
-          )}
-        </div>
-      </div>
+      {/* Skills section removed */}
 
       <div className="w-full mt-12 px-6">
         <h3 className="text-2xl font-bold mb-7 text-black flex items-center gap-2">
