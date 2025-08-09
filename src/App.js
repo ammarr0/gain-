@@ -177,7 +177,6 @@ const App = () => {
                 <Route path="explore-course" element={<TalentExploreCourse />} />
                 <Route path="job-application" element={<JobsApplication />} />
                 <Route path="apply" element={<Apply />} />
-                <Route path="post-job" element={<PostJobs />} />
                 <Route path="post-course" element={<TalentPostCourse />} />
                 <Route path="main-course/:id" element={<ClientMain />} />
                 <Route path="post-success" element={<PostSuccess />} />

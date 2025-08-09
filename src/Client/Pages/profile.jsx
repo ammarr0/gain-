@@ -1,7 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { FaLinkedin, FaStar } from "react-icons/fa";
-import { User as UserIcon, Edit2 } from "lucide-react";
+import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function getCookie(name) {
@@ -13,10 +11,48 @@ function getCookie(name) {
 }
 
 const ProfilePage = () => {
+  const fileRef = useRef(null);
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [tab, setTab] = useState("basic");
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
+  const [form, setForm] = useState({
+    basic: {
+      avatarUrl: "",
+      companyName: "",
+      location: "",
+      phone: "",
+      email: "",
+    },
+    about: {
+      aboutCompany: "",
+      website: "",
+      email: "",
+    },
+    preferences: {
+      language: "",
+      timezone: "",
+      notifications: "",
+      privacy: "",
+    },
+    billing: {
+      billingName: "",
+      country: "",
+      address: "",
+      city: "",
+      zip: "",
+      vat: "",
+    },
+    account: {
+      fullName: "",
+      username: "",
+      newPassword: "",
+      confirmPassword: "",
+    },
+  });
+
+  // Fetch user data and populate form
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -31,7 +67,42 @@ const ProfilePage = () => {
           },
         });
         const data = await res.json();
-        setUser(Array.isArray(data) ? data[0] : data);
+        const userData = Array.isArray(data) ? data[0] : data;
+        setUser(userData);
+        setForm({
+          basic: {
+            avatarUrl: userData.image || "",
+            companyName: userData.company_name || `${userData.first_name || ""} ${userData.last_name || ""}`.trim() || userData.email || "",
+            location: userData.country || "",
+            phone: userData.phone || "",
+            email: userData.email || "",
+          },
+          about: {
+            aboutCompany: userData.about || "",
+            website: userData.website || "",
+            email: userData.email || "",
+          },
+          preferences: {
+            language: userData.language || "",
+            timezone: userData.timezone || "",
+            notifications: userData.notifications || "",
+            privacy: userData.privacy || "",
+          },
+          billing: {
+            billingName: userData.billing_name || "",
+            country: userData.country || "",
+            address: userData.address || "",
+            city: userData.city || "",
+            zip: userData.zip || "",
+            vat: userData.vat || "",
+          },
+          account: {
+            fullName: `${userData.first_name || ""} ${userData.last_name || ""}`.trim() || "",
+            username: userData.username || "",
+            newPassword: "",
+            confirmPassword: "",
+          },
+        });
       } catch (err) {
         setUser(null);
       } finally {
@@ -40,6 +111,266 @@ const ProfilePage = () => {
     };
     fetchUser();
   }, []);
+
+  const handleChange =
+    (section, field) =>
+    (e) => {
+      const value = e.target.value;
+      setForm((prev) => ({
+        ...prev,
+        [section]: { ...prev[section], [field]: value },
+      }));
+    };
+
+  const handleAvatarPick = () => fileRef.current?.click();
+  const onAvatarFile = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setForm((prev) => ({
+      ...prev,
+      basic: { ...prev.basic, avatarUrl: url },
+    }));
+  };
+
+  const handleSave = () => {
+    // TODO: send `form` to your backend
+    console.log("Saving form payload:", form);
+    alert("Saved (console has payload). Hook this to your API.");
+  };
+
+  const NavItem = ({ id, label }) => {
+    const active = tab === id;
+    return (
+      <button
+        onClick={() => setTab(id)}
+        aria-current={active ? "page" : undefined}
+        className={[
+          "w-full text-left px-3 py-3 text-sm transition border-t last:border-b border-gray-200",
+          active ? "font-semibold text-gray-900" : "text-gray-600 hover:text-gray-900",
+        ].join(" ")}
+      >
+        {label}
+      </button>
+    );
+  };
+
+  const Input = ({ section, field, label, placeholder, type = "text" }) => (
+    <label className="block">
+      <span className="block text-sm font-semibold text-gray-800">{label}</span>
+      <input
+        type={type}
+        value={form[section][field]}
+        onChange={handleChange(section, field)}
+        placeholder={placeholder}
+        className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+      />
+    </label>
+  );
+
+  const Textarea = ({ section, field, label, placeholder, rows = 6 }) => (
+    <label className="block">
+      <span className="block text-sm font-semibold text-gray-800">{label}</span>
+      <textarea
+        rows={rows}
+        value={form[section][field]}
+        onChange={handleChange(section, field)}
+        placeholder={placeholder}
+        className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100 resize-none"
+      />
+    </label>
+  );
+
+  const Header = () => (
+    <>
+      <h1 className="text-[22px] sm:text-2xl font-semibold text-gray-900">Your Profile</h1>
+      <p className="mt-1 text-sm text-gray-600">
+        Manage your profile and settings to maximize your experience on the platform.
+      </p>
+    </>
+  );
+
+  const BasicInformation = () => (
+    <div className="pt-6">
+      {/* Avatar + label */}
+      <div className="flex items-center gap-4 sm:gap-6">
+        <img
+          src={form.basic.avatarUrl}
+          alt="Profile"
+          className="h-16 w-16 sm:h-20 sm:w-20 rounded-full object-cover border-2 border-gray-300"
+        />
+        <div>
+          <button onClick={handleAvatarPick} className="text-left">
+            <p className="text-sm font-semibold text-gray-900">Profile Picture</p>
+            <p className="text-xs text-gray-600 mt-1 underline">Click here to change</p>
+          </button>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            onChange={onAvatarFile}
+            className="hidden"
+          />
+        </div>
+      </div>
+
+      {/* Two-column form */}
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+        <Input
+          section="basic"
+          field="companyName"
+          label="Company/Organization Name"
+          placeholder=""
+        />
+        <Input section="basic" field="location" label="Location" placeholder="" />
+        <Input section="basic" field="phone" label="Phone Number" placeholder="" />
+        <Input
+          section="basic"
+          field="email"
+          label="Email Address"
+          type="email"
+          placeholder=""
+        />
+      </div>
+
+      <div className="mt-8 flex justify-end">
+        <button
+          onClick={handleSave}
+          className="inline-flex items-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+
+  const About = () => (
+    <div className="pt-6">
+      <Textarea
+        section="about"
+        field="aboutCompany"
+        label="About Company"
+        placeholder=""
+        rows={7}
+      />
+
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+        <Input section="about" field="website" label="Website" placeholder="" />
+        <Input
+          section="about"
+          field="email"
+          label="Email Address"
+          type="email"
+          placeholder=""
+        />
+      </div>
+
+      <div className="mt-8 flex justify-end">
+        <button
+          onClick={handleSave}
+          className="inline-flex items-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+
+  const Preferences = () => (
+    <div className="pt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <Input section="preferences" field="language" label="Language" placeholder="" />
+        <Input section="preferences" field="timezone" label="Timezone" placeholder="" />
+        <Input
+          section="preferences"
+          field="notifications"
+          label="Notifications"
+          placeholder=""
+        />
+        <Input section="preferences" field="privacy" label="Privacy" placeholder="" />
+      </div>
+
+      <div className="mt-8 flex justify-end">
+        <button
+          onClick={handleSave}
+          className="inline-flex items-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+
+  const Billing = () => (
+    <div className="pt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <Input section="billing" field="billingName" label="Billing Name" placeholder="" />
+        <Input section="billing" field="country" label="Country" placeholder="" />
+        <Input section="billing" field="address" label="Address" placeholder="" />
+        <Input section="billing" field="city" label="City" placeholder="" />
+        <Input section="billing" field="zip" label="ZIP / Postal Code" placeholder="" />
+        <Input section="billing" field="vat" label="VAT / Tax ID" placeholder="" />
+      </div>
+
+      <div className="mt-8 flex justify-end">
+        <button
+          onClick={handleSave}
+          className="inline-flex items-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+
+  const Account = () => (
+    <div className="pt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <Input section="account" field="fullName" label="Full Name" placeholder="" />
+        <Input section="account" field="username" label="Username" placeholder="" />
+        <Input
+          section="account"
+          field="newPassword"
+          label="New Password"
+          placeholder=""
+          type="password"
+        />
+        <Input
+          section="account"
+          field="confirmPassword"
+          label="Confirm Password"
+          placeholder=""
+          type="password"
+        />
+      </div>
+
+      <div className="mt-8 flex justify-end">
+        <button
+          onClick={handleSave}
+          className="inline-flex items-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+
+  const Content = () => {
+    switch (tab) {
+      case "basic":
+        return <BasicInformation />;
+      case "about":
+        return <About />;
+      case "preferences":
+        return <Preferences />;
+      case "billing":
+        return <Billing />;
+      case "account":
+        return <Account />;
+      default:
+        return null;
+    }
+  };
 
   if (loading) {
     return (
@@ -57,230 +388,26 @@ const ProfilePage = () => {
     );
   }
 
-  const fullName = `${user.first_name || ""} ${user.last_name || ""}`.trim() || user.email;
-  const avatar = user.image || "";
-  const role = user.role || "";
-  const email = user.email || "";
-  const country = user.country || "";
-  const city = user.city || "";
-  const website = user.website || "";
-  const linkedin = user.linkedin || "";
-  const rating = 5;
-  const earned = "$0";
-  const about = `Email: ${email}\nCountry: ${country}\nCity: ${city}`;
-  const portfolio = [
-    {
-      title: "Portfolio Website",
-      desc: "Personal website/portfolio",
-      img: "/portfolio1.jpg",
-    },
-  ];
-  const locations = [country, city].filter(Boolean);
-  // Removed skills
-  const links = [
-    {
-      name: "LinkedIn",
-      url: linkedin || "#",
-      icon: <FaLinkedin className="text-gray-700" />,
-    },
-    ...(website
-      ? [
-          {
-            name: "Website",
-            url: website,
-            icon: (
-              <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
-                <circle cx="10" cy="10" r="9" stroke="#555" strokeWidth="2" />
-                <path d="M5 10h10M10 5v10" stroke="#555" strokeWidth="2" />
-              </svg>
-            ),
-          },
-        ]
-      : []),
-  ];
-  const completedJobs = [];
-
   return (
-    <div className="min-h-screen w-full bg-white px-0 py-0 font-sans text-black">
-      <div className="w-full flex flex-col md:flex-row items-center justify-between gap-8 py-12 px-6 border-b border-gray-200">
-        <div className="flex items-center gap-8">
-          <div className="relative">
-            {avatar ? (
-              <img
-                src={avatar}
-                alt={fullName}
-                className="w-32 h-32 md:w-36 md:h-36 rounded-full object-cover border-4 border-gray-200 shadow"
-              />
-            ) : (
-              <div className="w-32 h-32 md:w-36 md:h-36 flex items-center justify-center rounded-full border-4 border-gray-200 shadow bg-gray-100">
-                <UserIcon size={72} className="text-gray-400" />
-              </div>
-            )}
-            <button
-              type="button"
-              className="absolute top-2 right-2 bg-white border border-gray-300 rounded-full p-1.5 shadow hover:bg-gray-100 transition z-20"
-              title="Edit Profile"
-              onClick={() => navigate("/talent/edit-profile")}
-              tabIndex={0}
-              aria-label="Edit Profile"
-            >
-              <Edit2 size={22} className="text-gray-700" />
-            </button>
-          </div>
-          <div>
-            <h1 className="text-4xl font-extrabold text-black flex items-center gap-3">
-              {fullName}
-              {role && (
-                <span className="ml-2 px-3 py-1 bg-gray-100 text-black text-sm rounded-full font-semibold border border-gray-300">
-                  {role}
-                </span>
-              )}
-            </h1>
-            <div className="flex items-center gap-2 mt-3">
-              {[...Array(rating)].map((_, i) => (
-                <FaStar key={i} className="text-yellow-400" />
-              ))}
-              <span className="text-gray-500 text-base ml-2 font-medium">{rating}.0</span>
+    <div className="w-full bg-white min-h-screen">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8">
+        <Header />
+        <div className="mt-6 sm:mt-8 grid grid-cols-1 md:grid-cols-[220px,1fr] gap-8">
+          {/* Left nav */}
+          <nav className="md:pt-1">
+            <div className="border-y border-gray-200">
+              <NavItem id="basic" label="Basic Information" />
+              <NavItem id="about" label="About" />
+              <NavItem id="preferences" label="Preferences" />
+              <NavItem id="billing" label="Billing and Payment" />
+              <NavItem id="account" label="Account Settings" />
             </div>
-            <p className="text-gray-700 mt-2 text-lg font-medium">{role}</p>
-          </div>
-        </div>
-        <div className="flex flex-col items-end gap-3">
-          <button
-            type="button"
-            className="flex items-center gap-3 bg-blue-600 text-white px-8 py-3 rounded-xl shadow font-semibold text-lg hover:scale-105 hover:shadow-lg transition"
-            tabIndex={0}
-          >
-            <span className="w-3 h-3 bg-blue-400 rounded-full animate-pulse shadow"></span>
-            Available Now
-          </button>
-          <button
-            type="button"
-            className="flex items-centeer gap-2 bg-white border border-gray-400 text-black px-6 py-2.5 rounded-xl shadow hover:bg-gray-100 transition font-semibold mt-2 z-10"
-            onClick={() => navigate("/talent/edit-profile")}
-            tabIndex={0}
-            aria-label="Edit Profile"
-          >
-            <Edit2 size={20} className="text-gray-700" />
-            Edit Profile
-          </button>
-        </div>
-      </div>
+          </nav>
 
-      <div className="w-full mt-2 flex flex-col md:flex-row justify-between items-center px-6 border-b border-gray-200 pb-8">
-        <h2 className="text-2xl font-bold text-black flex items-center gap-3">
-          <span className="inline-block w-3 h-3 bg-gray-400 rounded-full mr-2 shadow"></span>
-          {role}
-        </h2>
-        <p className="text-2xl text-green-600 font-extrabold bg-gray-50 px-6 py-3 rounded-xl border border-gray-200 mt-4 md:mt-0 flex items-center gap-2">
-          {earned}
-          <span className="text-base font-normal text-green-700 ml-1">Earned</span>
-        </p>
-      </div>
-
-      <div className="w-full mt-10 text-black px-6">
-        <div className="bg-white rounded-3xl shadow p-8 border border-gray-200">
-          <h3 className="text-xl font-bold mb-3 text-black flex items-center gap-2">
-            <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
-            About
-          </h3>
-          <p className="leading-relaxed text-gray-700 text-lg whitespace-pre-line">{about}</p>
-        </div>
-      </div>
-
-      {locations.length > 0 && (
-        <div className="w-full mt-6 text-black px-6">
-          <div className="bg-white rounded-3xl shadow p-8 border border-gray-200">
-            <h3 className="text-xl font-bold mb-3 text-black flex items-center gap-2">
-              <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
-              Locations
-            </h3>
-            <div className="flex flex-wrap gap-4">
-              {locations.map((loc) => (
-                <span
-                  key={loc}
-                  className="bg-gray-100 text-black px-5 py-2 rounded-full text-base font-semibold shadow hover:bg-gray-200 transition border border-gray-300"
-                >
-                  {loc}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="w-full mt-12 px-6">
-        <h3 className="text-2xl font-bold mb-7 text-black flex items-center gap-2">
-          <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
-          Portfolio
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {portfolio.map((item, index) => (
-            <div
-              key={index}
-              className="relative group h-56 bg-gray-100 rounded-2xl shadow overflow-hidden flex flex-col justify-end p-6 hover:scale-105 hover:shadow-lg transition border border-gray-200"
-            >
-              <div className="absolute inset-0 bg-cover bg-center opacity-25 group-hover:opacity-35 transition"
-                style={{ backgroundImage: `url(${item.img})` }}
-              ></div>
-              <div className="relative z-10">
-                <h4 className="text-lg font-bold text-black mb-1">{item.title}</h4>
-                <p className="text-sm text-gray-700">{item.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Skills section removed */}
-
-      <div className="w-full mt-12 px-6">
-        <h3 className="text-2xl font-bold mb-7 text-black flex items-center gap-2">
-          <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
-          Linked Accounts
-        </h3>
-        <div className="flex gap-8">
-          {links.map((site) => (
-            <a
-              key={site.name}
-              href={site.url}
-              className="flex items-center gap-2 text-gray-700 hover:text-black font-semibold text-lg transition hover:scale-110"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {site.icon}
-              {site.name}
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <div className="w-full mt-12 px-6 pb-20">
-        <h3 className="text-2xl font-bold mb-7 text-black flex items-center gap-2">
-          <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
-          Completed Jobs
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {completedJobs.length > 0 ? (
-            completedJobs.map((job, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl shadow p-6 flex flex-col gap-3 border border-gray-200 hover:scale-[1.02] hover:shadow-lg transition"
-              >
-                <p className="font-semibold text-black text-lg">{job.title}</p>
-                <div className="flex items-center gap-1 text-yellow-500 text-xl">
-                  {[...Array(job.rating)].map((_, i) => (
-                    <FaStar key={i} />
-                  ))}
-                  <span className="text-gray-600 text-base ml-2">
-                    - {job.reviews} review{job.reviews > 1 ? "s" : ""}
-                  </span>
-                </div>
-              </div>
-            ))
-          ) : (
-            <span className="text-gray-500">No completed jobs.</span>
-          )}
+          {/* Right panel */}
+          <section>
+            <Content />
+          </section>
         </div>
       </div>
     </div>

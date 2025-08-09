@@ -68,7 +68,6 @@ const PostJobs = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const accessToken = Cookies.get('access_token');
-    // Decode and console log the access token
     const decoded = decodeJWT(accessToken);
     console.log('Decoded access_token:', decoded);
 
