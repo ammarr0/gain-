@@ -3,6 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
+// Helper function to decode JWT
+function decodeJWT(token) {
+  if (!token) return null;
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
+}
+
 const initialFormData = {
   title: '',
   description: '',
@@ -11,6 +31,9 @@ const initialFormData = {
   files: [],
   location: '',
   hourly_rate: '',
+  duration: '',
+  preferred_location: '',
+  start_date: '',
   category: '',
   payment_type: '',
   budget_range: '',
@@ -35,19 +58,20 @@ const PostJobs = () => {
     const { id, value, type } = e.target;
     if (id === 'number_of_applicants') {
       setFormData({ ...formData, [id]: Number(value) });
+    } else if (id === 'files') {
+      setFormData({ ...formData, files: Array.from(e.target.files) });
     } else {
       setFormData({ ...formData, [id]: value });
     }
   };
 
-  // For file uploads (if needed in future)
-  // const handleFileChange = (e) => {
-  //   setFormData({ ...formData, files: Array.from(e.target.files) });
-  // };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const accessToken = Cookies.get('access_token');
+    // Decode and console log the access token
+    const decoded = decodeJWT(accessToken);
+    console.log('Decoded access_token:', decoded);
+
     try {
       const response = await fetch('https://gain-b7ea8e7de810.herokuapp.com/jobs', {
         method: 'POST',
@@ -136,7 +160,7 @@ const PostJobs = () => {
               placeholder="Enter key skills (comma-separated)"
             />
           </div>
-          {/* <div className="mb-4">
+          <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="files">
               Attach Files
             </label>
@@ -144,10 +168,10 @@ const PostJobs = () => {
               type="file"
               id="files"
               multiple
-              onChange={handleFileChange}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
-          </div> */}
+          </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="hourly_rate">
               Hourly Rate
@@ -162,6 +186,19 @@ const PostJobs = () => {
             />
           </div>
           <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="duration">
+              Project Duration
+            </label>
+            <input
+              type="text"
+              id="duration"
+              value={formData.duration}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Enter project duration (e.g. 3 months)"
+            />
+          </div>
+          <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="location">
               Location
             </label>
@@ -172,6 +209,32 @@ const PostJobs = () => {
               onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter location"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preferred_location">
+              Preferred Location
+            </label>
+            <input
+              type="text"
+              id="preferred_location"
+              value={formData.preferred_location}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Enter preferred location (optional)"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="start_date">
+              Start Date
+            </label>
+            <input
+              type="date"
+              id="start_date"
+              value={formData.start_date}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Select start date"
             />
           </div>
           <div className="mb-4">

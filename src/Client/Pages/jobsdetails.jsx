@@ -471,7 +471,7 @@ const JobPostPage = () => {
               onSaveClick={handleSaveClick}
               isSaved={isSaved}
               client={clientInfo}
-              project={projectInfo}
+              // project={projectInfo}
               disabled={job.is_disabled}
             />
           </div>

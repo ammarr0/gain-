@@ -1,14 +1,90 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import SingleJobHero from "../../Client/Components/singlejob_hero";
+import { useParams } from "react-router-dom";
+ 
+const ArrowRightIcon = ({ className = "" }) => (
+  <svg className={className} width="18" height="18" fill="none" stroke="#000" strokeWidth="2" viewBox="0 0 24 24">
+    <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
-const iconMap = {
-  "location.png": require("../../assets/location.png"),
-  "calendar.png": require("../../assets/calendar.png"),
-  "clock.png": require("../../assets/clock.png"),
-};
+const BookmarkIcon = ({ filled, className = "" }) => (
+  <svg className={className} width="18" height="18" fill={filled ? "#000" : "none"} stroke="#000" strokeWidth="2" viewBox="0 0 24 24">
+    <path
+      d="M6 4a2 2 0 0 0-2 2v14l8-5.333L20 20V6a2 2 0 0 0-2-2H6z"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    />
+  </svg>
+);
 
-// Helper to get cookie value by name
+const LocationIcon = ({ className = "" }) => (
+  <svg className={className} width="16" height="16" fill="none" stroke="#000" strokeWidth="2" viewBox="0 0 24 24">
+    <path d="M12 21s-6-5.686-6-10A6 6 0 0 1 18 11c0 4.314-6 10-6 10z" />
+    <circle cx="12" cy="11" r="2.5" fill="#000" />
+  </svg>
+);
+
+const CalendarIcon = ({ className = "" }) => (
+  <svg className={className} width="16" height="16" fill="none" stroke="#000" strokeWidth="2" viewBox="0 0 24 24">
+    <rect x="3" y="5" width="18" height="16" rx="2" />
+    <path d="M16 3v4M8 3v4M3 9h18" />
+  </svg>
+);
+
+const BriefcaseIcon = ({ className = "" }) => (
+  <svg className={className} width="16" height="16" fill="none" stroke="#000" strokeWidth="2" viewBox="0 0 24 24">
+    <rect x="2" y="7" width="20" height="13" rx="2" />
+    <path d="M16 7V5a4 4 0 0 0-8 0v2" />
+  </svg>
+);
+
+const StarIcon = ({ className = "", filled = true }) => (
+  <svg className={className} width="16" height="16" fill={filled ? "#000" : "none"} stroke="#000" strokeWidth="1" viewBox="0 0 24 24">
+    <polygon points="12,2 15,9 22,9.2 17,14 18.5,21 12,17.5 5.5,21 7,14 2,9.2 9,9" />
+  </svg>
+);
+
+const FiveStars = () => (
+  <span className="flex items-center gap-0.5">
+    {Array.from({ length: 5 }).map((_, i) => (
+      <StarIcon key={i} className="w-4 h-4" />
+    ))}
+  </span>
+);
+
+const JobDetailItem = ({ label, value, children }) =>
+  value ? (
+    <li>
+      <span className="font-semibold">{label}:</span> {children || value}
+    </li>
+  ) : null;
+
+// SidebarApplyJob component is no longer needed and can be removed.
+
+const PrimaryCircleLoader = () => (
+  <>
+    <style>
+      {`
+        .loader-blue-circle {
+          display: inline-block;
+          width: 48px;
+          height: 48px;
+          border: 5px solid #3B82F6;
+          border-radius: 50%;
+          border-top-color: transparent;
+          animation: spin-blue 1s linear infinite;
+        }
+        @keyframes spin-blue {
+          to { transform: rotate(360deg); }
+        }
+      `}
+    </style>
+    <div className="flex justify-center items-center py-16">
+      <span className="loader-blue-circle" aria-label="Loading"></span>
+    </div>
+  </>
+);
+
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -16,15 +92,30 @@ function getCookie(name) {
   return null;
 }
 
+function getUserRole() {
+  const role = getCookie('role');
+  if (role) return role;
+  if (typeof window !== "undefined" && window.localStorage) {
+    const localRole = window.localStorage.getItem('role');
+    if (localRole) return localRole;
+  }
+  return null;
+}
+
 const JobPostPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [isSaved, setIsSaved] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+
   useEffect(() => {
-    // Fetch job details from API with access_token from cookies
+    setUserRole(getUserRole());
+  }, []);
+
+  useEffect(() => {
     const fetchJob = async () => {
       setLoading(true);
       setError(null);
@@ -41,7 +132,7 @@ const JobPostPage = () => {
         const data = await response.json();
         const jobData = data.data || data;
         setJob(jobData);
-        console.log("Fetched job data:", jobData);
+        console.log("Job Data By Id:", jobData);
       } catch (err) {
         setError(err.message || "Error fetching job details");
         setJob(null);
@@ -55,99 +146,219 @@ const JobPostPage = () => {
     }
   }, [id]);
 
-  if (loading) return <div className="p-8 text-center text-gray-600">Loading...</div>;
+  function formatDate(dateStr) {
+    if (!dateStr) return "";
+    const d = new Date(dateStr);
+    return d.toLocaleString();
+  }
+
+  const clientInfo = {
+    location: job?.location || "Unknown",
+    memberSince: job?.created_at ? new Date(job.created_at).getFullYear() : "N/A",
+    jobsPosted: job?.jobs_posted || 12,
+    hireRate: job?.hire_rate || 80,
+    rating: job?.rating || 4.7
+  };
+
+  const projectInfo = {
+    hourly_rate: job?.hourly_rate,
+    budget: job?.budget_range,
+    project_type: job?.project_type || job?.category,
+    duration: job?.duration,
+    category: job?.category,
+    proposals: job?.proposals,
+    description: job?.description,
+    created_by: job?.created_by,
+    status: job?.is_disabled ? "Disabled" : "Active",
+    location: job?.location_type || job?.location,
+    skills: (job?.skills && Array.isArray(job.skills) && job.skills.length > 0)
+      ? job.skills.map(tag =>
+          typeof tag === "string"
+            ? tag.replace(/^"+|"+$/g, '').replace(/^'+|'+$/g, '')
+            : tag
+        )
+      : (job?.key_skills && Array.isArray(job.key_skills) && job.key_skills.length > 0
+        ? job.key_skills
+        : []),
+  };
+
+  const handleApplyClick = () => {
+    window.location.href = "/talent/apply";
+  };
+  const handleSaveClick = () => {
+    setIsSaved((prev) => !prev);
+  };
+
+  if (loading) return  <div className="p-8 text-center text-gray-600 w-full" ><PrimaryCircleLoader /></div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
   if (!job) return <div className="p-8 text-center text-gray-600">Job not found</div>;
 
   return (
-    <div className="flex flex-col gap-4">
-      <SingleJobHero job={job} />
-      <div className="p-4 md:p-6">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 text-gray-700 mb-4">
-          <h1 className="text-2xl font-bold">{job.title}</h1>
-          <span className="hidden md:inline">•</span>
-          <p>{job.userName || job.clientName || job.companyName || ""}</p>
-          <span className="hidden md:inline">•</span>
-          <p>{job.location}</p>
-        </div>
-        <div className="flex items-center gap-4 mb-4">
-          <span>⭐ {job.rating || job.stars || ""}</span>
-          <span>Jobs: {job.jobs || job.totalJobs || ""}</span>
-        </div>
-        {/* Info Items */}
-        <div className="flex gap-4 mb-4">
-          {job.infoItems && Array.isArray(job.infoItems) && job.infoItems.map((item, idx) => (
-            <div className="flex items-center gap-1" key={idx}>
-              <img src={iconMap[item.imgSrc]} alt={item.altText} className="h-4 w-4" />
-              <span>{item.text}</span>
+    <div className="flex flex-col items-start min-h-screen bg-white py-8 w-full">
+      <div className="w-full bg-white shadow-lg rounded-2xl p-6 md:p-10">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 border-b pb-4">
+          <div>
+            <h1 className="text-4xl font-extrabold text-gray-900 mb-2 tracking-tight leading-tight">
+              {job.title}
+            </h1>
+            <div className="flex flex-wrap items-center gap-3 text-gray-500 text-sm mt-1">
+              <span className="flex items-center gap-1 bg-gray-100 rounded-full px-2 py-1">
+                <span className="text-gray-500">Posted by:</span>
+                <span className="font-semibold text-gray-700">{job.created_by ? job.created_by : "N/A"}</span>
+              </span>
+              <span className="flex items-center gap-1 bg-gray-100 rounded-full px-2 py-1">
+                <span className="text-gray-500">Created:</span>
+                <span className="font-semibold">{formatDate(job.created_at)}</span>
+              </span>
+              <span className="flex items-center gap-1 bg-gray-100 rounded-full px-2 py-1">
+                <span className="text-gray-500">Updated:</span>
+                <span className="font-semibold">{formatDate(job.updated_at)}</span>
+              </span>
             </div>
-          ))}
-        </div>
-        {/* Tags and Due Date */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {job.tags && Array.isArray(job.tags) && job.tags.map((tag, idx) => (
-            <span key={idx} className="bg-gray-200 px-3 py-1 rounded-full text-sm">{tag}</span>
-          ))}
-          {job.dueDate && (
-            <span className="ml-auto text-red-800">Due on: {job.dueDate}</span>
-          )}
-        </div>
-        {/* Extended Details */}
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 text-gray-700 mb-4">
-          <p className="text-xl md:text-2xl">{job.rate || job.salary || ""}</p>
-          <span className="hidden md:inline">•</span>
-          <p>{job.level || job.seniority || ""}</p>
-          <span className="hidden md:inline">•</span>
-          <p>{job.experience || ""}</p>
-        </div>
-        <div className="mb-4">
-          <p className="text-gray-600">{job.status || ""}</p>
-          <p className="text-gray-600">{job.timeZone || job.timezone || ""}</p>
-        </div>
-        <div className="mb-6">
-          {Array.isArray(job.description)
-            ? job.description.map((desc, index) => <p key={index}>{desc}</p>)
-            : <p>{job.description}</p>
-          }
-        </div>
-        <div className="mb-6">
-          <h2 className="text-lg md:text-xl font-semibold mb-2">Responsibilities:</h2>
-          <ul className="list-disc list-inside space-y-1">
-            {job.responsibilities && job.responsibilities.length > 0
-              ? job.responsibilities.map((responsibility, index) => (
-                  <li key={index}>{responsibility}</li>
-                ))
-              : <li>No responsibilities listed.</li>
-            }
-          </ul>
-        </div>
-        <div className="mb-6">
-          <h2 className="text-lg md:text-xl font-semibold mb-2">Requirements:</h2>
-          <ul className="list-disc list-inside space-y-1">
-            {job.requirements && job.requirements.length > 0
-              ? job.requirements.map((requirement, index) => (
-                  <li key={index}>{requirement}</li>
-                ))
-              : <li>No requirements listed.</li>
-            }
-          </ul>
-        </div>
-        <div className="mb-6">
-          <p>{job.applicationInstructions || job.instructions || ""}</p>
-        </div>
-        <div className="mb-4 text-sm text-gray-600">Project Type: {job.projectType || job.type || ""}</div>
-        <div className="mb-6">
-          <h2 className="text-lg md:text-xl font-semibold mb-2">Skills and Expertise</h2>
-          <div className="flex flex-wrap gap-2">
-            {job.skills && job.skills.length > 0
-              ? job.skills.map(skill => (
-                  <span key={skill} className="bg-gray-200 px-3 py-1 rounded-full text-sm">{skill}</span>
-                ))
-              : <span>No skills listed.</span>
-            }
           </div>
         </div>
-        <div className="text-green-600 font-semibold">Status: {job.applicationStatus || job.status || ""}</div>
+
+        <div className="flex flex-wrap gap-6 mb-6">
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+            <span className="text-gray-700 font-medium">Hourly Rate:</span>
+            <span className="text-gray-900">
+              {job.hourly_rate !== null && job.hourly_rate !== undefined
+                ? `$${job.hourly_rate}${job.payment_type === "Hourly" ? "/hr" : ""}`
+                : (job.budget_range ? `$${job.budget_range}` : "N/A")}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+            <span className="text-gray-700 font-medium">Project Type:</span>
+            <span className="text-gray-900">{job.project_type || job.category || "N/A"}</span>
+          </div>
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+            <span className="text-gray-700 font-medium">Location Type:</span>
+            <span className="text-gray-900">{job.location_type || job.location || "N/A"}</span>
+          </div>
+        </div>
+
+        {(job.skills && Array.isArray(job.skills) && job.skills.length > 0) ||
+         (job.key_skills && Array.isArray(job.key_skills) && job.key_skills.length > 0) ? (
+          <div className="mb-6">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">Skills Required:</h3>
+            <div className="flex flex-wrap gap-2">
+              {job.skills && Array.isArray(job.skills) && job.skills.map((tag, idx) => (
+                <span key={idx} className="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
+                  {typeof tag === "string" ? tag.replace(/^"+|"+$/g, '').replace(/^'+|'+$/g, '') : tag}
+                </span>
+              ))}
+              {job.key_skills && Array.isArray(job.key_skills) && job.key_skills.map((tag, idx) => (
+                <span key={`keyskill-${idx}`} className="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">{tag}</span>
+              ))}
+            </div>
+          </div>
+        ) : null}
+
+        {job.open_roles && Array.isArray(job.open_roles) && job.open_roles.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">Open Roles:</h3>
+            <ul className="list-disc ml-6">
+              {job.open_roles.map((role, idx) => (
+                <li key={idx} className="text-gray-700">{role}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {job.role_descriptions && Array.isArray(job.role_descriptions) && job.role_descriptions.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">Role Descriptions:</h3>
+            <ul className="list-disc ml-6">
+              {job.role_descriptions.map((desc, idx) => (
+                <li key={idx} className="text-gray-700">{desc}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div className="mb-6">
+          <h3 className="text-md font-semibold text-gray-800 mb-2">Project Details</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <span className="font-medium text-gray-700">Start Date: </span>
+              <span className="text-gray-900">{job.start_date ? formatDate(job.start_date) : "N/A"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Duration: </span>
+              <span className="text-gray-900">{job.duration || "N/A"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Payment Type: </span>
+              <span className="text-gray-900">{job.payment_type || "N/A"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Preferred Location: </span>
+              <span className="text-gray-900">{job.preferred_location || "N/A"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Preferred Location Talent Requirements: </span>
+              <span className="text-gray-900">{job.preferred_location_talent_requirements || "N/A"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Experience Level: </span>
+              <span className="text-gray-900">{job.experience_level || "N/A"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Status: </span>
+              <span className="text-gray-900">{job.is_disabled ? "Disabled" : "Active"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Category: </span>
+              <span className="text-gray-900">{job.category || "N/A"}</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-700">Budget Range: </span>
+              <span className="text-gray-900">{job.budget_range || "N/A"}</span>
+            </div>
+          </div>
+        </div>
+
+        {job.questions_for_candidates && Array.isArray(job.questions_for_candidates) && job.questions_for_candidates.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">Questions for Candidates:</h3>
+            <ul className="list-disc ml-6">
+              {job.questions_for_candidates.map((q, idx) => (
+                <li key={idx} className="text-gray-700">{q}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {job.additional_questions && Array.isArray(job.additional_questions) && job.additional_questions.filter(q => q && q.trim()).length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">Additional Questions:</h3>
+            <ul className="list-disc ml-6">
+              {job.additional_questions.filter(q => q && q.trim()).map((q, idx) => (
+                <li key={idx} className="text-gray-700">{q}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div className="mb-6">
+          <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">Description</h2>
+          <p className="text-gray-700 leading-relaxed" style={{ whiteSpace: "pre-line" }}>{job.description}</p>
+        </div>
+
+        {job.files && Array.isArray(job.files) && job.files.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">Attached Files:</h3>
+            <ul className="list-disc ml-6">
+              {job.files.map((file, idx) => (
+                <li key={idx}>
+                  <a href={file.url || file} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                    {file.name || (typeof file === "string" ? file : `File ${idx + 1}`)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

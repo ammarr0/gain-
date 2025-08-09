@@ -3,7 +3,7 @@ import more from "../../assets/more-vertical.png"
 
 const SingleJobHero = () => {
     return (
-        <div className="bg-white border border-[#C7C7C7] rounded-[10px] mt-4 p-6 flex flex-col md:flex-row justify-between items-start md:items-center">
+        <div className="w-full bg-white border border-[#C7C7C7] rounded-[10px] mt-4 p-6 flex flex-col md:flex-row justify-between items-start md:items-center">
             <div className="mb-4 md:mb-0">
                 <h1 className="text-2xl md:text-3xl font-medium text-gray-800">Recruitment App Development</h1>
                 <h6 className="font-medium text-gray-800">Posted 2 days ago</h6>
