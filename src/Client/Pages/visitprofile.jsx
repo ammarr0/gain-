@@ -11,7 +11,6 @@ const PrimaryCircleLoader = () => (
   </div>
 )
 
-// Helper to read a cookie by name
 function getCookie(name) {
   const value = `; ${document.cookie}`
   const parts = value.split(`; ${name}=`)
@@ -19,33 +18,11 @@ function getCookie(name) {
   return null
 }
 
-// Helper to pretty print JSON (for fallback)
-const PrettyJSON = ({ data }) => (
-  <pre className="bg-gray-100 rounded p-4 text-xs overflow-x-auto">{JSON.stringify(data, null, 2)}</pre>
-)
-
 const ProfileField = ({ label, value }) => (
   <div className="py-2 flex flex-wrap items-baseline gap-2">
-    <span className="w-44 text-gray-500">{label}</span>
+    <span className="w-44 text-gray-500 font-semibold">{label}</span>
     <span className="font-medium text-gray-900 break-all">{value || <span className="text-gray-400">—</span>}</span>
   </div>
-)
-
-const ProfileSection = ({ title, children }) => (
-  <section className="mb-8">
-    <h2 className="text-lg font-semibold text-gray-900 mb-2">{title}</h2>
-    {children}
-  </section>
-)
-
-const ListSection = ({ title, items, renderItem, emptyText }) => (
-  <ProfileSection title={title}>
-    {items && items.length > 0 ? (
-      <ul className="space-y-2">{items.map(renderItem)}</ul>
-    ) : (
-      <div className="text-gray-400 text-sm">{emptyText || 'None'}</div>
-    )}
-  </ProfileSection>
 )
 
 const ProfilePage = () => {
@@ -53,7 +30,6 @@ const ProfilePage = () => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [rawJson, setRawJson] = useState(null)
 
   useEffect(() => {
     async function fetchUser() {
@@ -72,7 +48,6 @@ const ProfilePage = () => {
         )
         if (!res.ok) throw new Error('Failed to load profile')
         const json = await res.json()
-        setRawJson(json)
         setUser(json.data || json)
       } catch (e) {
         setError(e.message)
@@ -97,51 +72,22 @@ const ProfilePage = () => {
       </div>
     )
 
-  // Destructure all fields from the data structure
+  // Only extract the required fields
   const {
-    _id,
     image,
-    apple_id,
     last_name,
-    role,
+    // role, // removed
     first_name,
-    fcm_token,
-    email,
     email_verified,
     email_verified_at,
-    password,
-    country_code,
-    phone_no,
-    gender,
     biography,
-    emergency_contact,
     country,
-    street,
-    suite,
-    city,
-    post_code,
-    dob,
-    uuid,
     website,
     linkedin,
-    is_disabled,
-    is_deleted,
-    created_at,
-    updated_at,
-    __v,
-    portfolio = {},
   } = user
 
-  // Portfolio fields
-  const {
-    skills = [],
-    projects = [],
-    education = [],
-    certifications = [],
-  } = portfolio || {}
-
-  // Compose full name
-  const fullName = `${first_name || ''} ${last_name || ''}`.trim() || email
+  // Compose full name (first + last)
+  const fullName = `${first_name || ''} ${last_name || ''}`.trim()
 
   // Avatar fallback
   const avatarSrc =
@@ -150,126 +96,83 @@ const ProfilePage = () => {
       : 'https://via.placeholder.com/200'
 
   return (
-    <div className="w-full">
-      <div className="w-full p-0">
-        <div className="w-full p-6 sm:p-8 bg-white rounded-2xl shadow">
-          {/* Header */}
-          <div className="flex items-center gap-6 mb-6 sm:mb-8">
-            <img
-              src={avatarSrc}
-              alt={`${first_name || 'User'} avatar`}
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-2 border-gray-200"
-              onError={e => { e.currentTarget.src = 'https://via.placeholder.com/200' }}
-            />
-            <div className="min-w-0">
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900 truncate">
-                {fullName}
-              </h1>
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-gray-600">
-                <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 ring-1 ring-blue-200">
-                  {role}
-                </span>
-                <span className="hidden sm:inline">•</span>
-                <span className="truncate">{city || country || '—'}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Divider */}
-          <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent mb-6 sm:mb-8" />
-
-          {/* Main Profile Fields */}
-          <ProfileSection title="Basic Information">
-            <ProfileField label="User ID" value={_id} />
-            <ProfileField label="First Name" value={first_name} />
-            <ProfileField label="Last Name" value={last_name} />
-            <ProfileField label="Role" value={role} />
-            <ProfileField label="Email" value={email} />
-            <ProfileField label="Email Verified" value={email_verified ? 'Yes' : 'No'} />
-            <ProfileField label="Email Verified At" value={email_verified_at} />
-            <ProfileField label="Phone" value={`${country_code || ''} ${phone_no || ''}`} />
-            <ProfileField label="Gender" value={gender} />
-            <ProfileField label="Biography" value={biography} />
-            <ProfileField label="Emergency Contact" value={emergency_contact} />
-            <ProfileField label="Country" value={country} />
-            <ProfileField label="City" value={city} />
-            <ProfileField label="Street" value={street} />
-            <ProfileField label="Suite" value={suite} />
-            <ProfileField label="Post Code" value={post_code} />
-            <ProfileField label="Date of Birth" value={dob} />
-            <ProfileField label="UUID" value={uuid} />
-            <ProfileField label="Website" value={
-              website ? (
-                <a href={website} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline break-all">{website}</a>
-              ) : null
-            } />
-            <ProfileField label="LinkedIn" value={
-              linkedin ? (
-                <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline break-all">{linkedin}</a>
-              ) : null
-            } />
-            <ProfileField label="Apple ID" value={apple_id} />
-            <ProfileField label="FCM Token" value={fcm_token} />
-            <ProfileField label="Is Disabled" value={is_disabled ? 'Yes' : 'No'} />
-            <ProfileField label="Is Deleted" value={is_deleted ? 'Yes' : 'No'} />
-            <ProfileField label="Created At" value={created_at && new Date(created_at).toLocaleString()} />
-            <ProfileField label="Updated At" value={updated_at && new Date(updated_at).toLocaleString()} />
-            <ProfileField label="Version" value={__v} />
-            {/* Password is not shown for security */}
-          </ProfileSection>
-
-          {/* Portfolio Section */}
-          <ProfileSection title="Portfolio">
-            <ProfileField label="Portfolio ID" value={portfolio._id} />
-            <ListSection
-              title="Skills"
-              items={skills}
-              renderItem={(skill, i) => <li key={i} className="ml-4 list-disc">{skill}</li>}
-              emptyText="No skills listed."
-            />
-            <ListSection
-              title="Projects"
-              items={projects}
-              renderItem={(project, i) => (
-                <li key={i} className="ml-4 list-disc">
-                  <div className="font-semibold">{project.title || 'Untitled Project'}</div>
-                  {project.description && <div className="text-gray-600">{project.description}</div>}
-                </li>
-              )}
-              emptyText="No projects listed."
-            />
-            <ListSection
-              title="Education"
-              items={education}
-              renderItem={(edu, i) => (
-                <li key={i} className="ml-4 list-disc">
-                  <div className="font-semibold">{edu.degree || 'Degree'}</div>
-                  <div>{edu.institution || ''} {edu.year ? `(${edu.year})` : ''}</div>
-                  {edu.description && <div className="text-gray-600">{edu.description}</div>}
-                </li>
-              )}
-              emptyText="No education listed."
-            />
-            <ListSection
-              title="Certifications"
-              items={certifications}
-              renderItem={(cert, i) => (
-                <li key={i} className="ml-4 list-disc">
-                  <div className="font-semibold">{cert.name || 'Certification'}</div>
-                  <div>{cert.issuer || ''} {cert.year ? `(${cert.year})` : ''}</div>
-                  {cert.credential_id && <div className="text-gray-600">ID: {cert.credential_id}</div>}
-                </li>
-              )}
-              emptyText="No certifications listed."
-            />
-          </ProfileSection>
-
-          {/* Raw JSON for debugging */}
-          <details className="mt-8">
-            <summary className="cursor-pointer text-blue-700 underline">Show Raw JSON</summary>
-            <PrettyJSON data={rawJson} />
-          </details>
+    <div className="w-full min-h-screen bg-white flex flex-col items-center py-10 px-2">
+      {/* Profile Header */}
+      <div className="w-full flex flex-col items-center">
+        <div className="relative mb-4">
+          <img
+            src={avatarSrc}
+            alt={`${first_name || 'User'} avatar`}
+            className="w-36 h-36 rounded-full object-cover border-4 border-white shadow"
+            onError={e => { e.currentTarget.src = 'https://via.placeholder.com/200' }}
+          />
         </div>
+        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-2">
+          {fullName || 'Unnamed User'}
+        </h1>
+        <div className="flex flex-wrap items-center justify-center gap-3 text-gray-600 mb-2">
+          {/* Removed role badge */}
+          {/* <span className="inline-flex items-center rounded-full bg-blue-50 px-4 py-1 text-base font-semibold text-blue-700 ring-1 ring-blue-200">
+            {role || '—'}
+          </span>
+          <span className="hidden sm:inline text-xl">•</span> */}
+          <span className="truncate text-base">{country || '—'}</span>
+        </div>
+      </div>
+      {/* Bio on Top */}
+      <div className="w-full max-w-3xl mt-6 mb-10 px-4">
+        <h2 className="text-lg font-semibold text-gray-700 mb-1 flex items-center gap-2">
+          <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8 4.03-8 9-8 9 3.582 9 8z" /></svg>
+          Bio
+        </h2>
+        <div className="bg-white border border-blue-100 rounded-lg px-4 py-3 text-gray-800 min-h-[48px] shadow-sm">
+          {biography ? (
+            <span>{biography}</span>
+          ) : (
+            <span className="text-gray-400">No bio provided.</span>
+          )}
+        </div>
+      </div>
+      {/* Divider */}
+      <div className="w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent mb-8" />
+      {/* Main Profile Fields */}
+      <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2 px-4">
+        <ProfileField label="First Name" value={first_name} />
+        <ProfileField label="Last Name" value={last_name} />
+        {/* <ProfileField label="Role" value={role} /> */}
+        <ProfileField label="Email Verified" value={email_verified ? 'Yes' : 'No'} />
+        <ProfileField label="Email Verified At" value={email_verified_at} />
+        <ProfileField label="Country" value={country} />
+        <ProfileField
+          label="Website"
+          value={
+            website ? (
+              <a
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-700 underline break-all hover:text-blue-900 transition"
+              >
+                {website}
+              </a>
+            ) : null
+          }
+        />
+        <ProfileField
+          label="LinkedIn"
+          value={
+            linkedin ? (
+              <a
+                href={linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-700 underline break-all hover:text-blue-900 transition"
+              >
+                {linkedin}
+              </a>
+            ) : null
+          }
+        />
       </div>
     </div>
   )
