@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
-// Helper function to decode JWT
+
 function decodeJWT(token) {
   if (!token) return null;
   try {
